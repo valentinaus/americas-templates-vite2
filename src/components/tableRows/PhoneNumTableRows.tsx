@@ -1,10 +1,21 @@
-import { Tbody, Td, Tr } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { CopyIcon } from "@chakra-ui/icons";
+import {
+  Icon,
+  IconButton,
+  Tbody,
+  Td,
+  Tooltip,
+  Tr,
+  useClipboard,
+} from "@chakra-ui/react";
+import React, { useContext, Fragment, useEffect } from "react";
 import { PhoneNumbersCTX } from "../../contexts/phoneNumber.context";
+
 import TableOptions from "./TableOptions";
 
 const PhoneNumTableRows = (props: any) => {
   const { tableColumns } = props;
+
   const {
     phoneNumberList,
     setSelectedPhoneNumber: setItemSelected,
@@ -29,6 +40,13 @@ const PhoneNumTableRows = (props: any) => {
 
 const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
   const { onOpenDeleteModal, onOpenEditModal } = useContext(PhoneNumbersCTX);
+  const { onCopy, value, setValue, hasCopied } = useClipboard("");
+
+  useEffect(() => {
+    if (item && item.apiKey) {
+      setValue(item.apiKey);
+    }
+  }, []);
 
   return (
     <Tr
@@ -53,9 +71,51 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
         />
       </Td> */}
       {tableColumns.map((columnItem, indexx) => (
-        <Td key={indexx} w={"15rem"} fontSize="sm" color="brand.gray.superDark">
-          {item[`${columnItem.value}`] + ""}
-        </Td>
+        <Fragment>
+          {columnItem.heading === "ApiKey" ? (
+            <Td
+              key={indexx}
+              w={"15rem"}
+              fontSize="sm"
+              color="brand.gray.superDark"
+              cursor={"pointer"}
+            >
+              {item[`${columnItem.value}`] + ""}
+
+              <Tooltip
+                label={hasCopied ? "Copied!" : "Copy apiKey"}
+                fontSize={"13px"}
+                color={"white"}
+                closeDelay={600}
+              >
+                <IconButton
+                  aria-label="copy clipboard"
+                  size={"sm"}
+                  _hover={{
+                    color: "brand.primary.hover",
+                    bg: "brand.primary.light",
+                  }}
+                  _active={{
+                    color: "brand.primary.active",
+                  }}
+                  icon={<CopyIcon />}
+                  color={"brand.gray.dark"}
+                  ml={2}
+                  onClick={onCopy}
+                />
+              </Tooltip>
+            </Td>
+          ) : (
+            <Td
+              key={indexx}
+              w={"15rem"}
+              fontSize="sm"
+              color="brand.gray.superDark"
+            >
+              {item[`${columnItem.value}`] + ""}
+            </Td>
+          )}
+        </Fragment>
       ))}
 
       <Td display={"flex"} justifyContent={"flex-end"}>

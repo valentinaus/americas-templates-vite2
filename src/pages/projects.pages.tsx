@@ -96,6 +96,8 @@ const Projects = () => {
               setIsCheckAll={setIsCheckAll}
               loadingTitle={"Loading projects..."}
               isLoading={isLoading}
+              list={projectsList}
+              emptyTitle={"Projects list empty!"}
             >
               <ProjectsTableRows tableColumns={tableColumns} />
             </TableBase>

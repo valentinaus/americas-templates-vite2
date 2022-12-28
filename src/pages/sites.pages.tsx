@@ -102,6 +102,8 @@ const Sites = () => {
               setIsCheckAll={setIsCheckAll}
               loadingTitle={"Loading sites..."}
               isLoading={isLoading}
+              list={sitesList}
+              emptyTitle={"Sites list empty!"}
             >
               <SitesTableRows tableColumns={tableColumns} />
             </TableBase>

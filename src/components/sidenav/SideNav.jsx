@@ -22,10 +22,10 @@ const navItemsList = [
   { itemKey: "pictures", itemText: "Pictures", itemIcon: NewspaperIcon },
   { itemKey: "projects", itemText: "Projects", itemIcon: ClipboardIcon },
   { itemKey: "sites", itemText: "Sites", itemIcon: MapIcon },
-  { itemKey: "clients", itemText: "Clients", itemIcon: UsersIcon },
+  { itemKey: "clients", itemText: "Users", itemIcon: UsersIcon },
   {
     itemKey: "clients-phone-number",
-    itemText: "Phone Numbers",
+    itemText: "Client phones",
     itemIcon: PhoneIcon,
   },
 ];

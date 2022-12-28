@@ -110,6 +110,8 @@ const Clients = () => {
               setIsCheckAll={setIsCheckAll}
               loadingTitle={"Loading users..."}
               isLoading={isLoading}
+              list={usersList}
+              emptyTitle={"Users list empty!"}
             >
               <UsersTableRows tableColumns={tableColumns} />
             </TableBase>

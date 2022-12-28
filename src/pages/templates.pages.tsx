@@ -1,15 +1,18 @@
 import { Divider, Flex, Text } from "@chakra-ui/react";
 import React, { Fragment } from "react";
+import MainCard from "../UI/containers/MainCard";
 import HeadingTitle from "../UI/titles/HeadingTitle";
-const Pictures = () => {
+import SecongTitle from "../UI/titles/SecongTitle";
+
+const Templates = () => {
   return (
     <Fragment>
       <Flex w={"100%"} flexDir={"column"}>
         <Flex justifyContent={"space-between"} alignItems={"center"}>
           <Flex flexDir={"column"}>
-            <HeadingTitle title="Pictures" />
+            <HeadingTitle title="Templates" />
             <Text fontSize={"sm"} color={"brand.gray.dark"}>
-              Manage your pictures here.
+              Manage your templates here.
             </Text>
           </Flex>
         </Flex>
@@ -18,4 +21,4 @@ const Pictures = () => {
     </Fragment>
   );
 };
-export default Pictures;
+export default Templates;

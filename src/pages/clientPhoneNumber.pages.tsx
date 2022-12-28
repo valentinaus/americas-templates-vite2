@@ -3,6 +3,8 @@ import { PhoneIcon } from "@heroicons/react/solid";
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AddClientPhoneModal from "../components/modals/clientsPhoneModals/AddClientPhoneModal";
+import DeleteClientPhoneModal from "../components/modals/clientsPhoneModals/DeleteClientPhoneModal";
+import UpdateClientPhoneModal from "../components/modals/clientsPhoneModals/UpdateClientPhoneModal";
 import PhoneNumTableRows from "../components/tableRows/PhoneNumTableRows";
 import {
   IPhoneNumberCTX,
@@ -95,7 +97,6 @@ const ClientPhoneNumber = () => {
             />
           </Flex>
           <Divider my={4} />
-
           <Flex>
             <TableBase
               tableColumns={tableColumns}
@@ -103,6 +104,8 @@ const ClientPhoneNumber = () => {
               setIsCheckAll={setIsCheckAll}
               loadingTitle={"Loading client phones..."}
               isLoading={isLoading}
+              list={phoneNumberList}
+              emptyTitle={"Client phone list empty!"}
             >
               <PhoneNumTableRows tableColumns={tableColumns} />
             </TableBase>
@@ -112,6 +115,16 @@ const ClientPhoneNumber = () => {
         <AddClientPhoneModal
           isOpen={isOpenAddPhoneNumber}
           onClose={onCloseAddPhoneNumber}
+        />
+
+        <UpdateClientPhoneModal
+          isOpen={isOpenEditPhoneNumber}
+          onClose={onCloseEditPhoneNumber}
+        />
+
+        <DeleteClientPhoneModal
+          isOpen={isOpenDeletePhoneNumber}
+          onClose={onCloseDeletePhoneNumber}
         />
       </PhoneNumbersCTX.Provider>
     </Fragment>
