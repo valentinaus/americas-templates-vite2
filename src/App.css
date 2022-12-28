@@ -1,0 +1,12 @@
+.mysidenav {
+  background: var(--chakra-colors-blue-400) !important;
+  -webkit-box-shadow: 10px 10px 4px -10px rgba(122, 122, 122, 1);
+  -moz-box-shadow: 10px 10px 4px -10px rgba(122, 122, 122, 1);
+  box-shadow: 10px 10px 4px -10px rgba(122, 122, 122, 1);
+  color: white !important;
+  font-weight: 500;
+  z-index: 1 !important;
+  height: auto !important;
+  margin-top: 3rem !important;
+  /* padding-top: "3rem"; */
+}
