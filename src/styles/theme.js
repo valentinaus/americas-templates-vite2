@@ -29,6 +29,10 @@ const theme = extendTheme({
                 light: "#FFD6D6",
                 medium: "#F55555",
             },
+
+            green: {
+                medium: '#73FF67'
+            }
         },
     },
     fonts: {

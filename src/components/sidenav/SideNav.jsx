@@ -6,6 +6,7 @@ import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import ClickOutside from "./ClickOutside";
 import {
+  CameraIcon,
   ClipboardIcon,
   HomeIcon,
   MapIcon,
@@ -14,12 +15,12 @@ import {
   UsersIcon,
 } from "@heroicons/react/solid";
 
-// import styles from "../../styles/sideBar.css"
+import "../../styles/sideBar.css";
 
 const navItemsList = [
   { itemKey: "home", itemText: "Home", itemIcon: HomeIcon },
   { itemKey: "templates", itemText: "Templates", itemIcon: NewspaperIcon },
-  { itemKey: "pictures", itemText: "Pictures", itemIcon: NewspaperIcon },
+  { itemKey: "pictures", itemText: "Pictures", itemIcon: CameraIcon },
   { itemKey: "projects", itemText: "Projects", itemIcon: ClipboardIcon },
   { itemKey: "sites", itemText: "Sites", itemIcon: MapIcon },
   { itemKey: "clients", itemText: "Users", itemIcon: UsersIcon },
@@ -50,7 +51,7 @@ const SideBar = () => {
           const to = "/" + selected;
           navigate(to);
         }}
-        className="mysidenav"
+        className={"mysidenav sidenavCss"}
       >
         <SideNav.Toggle />
         <SideNav.Nav

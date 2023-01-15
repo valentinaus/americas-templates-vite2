@@ -76,8 +76,6 @@ const ClientPhoneNumber = () => {
     fetchPhoneNumbers();
   }, [refresh]);
 
-  console.log("hnis", phoneNumberList);
-
   return (
     <Fragment>
       <PhoneNumbersCTX.Provider value={componentCTX}>
