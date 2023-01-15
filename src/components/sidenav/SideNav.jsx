@@ -18,8 +18,8 @@ import {
 import "../../styles/sideBar.css";
 
 const navItemsList = [
-  { itemKey: "home", itemText: "Home", itemIcon: HomeIcon },
-  { itemKey: "templates", itemText: "Templates", itemIcon: NewspaperIcon },
+  { itemKey: "home", itemText: "Templates", itemIcon: HomeIcon },
+  // { itemKey: "templates", itemText: "Templates", itemIcon: NewspaperIcon },
   { itemKey: "pictures", itemText: "Pictures", itemIcon: CameraIcon },
   { itemKey: "projects", itemText: "Projects", itemIcon: ClipboardIcon },
   { itemKey: "sites", itemText: "Sites", itemIcon: MapIcon },

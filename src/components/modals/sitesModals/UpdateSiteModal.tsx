@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import { SitesCTX } from "../../../contexts/sites.context";
 import { ISite } from "../../../interfaces/sites.interfaces";
+import { updateSite } from "../../../services/sites.services";
 
 interface ISiteValues {
   name: string;
@@ -47,13 +48,44 @@ const UpdateSiteModal = ({ isOpen, onClose }) => {
     setSelectedSite(null);
   };
 
-  const submitUpdateSite = (values: ISiteValues, actions) => {
+  const submitUpdateSite = async (values: ISiteValues, actions) => {
     const siteObj = {
       ...values,
       latitude: values.latitude.toString(),
       longitude: values.longitude.toString(),
     };
-    console.log("values", siteObj);
+
+    if (!selectedSite) return;
+
+    try {
+      setIsLoading(true);
+      const response = await updateSite(user.token, selectedSite.id, siteObj);
+      console.log(response);
+      actions.setSubmitting(false);
+      actions.resetForm();
+      onClose();
+      setRefresh(!refreshList);
+      toast({
+        title: "Site update successful",
+        description: "The site was updated successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setIsLoading(false);
+    } catch (error) {
+      actions.setSubmitting(false);
+      setIsLoading(false);
+      actions.resetForm();
+      console.log(error);
+      toast({
+        title: "Site update unsuccessfull",
+        description: "The site couldn't be update. try again later",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   const formSchema = Yup.object().shape({
@@ -180,7 +212,7 @@ const UpdateSiteModal = ({ isOpen, onClose }) => {
                 size={"sm"}
                 colorScheme="blue"
                 type="submit"
-                loadingText="Loading..."
+                loadingText="Updating..."
                 isLoading={formik.isSubmitting}
               >
                 Update

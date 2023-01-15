@@ -20,14 +20,7 @@ import { DotsVerticalIcon } from "@heroicons/react/solid";
 
 import LoadingSkeletons from "../spinners/loadingSkeletons";
 import PictureModal from "./PictureModal";
-// import Resizer from "react-image-file-resizer";
-// import { PhotoProvider, PhotoView } from "react-photo-view";
-// import "react-photo-view/dist/react-photo-view.css";
-// import {
-//   LazyLoadImage,
-//   trackWindowScroll,
-// } from "react-lazy-load-image-component";
-// import "react-lazy-load-image-component/src/effects/blur.css";
+import EmptyTable from "../emptyStates/EmptyTable";
 
 const PicturesShower = () => {
   const { picturesList, isLoading } = useContext(PIcturesCTX);
@@ -36,30 +29,41 @@ const PicturesShower = () => {
 
   return (
     <Fragment>
-      <SimpleGrid
-        w={"100%"}
-        spacing={4}
-        columns={[1, 2, 2, 5, 6]}
-        // templateColumns="repeat(auto-fill, minmax(150px, 1fr))"
-      >
-        {isLoading ? (
-          <LoadingSkeletons />
-        ) : (
-          <Fragment>
-            {picturesList &&
-              picturesList.map((item, index) => (
-                <PictureCard
-                  key={index}
-                  onMouseEnter={onMouseEnter}
-                  setOnMouseEnter={setOnMouseEnter}
-                  picture={item}
-                  onOpen={onOpen}
-                />
-              ))}
-          </Fragment>
-        )}
-      </SimpleGrid>
-
+      {isLoading ? (
+        <LoadingSkeletons />
+      ) : (
+        <Fragment>
+          {picturesList && picturesList.length > 0 ? (
+            <SimpleGrid
+              w={"100%"}
+              spacing={4}
+              columns={[1, 2, 3, 5, 6]}
+              // templateColumns="repeat(auto-fill, minmax(150px, 1fr))"
+            >
+              <Fragment>
+                {picturesList.map((item, index) => (
+                  <PictureCard
+                    key={index}
+                    onMouseEnter={onMouseEnter}
+                    setOnMouseEnter={setOnMouseEnter}
+                    picture={item}
+                    onOpen={onOpen}
+                  />
+                ))}
+              </Fragment>
+            </SimpleGrid>
+          ) : (
+            <Flex
+              borderRadius={"8px"}
+              border={"1px"}
+              borderColor={"brand.gray.superLight"}
+              boxShadow={"sm"}
+            >
+              <EmptyTable emptyTitle={"Pictures list empty!"} />
+            </Flex>
+          )}
+        </Fragment>
+      )}
       <PictureModal isOpen={isOpen} onClose={onClose} />
     </Fragment>
   );
@@ -76,7 +80,7 @@ const PictureCard = ({
     <Tooltip hasArrow label={picture.name}>
       <Flex
         // maxW={"150px"}
-        // h={"150px"}
+        // maxH={"200px"}
         border={"1px"}
         borderColor={"brand.gray.superLight"}
         borderRadius={"4px"}

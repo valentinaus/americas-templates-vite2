@@ -37,8 +37,6 @@ const UpdateTemplateModal = ({ isOpen, onClose }) => {
 
   const submitUpdateTemplate = async (values, actions) => {
     if (selectedTemplate) {
-      console.log(values);
-
       try {
         setIsLoading(true);
         const response = await editTemplate(
@@ -170,7 +168,7 @@ const UpdateTemplateModal = ({ isOpen, onClose }) => {
                 size={"sm"}
                 colorScheme="blue"
                 type="submit"
-                loadingText="Loading..."
+                loadingText="Updating..."
                 isLoading={formik.isSubmitting}
               >
                 Update

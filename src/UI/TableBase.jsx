@@ -20,6 +20,7 @@ import { UsersCTX } from "../contexts/users.context";
 
 import emptyBox from "../assets/empty-boxx.png";
 import { ArchiveIcon } from "@heroicons/react/solid";
+import EmptyTable from "../components/emptyStates/EmptyTable";
 
 const TableBase = (props) => {
   const { tableColumns, loadingTitle, isLoading, list, emptyTitle } = props;
@@ -109,31 +110,7 @@ const TableBase = (props) => {
               </Table>
             </TableContainer>
           ) : (
-            <Center
-              height={"full"}
-              w={"full"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              p={6}
-            >
-              <Flex
-                flexDir={"column"}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                {/* <Image w={"10rem"} src={emptyBox} /> */}
-
-                <Icon
-                  as={ArchiveIcon}
-                  w={"10rem"}
-                  h={"10rem"}
-                  color={"brand.gray.superLight"}
-                />
-                <Text fontWeight={700} color={"brand.gray.dark"} mt={4}>
-                  {emptyTitle}
-                </Text>
-              </Flex>
-            </Center>
+            <EmptyTable emptyTitle={emptyTitle} />
           )}
         </Fragment>
       )}

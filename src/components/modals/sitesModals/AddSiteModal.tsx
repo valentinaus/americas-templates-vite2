@@ -39,7 +39,7 @@ const AddSiteModal = ({ isOpen, onClose }) => {
   const { setRefresh, refreshList, setIsLoading } = useContext(SitesCTX);
 
   const submitSite = async (values, actions) => {
-    console.log("values", values);
+
     const obj = {
       ...values,
       latitude: values.latitude.toString(),

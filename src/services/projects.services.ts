@@ -22,14 +22,18 @@ export const postProject = async (
 
 export const updateProject = async (
   token: string,
-  userId: string,
-  values: { name: string; description: string }
+  projectId: string,
+  values: any
 ) => {
   let config = {
     headers: { Authorization: `Bearer ${token}` },
   };
-  //   const response = await axios.post(`${API_URL}/project`, values, config);
-  //   return response;
+  const response = await axios.put(
+    `${API_URL}/project/${projectId}`,
+    values,
+    config
+  );
+  return response;
 };
 
 export const deleteProject = async (token: string, projectId: string) => {

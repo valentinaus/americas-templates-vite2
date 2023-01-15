@@ -12,6 +12,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Select,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -20,14 +21,20 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useContext } from "react";
 import { ProjectsCTX } from "../../../contexts/projects.context";
+import { updateProject } from "../../../services/projects.services";
 
-const UpdateProjectModal = ({ isOpen, onClose }) => {
+const UpdateProjectModal = ({
+  isOpen,
+  onClose,
+  sitesList,
+  phoneNumberList,
+  templatesList,
+}) => {
   const toast = useToast();
   const { user } = useSelector((state: any) => state.auth);
   const {
     setRefresh,
     refreshList,
-    isLoading,
     setIsLoading,
     selectedProject,
     setSelectedProject,
@@ -35,36 +42,41 @@ const UpdateProjectModal = ({ isOpen, onClose }) => {
 
   const submitUpdateProject = async (values, actions) => {
     if (selectedProject) {
-      console.log("updating...");
-      //   try {
-      //     setIsLoading(true);
-      //     // const response = await updateProject(user.token, values);
-      //     // console.log(response);
-      //     actions.setSubmitting(false);
-      //     actions.resetForm();
-      //     onClose();
-      //     setRefresh(!refreshList);
-      //     toast({
-      //       title: "Project creation successful",
-      //       description: "The project was created successfully",
-      //       status: "success",
-      //       duration: 3000,
-      //       isClosable: true,
-      //     });
-      //     setIsLoading(false);
-      //   } catch (error) {
-      //     actions.setSubmitting(false);
-      //     setIsLoading(false);
-      //     actions.resetForm();
-      //     console.log(error);
-      //     toast({
-      //       title: "Project creation unsuccessfull",
-      //       description: "The project couldn't be created. try again later",
-      //       status: "error",
-      //       duration: 2000,
-      //       isClosable: true,
-      //     });
-      //   }
+      console.log(values);
+
+      try {
+        setIsLoading(true);
+        const response = await updateProject(
+          user.token,
+          selectedProject.id,
+          values
+        );
+        console.log(response);
+        actions.setSubmitting(false);
+        actions.resetForm();
+        onClose();
+        setRefresh(!refreshList);
+        toast({
+          title: "Project update successful",
+          description: "The project was updated successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsLoading(false);
+      } catch (error) {
+        actions.setSubmitting(false);
+        setIsLoading(false);
+        actions.resetForm();
+        console.log(error);
+        toast({
+          title: "Project update unsuccessfull",
+          description: "The project couldn't be update. try again later",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
     }
   };
 
@@ -87,12 +99,19 @@ const UpdateProjectModal = ({ isOpen, onClose }) => {
         /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
         "Description cannot contain special caracters"
       ),
+
+    phoneClientId: Yup.string().required("Client phone required"),
+    siteId: Yup.string().required("Site required"),
+    templateId: Yup.string().required("Template required"),
   });
 
   const formik = useFormik({
     initialValues: {
       name: selectedProject ? `${selectedProject.name}` : "",
       description: selectedProject ? `${selectedProject.description}` : "",
+      phoneClientId: selectedProject ? `${selectedProject.phoneClientId}` : "",
+      siteId: selectedProject ? `${selectedProject.siteId}` : "",
+      templateId: selectedProject ? `${selectedProject.templateId}` : "",
     },
     validationSchema: formSchema,
     onSubmit: submitUpdateProject,
@@ -146,6 +165,112 @@ const UpdateProjectModal = ({ isOpen, onClose }) => {
                 borderColor={"brand.gray.mediumLight"}
               />
               <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
+            </FormControl>
+            <FormControl
+              display={"flex"}
+              flexDir={"column"}
+              isInvalid={
+                (formik.errors.phoneClientId as any) &&
+                (formik.touched.phoneClientId as any)
+              }
+            >
+              <FormLabel fontWeight="medium">Client phone</FormLabel>
+              <Select
+                {...formik.getFieldProps("phoneClientId")}
+                id="phoneClientId"
+                name="phoneClientId"
+                placeholder={"Select project client phone"}
+                _placeholder={{ color: "brand.gray.mediumLight" }}
+                size="sm"
+                borderRadius="4px"
+                borderColor={"brand.gray.mediumLight"}
+              >
+                {phoneNumberList &&
+                  phoneNumberList.length > 0 &&
+                  phoneNumberList.map((item) => {
+                    return (
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        color={"brand.gray.superDark"}
+                      >
+                        {item.name}
+                      </option>
+                    );
+                  })}
+              </Select>
+              <FormErrorMessage>{formik.errors.phoneClientId}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl
+              display={"flex"}
+              flexDir={"column"}
+              isInvalid={
+                (formik.errors.siteId as any) && (formik.touched.siteId as any)
+              }
+            >
+              <FormLabel fontWeight="medium">Site</FormLabel>
+              <Select
+                {...formik.getFieldProps("siteId")}
+                id="siteId"
+                name="siteId"
+                placeholder={"Select a site"}
+                _placeholder={{ color: "brand.gray.mediumLight" }}
+                size="sm"
+                borderRadius="4px"
+                borderColor={"brand.gray.mediumLight"}
+              >
+                {sitesList &&
+                  sitesList.length > 0 &&
+                  sitesList.map((item) => {
+                    return (
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        color={"brand.gray.superDark"}
+                      >
+                        {item.name}
+                      </option>
+                    );
+                  })}
+              </Select>
+              <FormErrorMessage>{formik.errors.siteId}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl
+              display={"flex"}
+              flexDir={"column"}
+              isInvalid={
+                (formik.errors.templateId as any) &&
+                (formik.touched.templateId as any)
+              }
+            >
+              <FormLabel fontWeight="medium">Template</FormLabel>
+              <Select
+                {...formik.getFieldProps("templateId")}
+                id="templateId"
+                name="templateId"
+                placeholder={"Select a template"}
+                _placeholder={{ color: "brand.gray.mediumLight" }}
+                size="sm"
+                borderRadius="4px"
+                borderColor={"brand.gray.mediumLight"}
+              >
+                {templatesList &&
+                  templatesList.length > 0 &&
+                  templatesList.map((item) => {
+                    return (
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        color={"brand.gray.superDark"}
+                      >
+                        {item.name}
+                      </option>
+                    );
+                  })}
+              </Select>
+              <FormErrorMessage>{formik.errors.templateId}</FormErrorMessage>
             </FormControl>
 
             <Divider />

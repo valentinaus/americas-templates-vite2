@@ -1,11 +1,12 @@
 import { Checkbox, Tbody, Td, Tr } from "@chakra-ui/react";
 import React from "react";
+import { Fragment } from "react";
 import { useContext } from "react";
 import { ProjectsCTX } from "../../contexts/projects.context";
 import TableOptions from "./TableOptions";
 
 const ProjectsTableRows = (props: any) => {
-  const { tableColumns } = props;
+  const { tableColumns, sitesList, phoneNumberList, templatesList } = props;
 
   const {
     projectsList,
@@ -23,14 +24,39 @@ const ProjectsTableRows = (props: any) => {
             tableColumns={tableColumns}
             setItemSelected={setItemSelected}
             itemSelected={itemSelected}
+            sitesList={sitesList}
+            phoneNumberList={phoneNumberList}
+            templatesList={templatesList}
           />
         ))}
     </Tbody>
   );
 };
 
-const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
+const TableRow = ({
+  tableColumns,
+  item,
+  setItemSelected,
+  itemSelected,
+  sitesList,
+  phoneNumberList,
+  templatesList,
+}) => {
   const { onOpenDeleteModal, onOpenEditModal } = useContext(ProjectsCTX);
+
+  const findItemsNames = (itemId, list) => {
+    const itemFound = list.find((item) => {
+      if (item.id === itemId) {
+        return item;
+      }
+    });
+
+    if (itemFound) {
+      return itemFound.name;
+    } else {
+      return "Not found";
+    }
+  };
 
   return (
     <Tr
@@ -56,7 +82,21 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
       </Td> */}
       {tableColumns.map((columnItem, indexx) => (
         <Td key={indexx} w={"15rem"} fontSize="sm" color="brand.gray.superDark">
-          {item[`${columnItem.value}`] + ""}
+          {columnItem.heading === "client phone" ? (
+            <Fragment>
+              {findItemsNames(item[`${columnItem.value}`], phoneNumberList)}
+            </Fragment>
+          ) : columnItem.heading === "site" ? (
+            <Fragment>
+              {findItemsNames(item[`${columnItem.value}`], sitesList)}
+            </Fragment>
+          ) : columnItem.heading === "template" ? (
+            <Fragment>
+              {findItemsNames(item[`${columnItem.value}`], templatesList)}
+            </Fragment>
+          ) : (
+            <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
+          )}
         </Td>
       ))}
 

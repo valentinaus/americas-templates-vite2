@@ -22,7 +22,7 @@ const PictureModal = ({ isOpen, onClose }) => {
     setSelectedPicture(null);
   };
 
-  //   console.log({ selectedPicture });
+
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

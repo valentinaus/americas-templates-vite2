@@ -27,10 +27,10 @@ import { UsersCTX } from "../../../contexts/users.context";
 const AddUserModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const { user } = useSelector((state: any) => state.auth);
-  const { setRefresh, refreshList, isLoading, setIsLoading } =
-    useContext(UsersCTX);
+  const { setRefresh, refreshList } = useContext(UsersCTX);
 
   const submitUser = async (values, actions) => {
+    console.log(values);
     try {
       const response = await postUser(user.token, values);
       console.log(response);
@@ -174,7 +174,13 @@ const AddUserModal = ({ isOpen, onClose }) => {
               >
                 Cancel
               </Button>
-              <Button size={"sm"} colorScheme="blue" type="submit">
+              <Button
+                size={"sm"}
+                colorScheme="blue"
+                type="submit"
+                loadingText="Creating..."
+                isLoading={formik.isSubmitting}
+              >
                 Create
               </Button>
             </Flex>

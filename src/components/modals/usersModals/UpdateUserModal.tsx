@@ -44,11 +44,12 @@ const UpdateUserModal = ({ isOpen, onClose }) => {
       const obj = {
         ...values,
         roleId: 0,
-        clientId: "njwaekfnwjaef",
+        clientId: "test",
       };
 
       console.log(obj);
       try {
+        setIsLoading(true);
         const response = await editUser(user.token, selectedUser.id, obj);
         console.log(response);
         actions.setSubmitting(false);
@@ -62,8 +63,10 @@ const UpdateUserModal = ({ isOpen, onClose }) => {
           duration: 3000,
           isClosable: true,
         });
+        setIsLoading(false);
       } catch (error) {
         actions.setSubmitting(false);
+        setIsLoading(false);
         actions.resetForm();
         console.log(error);
         toast({
@@ -188,7 +191,13 @@ const UpdateUserModal = ({ isOpen, onClose }) => {
               >
                 Cancel
               </Button>
-              <Button size={"sm"} colorScheme="blue" type="submit">
+              <Button
+                size={"sm"}
+                colorScheme="blue"
+                type="submit"
+                loadingText="Updating..."
+                isLoading={formik.isSubmitting}
+              >
                 Update
               </Button>
             </Flex>

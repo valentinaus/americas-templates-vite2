@@ -62,23 +62,6 @@ const AddPicsToTemplateModal = ({
     setTemplateInfo(null);
   };
 
-  console.log(picturesList);
-
-  // useEffect(() => {
-  //   const fetchPictures = async () => {
-  //     try {
-  //       setLoadingPics(true);
-  //       const response = await getAllPictures(user.token);
-  //       setPicturesList(response.data);
-  //       setLoadingPics(false);
-  //     } catch (error) {
-  //       setLoadingPics(false);
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchPictures();
-  // }, []);
-
   const handleChange = (item: any) => {
     let updateList = [...selectedItemsList];
     if (updateList.includes(item)) {

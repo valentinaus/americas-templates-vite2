@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import React, { Fragment, useContext } from "react";
 import { TemplatesCTX } from "../../../contexts/templates.context";
+import EmptyTable from "../../emptyStates/EmptyTable";
 import {
   LoadingPicsSkeletons,
   LoadingSkeleton,
@@ -81,35 +82,56 @@ const TemplateDetailsModal = ({
                   <LoadingPicsSkeletons />
                 </Flex>
               ) : (
-                <SimpleGrid
-                  columns={[1, 2, 3, 3]}
-                  border={"1px"}
-                  borderColor={"brand.gray.superLight"}
-                  p={4}
-                  mt={2}
-                  borderRadius={"8px"}
-                  w={"100%"}
-                  spacing={4}
-                  maxH={"22rem"}
-                  overflowY={"auto"}
-                  scrollBehavior="auto"
-                  sx={{
-                    "&::-webkit-scrollbar": {
-                      width: "10px",
-                      borderRadius: "8px",
-                      backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                      backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                    },
-                  }}
-                  // templateColumns="repeat(auto-fill, minmax(100px, 1fr))"
-                >
-                  {templateInfo?.photos &&
-                    templateInfo.photos.map((item, index) => (
-                      <PictureCardTemp key={index} picture={item} />
-                    ))}
-                </SimpleGrid>
+                <Fragment>
+                  {" "}
+                  {templateInfo?.photos && templateInfo.photos.length === 0 ? (
+                    <Flex
+                      border={"1px"}
+                      borderColor={"brand.gray.superLight"}
+                      p={4}
+                      mt={2}
+                      borderRadius={"8px"}
+                      w={"100%"}
+                      h={"20rem"}
+                    >
+                      <EmptyTable
+                        emptyTitle={
+                          "No pictures assigned to this template yet."
+                        }
+                      />
+                    </Flex>
+                  ) : (
+                    <SimpleGrid
+                      columns={[1, 2, 3, 3]}
+                      border={"1px"}
+                      borderColor={"brand.gray.superLight"}
+                      p={4}
+                      mt={2}
+                      borderRadius={"8px"}
+                      w={"100%"}
+                      spacing={4}
+                      maxH={"22rem"}
+                      overflowY={"auto"}
+                      scrollBehavior="auto"
+                      sx={{
+                        "&::-webkit-scrollbar": {
+                          width: "10px",
+                          borderRadius: "8px",
+                          backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                        },
+                      }}
+                      // templateColumns="repeat(auto-fill, minmax(100px, 1fr))"
+                    >
+                      {templateInfo?.photos &&
+                        templateInfo.photos.map((item, index) => (
+                          <PictureCardTemp key={index} picture={item} />
+                        ))}
+                    </SimpleGrid>
+                  )}
+                </Fragment>
               )}
             </Fragment>
           )}

@@ -27,7 +27,7 @@ const PhoneNumTableRows = (props: any) => {
       {phoneNumberList &&
         phoneNumberList.map((phoneNum, index) => (
           <TableRow
-            key={index}
+            key={phoneNum.id}
             item={phoneNum}
             tableColumns={tableColumns}
             setItemSelected={setItemSelected}

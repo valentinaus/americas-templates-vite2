@@ -7,8 +7,14 @@ import DeleteProjectModal from "../components/modals/projectsModals/DeleteProjec
 import UpdateProjectModal from "../components/modals/projectsModals/UpdateProjectModal";
 import ProjectsTableRows from "../components/tableRows/ProjectsTableRows";
 import { IProjectCTX, ProjectsCTX } from "../contexts/projects.context";
+import { IPhoneNumber } from "../interfaces/phoneNumber.interfaces";
 import { IProject } from "../interfaces/projects.interfaces";
+import { ISite } from "../interfaces/sites.interfaces";
+import { ITemplate } from "../interfaces/template.interfaces";
+import { getAllPhoneNumbers } from "../services/phoneNumbers.services";
 import { getAllProjects } from "../services/projects.services";
+import { getAllSites } from "../services/sites.services";
+import { getAllTemplates } from "../services/templates.services";
 import IconCButton from "../UI/buttons/IconCButton";
 import TableBase from "../UI/TableBase";
 import HeadingTitle from "../UI/titles/HeadingTitle";
@@ -16,6 +22,9 @@ import HeadingTitle from "../UI/titles/HeadingTitle";
 const tableColumns = [
   { heading: "name", value: "name" },
   { heading: "description", value: "description" },
+  { heading: "client phone", value: "phoneClientId" },
+  { heading: "site", value: "siteId" },
+  { heading: "template", value: "templateId" },
 ];
 
 const Projects = () => {
@@ -25,6 +34,11 @@ const Projects = () => {
   const [itemSelected, setItemSelected] = useState<IProject | null>(null);
   const [projectsList, setProjectsList] = useState<IProject[] | null>([]);
   const [isCheckAll, setIsCheckAll] = useState(false);
+  const [sitesList, setSitesList] = useState<ISite[] | null>([]);
+  const [phoneNumberList, setPhoneNumberList] = useState<IPhoneNumber[] | null>(
+    []
+  );
+  const [templatesList, setTemplatesList] = useState<ITemplate[] | null>([]);
 
   const {
     isOpen: isOpenAddProject,
@@ -70,6 +84,36 @@ const Projects = () => {
     fetchProjects();
   }, [refresh]);
 
+  useEffect(() => {
+    const fetchSites = async () => {
+      try {
+        const response = await getAllSites(user.token);
+        setSitesList(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const fetchPhoneNumbers = async () => {
+      try {
+        const response = await getAllPhoneNumbers(user.token);
+        setPhoneNumberList(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const fetchTemplates = async () => {
+      try {
+        const response = await getAllTemplates(user.token);
+        setTemplatesList(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchTemplates();
+    fetchSites();
+    fetchPhoneNumbers();
+  }, []);
+
   return (
     <Fragment>
       <ProjectsCTX.Provider value={componentCTX}>
@@ -99,7 +143,12 @@ const Projects = () => {
               list={projectsList}
               emptyTitle={"Projects list empty!"}
             >
-              <ProjectsTableRows tableColumns={tableColumns} />
+              <ProjectsTableRows
+                tableColumns={tableColumns}
+                sitesList={sitesList}
+                phoneNumberList={phoneNumberList}
+                templatesList={templatesList}
+              />
             </TableBase>
           </Flex>
         </Flex>
@@ -107,11 +156,17 @@ const Projects = () => {
         <AddProjectModal
           isOpen={isOpenAddProject}
           onClose={onCloseAddProject}
+          sitesList={sitesList}
+          phoneNumberList={phoneNumberList}
+          templatesList={templatesList}
         />
 
         <UpdateProjectModal
           isOpen={isOpenEditProject}
           onClose={onCloseEditProject}
+          sitesList={sitesList}
+          phoneNumberList={phoneNumberList}
+          templatesList={templatesList}
         />
 
         <DeleteProjectModal

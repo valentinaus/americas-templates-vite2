@@ -20,6 +20,18 @@ export const postSite = async (
   return response;
 };
 
+export const updateSite = async (
+  token: string,
+  siteId: string,
+  values: any
+) => {
+  let config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const response = await axios.put(`${API_URL}/site/${siteId}`, values, config);
+  return response;
+};
+
 export const deleteSite = async (token: string, userId: string) => {
   let config = {
     headers: { Authorization: `Bearer ${token}` },
