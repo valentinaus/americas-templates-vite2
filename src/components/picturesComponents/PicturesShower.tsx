@@ -97,10 +97,12 @@ const PictureCard = ({
         onMouseLeave={() => {
           setOnMouseEnter(null);
         }}
+        onClick={() => {
+          setSelectedPicture(picture);
+        }}
       >
         <Flex
           onClick={(e) => {
-            setSelectedPicture(picture);
             e.preventDefault();
             e.stopPropagation();
             onOpen();

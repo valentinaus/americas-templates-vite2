@@ -33,7 +33,6 @@ import * as Yup from "yup";
 import { PIcturesCTX } from "../../../contexts/pictures.context";
 import { postPicture } from "../../../services/pictures.services";
 import { useSelector } from "react-redux";
-// import Dropzone from "react-dropzone";
 
 const AddPicsModal = ({ isOpen, onClose }) => {
   const [imageSelected, setImageSelected] = useState(null);
@@ -43,7 +42,7 @@ const AddPicsModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const onDrop = useCallback(
     (acceptedFiles) => {
-      const filesArray = [...myfiles, ...acceptedFiles];
+      const filesArray = [...acceptedFiles];
       setMyfiles(filesArray);
 
       filesArray.forEach((file) => {
@@ -107,11 +106,14 @@ const AddPicsModal = ({ isOpen, onClose }) => {
   const submitUploadedFiles = async (values, actions) => {
     try {
       setIsLoading(true);
+
       const response = await postPicture(user.token, values);
       console.log(response);
       actions.setSubmitting(false);
       actions.resetForm();
       onClose();
+      setImageSelected(null);
+      setMyfiles([]);
       setRefresh(!refreshList);
       toast({
         title: "Picture uploaded successful",
@@ -166,17 +168,27 @@ const AddPicsModal = ({ isOpen, onClose }) => {
         mr={2}
       />
 
-      <Flex flexDir={"column"}>
+      <Flex
+        flexDir={"column"}
+        textOverflow={"ellipsis"}
+        whiteSpace={"nowrap"}
+        overflow={"hidden"}
+      >
+        <Text
+          fontSize={"sm"}
+          color={"brand.gray.superDark"}
+          fontWeight={"500"}
+          // textOverflow={"ellipsis"}
+          // width={"10rem"}
+        >
+          {file.path}
+        </Text>
+
         <Text fontSize={"sm"} color={"brand.gray.superDark"} fontWeight={"500"}>
-          {file.path} - {file.size} bytes
+          - {file.size} bytes
         </Text>
       </Flex>
     </Flex>
-    // <li key={file.path}>
-    //   <Text fontSize={"sm"} color={"brand.gray.superDark"}>
-    //     {file.path} - {file.size} bytes
-    //   </Text>
-    // </li>
   ));
 
   return (
@@ -315,7 +327,7 @@ const AddPicsModal = ({ isOpen, onClose }) => {
                 <Text fontWeight={500} fontSize={"sm"}>
                   Uploaded file:
                 </Text>
-                <Flex>
+                <Flex flexDir={"column"}>
                   <>{filesToShow}</>
                 </Flex>
               </Flex>
@@ -332,7 +344,13 @@ const AddPicsModal = ({ isOpen, onClose }) => {
               >
                 Cancel
               </Button>
-              <Button size={"sm"} colorScheme="blue" type="submit">
+              <Button
+                size={"sm"}
+                colorScheme="blue"
+                type="submit"
+                loadingText="Uploading..."
+                isLoading={formik.isSubmitting}
+              >
                 Upload picture
               </Button>
             </Flex>

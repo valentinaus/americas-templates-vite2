@@ -61,7 +61,7 @@ const SideBar = () => {
         >
           {navItemsList.map((item, index) => {
             return (
-              <NavItem eventKey={item.itemKey}>
+              <NavItem eventKey={item.itemKey} key={item.itemKey}>
                 <NavIcon>
                   <Icon as={item.itemIcon} color={"white"}></Icon>
                 </NavIcon>

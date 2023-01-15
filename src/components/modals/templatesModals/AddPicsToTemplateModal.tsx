@@ -83,6 +83,9 @@ const AddPicsToTemplateModal = ({
         console.log(response);
         onClose();
         setRefresh(!refreshList);
+        setSelectedTemplate(null);
+        setSelectedItemsList([]);
+        setTemplateInfo(null);
         toast({
           title: "Pictures added",
           description: "Pictures added to template successfully",

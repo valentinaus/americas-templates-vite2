@@ -40,6 +40,7 @@ const DeletePicModal = ({ isOpen, onClose }) => {
   const submitDeletePic = async () => {
     if (selectedPicture) {
       try {
+        setIsLoading(true);
         const response = await deletePicture(user.token, selectedPicture.id);
         console.log(response);
         onClose();
@@ -51,8 +52,10 @@ const DeletePicModal = ({ isOpen, onClose }) => {
           duration: 3000,
           isClosable: true,
         });
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
         toast({
           title: "Picture deleted unsuccessfully",
           description: "The picture couldn't be deleted. try again later",
@@ -92,7 +95,13 @@ const DeletePicModal = ({ isOpen, onClose }) => {
             >
               Cancel
             </Button>
-            <Button size={"sm"} colorScheme="blue" onClick={submitDeletePic}>
+            <Button
+              size={"sm"}
+              colorScheme="blue"
+              onClick={submitDeletePic}
+              loadingText="Deleting..."
+              isLoading={isLoading}
+            >
               Delete
             </Button>
           </Flex>
