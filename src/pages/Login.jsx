@@ -49,6 +49,10 @@ const Login = () => {
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
+  const userToken = localStorage.getItem("userToken")
+    ? localStorage.getItem("userToken")
+    : null;
+
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
@@ -58,7 +62,9 @@ const Login = () => {
     password: "",
   };
 
-  const submitLoginHandler = async (values, actions) => {
+  // useEffect(() => {}, [third]);
+
+  const submitLoginHandler = async (values) => {
     const obj = {
       email: values.userName,
       password: values.password,
