@@ -33,15 +33,19 @@ import * as Yup from "yup";
 import { PIcturesCTX } from "../../../contexts/pictures.context";
 import { postPicture } from "../../../services/pictures.services";
 import { useSelector } from "react-redux";
+import { calcLength } from "framer-motion";
 
 const AddPicsModal = ({ isOpen, onClose }) => {
   const [imageSelected, setImageSelected] = useState(null);
+  const [errors, setErrors] = useState("");
   const [myfiles, setMyfiles] = useState([]);
   const { setRefresh, refreshList, setIsLoading } = useContext(PIcturesCTX);
   const { user } = useSelector((state) => state.auth);
+  const MAX_SIZE = 1048576;
   const toast = useToast();
   const onDrop = useCallback(
     (acceptedFiles) => {
+      console.log("acceptedFiles", acceptedFiles);
       const filesArray = [...acceptedFiles];
       setMyfiles(filesArray);
 
@@ -56,11 +60,28 @@ const AddPicsModal = ({ isOpen, onClose }) => {
           // console.log("it upload", binaryStr);
         };
 
+        filesRejections.forEach((file) => {
+          file.forEach((err) => {
+            if (err.code === "file-too-large") {
+              setErrors(`Error: ${err.message}`);
+            }
+          });
+        });
+
         reader.readAsDataURL(file);
       });
     },
     [myfiles]
   );
+
+  // const maxFileSize = (file) => {
+  //   if (file.size > MAX_SIZE) {
+  //     return {
+  //       code: "file-too-large",
+  //       message: `file is larger than ${MAX_SIZE}`,
+  //     };
+  //   }
+  // };
 
   const {
     getRootProps,
@@ -70,13 +91,19 @@ const AddPicsModal = ({ isOpen, onClose }) => {
     isDragAccept,
     isDragReject,
     isFocused,
+    rejectedFiles,
+    maxSize,
+    fileRejections,
   } = useDropzone({
     onDrop,
     accept: {
       "image/jpeg": [],
       "image/png": [],
+      "image/jpg": [],
     },
     maxFiles: 1,
+    maxSize: MAX_SIZE,
+    // validator: maxFileSize,
   });
 
   const formSchema = Yup.object().shape({
@@ -191,6 +218,54 @@ const AddPicsModal = ({ isOpen, onClose }) => {
     </Flex>
   ));
 
+  const filesRejected = fileRejections.map(({ file, errors }) => (
+    <Flex
+      key={file.name}
+      alignItems={"center"}
+      border={"1px"}
+      borderRadius={"8px"}
+      w={"100%"}
+      px={2}
+      borderColor={"brand.gray.mediumLight"}
+      mt={2}
+    >
+      <Icon
+        as={PhotographIcon}
+        w={10}
+        h={10}
+        color={"brand.gray.mediumLight"}
+        mr={2}
+      />
+
+      <Flex
+        flexDir={"column"}
+        textOverflow={"ellipsis"}
+        whiteSpace={"nowrap"}
+        overflow={"hidden"}
+      >
+        <Text
+          fontSize={"sm"}
+          color={"brand.red.medium"}
+          fontWeight={"500"}
+          // textOverflow={"ellipsis"}
+          // width={"10rem"}
+        >
+          {file.path}
+        </Text>
+
+        <Text fontSize={"sm"} color={"brand.red.medium"} fontWeight={"500"}>
+          - {file.size} bytes
+        </Text>
+
+        {errors.map((e) => (
+          <Text fontSize={"12px"} color={"brand.red.medium"} fontWeight={"500"}>
+            {e.message}
+          </Text>
+        ))}
+      </Flex>
+    </Flex>
+  ));
+
   return (
     <Modal isOpen={isOpen} onClose={cancelButtonHandler} isCentered>
       <ModalOverlay />
@@ -289,10 +364,15 @@ const AddPicsModal = ({ isOpen, onClose }) => {
                     ) : (
                       <Flex flexDir={"column"} alignItems={"center"}>
                         <Text fontSize={"sm"} color={"brand.red.medium"}>
-                          {" Only *.jpeg and *.png images will be accepted."}
+                          {
+                            "Only *.jpeg, *.jpg and *.png images will be accepted"
+                          }
                         </Text>
                         <Text fontSize={"sm"} color={"brand.red.medium"}>
                           {"Maximum one (1) file"}
+                        </Text>
+                        <Text fontSize={"sm"} color={"brand.red.medium"}>
+                          {`File too large. Max size of 2MB`}
                         </Text>
                       </Flex>
                     )}
@@ -314,7 +394,7 @@ const AddPicsModal = ({ isOpen, onClose }) => {
                       color={"brand.gray.superDark"}
                       cursor={"pointer"}
                     >
-                      (Only *.jpeg and *.png images will be accepted)
+                      (Only *.jpeg, *.jpg and *.png images will be accepted)
                     </Text>
                   </Flex>
                 )}
@@ -329,6 +409,21 @@ const AddPicsModal = ({ isOpen, onClose }) => {
                 </Text>
                 <Flex flexDir={"column"}>
                   <>{filesToShow}</>
+                </Flex>
+              </Flex>
+            )}
+
+            {fileRejections && fileRejections.length > 0 && (
+              <Flex flexDir={"column"} mt={2}>
+                <Text
+                  fontWeight={500}
+                  fontSize={"sm"}
+                  // color={"brand.red.medium"}
+                >
+                  Rejected file:
+                </Text>
+                <Flex flexDir={"column"}>
+                  <>{filesRejected}</>
                 </Flex>
               </Flex>
             )}

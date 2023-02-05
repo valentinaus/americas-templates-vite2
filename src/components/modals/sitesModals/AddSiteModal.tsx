@@ -39,7 +39,6 @@ const AddSiteModal = ({ isOpen, onClose }) => {
   const { setRefresh, refreshList, setIsLoading } = useContext(SitesCTX);
 
   const submitSite = async (values, actions) => {
-
     const obj = {
       ...values,
       latitude: values.latitude.toString(),
@@ -88,6 +87,12 @@ const AddSiteModal = ({ isOpen, onClose }) => {
         /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
         "Name cannot contain special caracters"
       ),
+    description: Yup.string()
+      .required("Description required")
+      .matches(
+        /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
+        "Description cannot contain special caracters"
+      ),
     latitude: Yup.number().required("Latitude required"),
     longitude: Yup.number().required("Longitude required"),
   });
@@ -95,6 +100,7 @@ const AddSiteModal = ({ isOpen, onClose }) => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      description: "",
       latitude: "",
       longitude: "",
     },
@@ -130,6 +136,27 @@ const AddSiteModal = ({ isOpen, onClose }) => {
               />
               <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
             </FormControl>
+            <FormControl
+              display={"flex"}
+              flexDir={"column"}
+              isInvalid={
+                (formik.errors.description as any) &&
+                (formik.touched.description as any)
+              }
+            >
+              <FormLabel fontWeight="medium">Description</FormLabel>
+              <Input
+                {...formik.getFieldProps("description")}
+                id="description"
+                name="description"
+                placeholder={"Insert project description"}
+                size="sm"
+                borderRadius="4px"
+                borderColor={"brand.gray.mediumLight"}
+              />
+              <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
+            </FormControl>
+
             <FormControl
               display={"flex"}
               flexDir={"column"}

@@ -1,4 +1,4 @@
-import { Checkbox, Tag, TagLabel, Tbody, Td, Tr } from "@chakra-ui/react";
+import { Checkbox, Tag, TagLabel, Tbody, Td, Tr, Text } from "@chakra-ui/react";
 import React, { Fragment } from "react";
 import { useContext } from "react";
 import { SitesCTX } from "../../contexts/sites.context";
@@ -54,17 +54,36 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
           // }}
         />
       </Td> */}
-      {tableColumns.map((columnItem, index) => (
-        <Td key={index} w={"15rem"} fontSize="sm" color="brand.gray.superDark">
-          {columnItem.heading === "name" ? (
-            <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
-          ) : (
-            <Tag variant="subtle" colorScheme="blue" cursor={"default"}>
-              <TagLabel> {item[`${columnItem.value}`] + ""}</TagLabel>
-            </Tag>
-          )}
-        </Td>
-      ))}
+      {tableColumns.map((columnItem, index) => {
+        return (
+          <Td
+            key={index}
+            w={"15rem"}
+            fontSize="sm"
+            color="brand.gray.superDark"
+          >
+            {item[`${columnItem.value}`] === null ||
+            item[`${columnItem.value}`] === undefined ||
+            item[`${columnItem.value}`] === "" ? (
+              <Text fontWeight={"600"} color="brand.red.medium">
+                {" "}
+                Not assigned
+              </Text>
+            ) : (
+              <Fragment>
+                {columnItem.heading === "name" ||
+                columnItem.heading === "description" ? (
+                  <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
+                ) : (
+                  <Tag variant="subtle" colorScheme="blue" cursor={"default"}>
+                    <TagLabel> {item[`${columnItem.value}`] + ""}</TagLabel>
+                  </Tag>
+                )}
+              </Fragment>
+            )}
+          </Td>
+        );
+      })}
 
       <Td display={"flex"} justifyContent={"flex-end"}>
         <TableOptions

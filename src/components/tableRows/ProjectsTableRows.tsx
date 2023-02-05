@@ -1,4 +1,4 @@
-import { Checkbox, Tbody, Td, Tr } from "@chakra-ui/react";
+import { Checkbox, Tbody, Td, Tr, Text } from "@chakra-ui/react";
 import React from "react";
 import { Fragment } from "react";
 import { useContext } from "react";
@@ -82,20 +82,30 @@ const TableRow = ({
       </Td> */}
       {tableColumns.map((columnItem, indexx) => (
         <Td key={indexx} w={"15rem"} fontSize="sm" color="brand.gray.superDark">
-          {columnItem.heading === "client phone" ? (
-            <Fragment>
-              {findItemsNames(item[`${columnItem.value}`], phoneNumberList)}
-            </Fragment>
-          ) : columnItem.heading === "site" ? (
-            <Fragment>
-              {findItemsNames(item[`${columnItem.value}`], sitesList)}
-            </Fragment>
-          ) : columnItem.heading === "template" ? (
-            <Fragment>
-              {findItemsNames(item[`${columnItem.value}`], templatesList)}
-            </Fragment>
+          {item[`${columnItem.value}`] === null ||
+          item[`${columnItem.value}`] === undefined ||
+          item[`${columnItem.value}`] === "" ? (
+            <Text fontWeight={"600"} color="brand.red.medium">
+              Not assigned
+            </Text>
           ) : (
-            <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
+            <Fragment>
+              {columnItem.heading === "client phone" ? (
+                <Fragment>
+                  {findItemsNames(item[`${columnItem.value}`], phoneNumberList)}
+                </Fragment>
+              ) : columnItem.heading === "site" ? (
+                <Fragment>
+                  {findItemsNames(item[`${columnItem.value}`], sitesList)}
+                </Fragment>
+              ) : columnItem.heading === "template" ? (
+                <Fragment>
+                  {findItemsNames(item[`${columnItem.value}`], templatesList)}
+                </Fragment>
+              ) : (
+                <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
+              )}
+            </Fragment>
           )}
         </Td>
       ))}

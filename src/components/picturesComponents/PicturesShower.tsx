@@ -23,7 +23,7 @@ import PictureModal from "./PictureModal";
 import EmptyTable from "../emptyStates/EmptyTable";
 
 const PicturesShower = () => {
-  const { picturesList, isLoading } = useContext(PIcturesCTX);
+  const { picturesList, isLoading, selectedPicture } = useContext(PIcturesCTX);
   const [onMouseEnter, setOnMouseEnter] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -76,6 +76,7 @@ const PictureCard = ({
   onOpen,
 }: any) => {
   const { onOpenDeleteModal, setSelectedPicture } = useContext(PIcturesCTX);
+
   return (
     <Tooltip hasArrow label={picture.name}>
       <Flex
@@ -97,12 +98,11 @@ const PictureCard = ({
         onMouseLeave={() => {
           setOnMouseEnter(null);
         }}
-        onClick={() => {
-          setSelectedPicture(picture);
-        }}
+        onClick={() => {}}
       >
         <Flex
           onClick={(e) => {
+            setSelectedPicture(picture);
             e.preventDefault();
             e.stopPropagation();
             onOpen();

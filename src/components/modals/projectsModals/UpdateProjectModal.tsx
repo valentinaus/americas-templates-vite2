@@ -99,6 +99,10 @@ const UpdateProjectModal = ({
         /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
         "Description cannot contain special caracters"
       ),
+    technician: Yup.string().matches(
+      /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
+      "technician cannot contain special caracters"
+    ),
 
     phoneClientId: Yup.string().required("Client phone required"),
     siteId: Yup.string().required("Site required"),
@@ -109,6 +113,10 @@ const UpdateProjectModal = ({
     initialValues: {
       name: selectedProject ? `${selectedProject.name}` : "",
       description: selectedProject ? `${selectedProject.description}` : "",
+      technician:
+        selectedProject && selectedProject.technician !== null
+          ? `${selectedProject.technician}`
+          : "",
       phoneClientId: selectedProject ? `${selectedProject.phoneClientId}` : "",
       siteId: selectedProject ? `${selectedProject.siteId}` : "",
       templateId: selectedProject ? `${selectedProject.templateId}` : "",
@@ -166,6 +174,27 @@ const UpdateProjectModal = ({
               />
               <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
             </FormControl>
+            <FormControl
+              display={"flex"}
+              flexDir={"column"}
+              isInvalid={
+                (formik.errors.technician as any) &&
+                (formik.touched.technician as any)
+              }
+            >
+              <FormLabel fontWeight="medium">Technician</FormLabel>
+              <Input
+                {...formik.getFieldProps("technician")}
+                id="technician"
+                name="technician"
+                placeholder={"Insert project technician"}
+                size="sm"
+                borderRadius="4px"
+                borderColor={"brand.gray.mediumLight"}
+              />
+              <FormErrorMessage>{formik.errors.technician}</FormErrorMessage>
+            </FormControl>
+
             <FormControl
               display={"flex"}
               flexDir={"column"}

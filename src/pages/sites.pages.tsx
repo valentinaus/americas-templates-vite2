@@ -5,12 +5,7 @@ import { useSelector } from "react-redux";
 import { ISite } from "../interfaces/sites.interfaces";
 import { ISiteCTX, SitesCTX } from "../contexts/sites.context";
 import { getAllSites } from "../services/sites.services";
-import {
-  DocumentAddIcon,
-  LocationMarkerIcon,
-  MapIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/solid";
+import { PlusCircleIcon } from "@heroicons/react/solid";
 import IconCButton from "../UI/buttons/IconCButton";
 import TableBase from "../UI/TableBase";
 import SitesTableRows from "../components/tableRows/SitesTableRows";
@@ -20,6 +15,7 @@ import DeleteSiteModal from "../components/modals/sitesModals/DeleteSiteModal";
 
 const tableColumns = [
   { heading: "name", value: "name" },
+  { heading: "description", value: "description" },
   { heading: "latitude", value: "latitude" },
   { heading: "longitude", value: "longitude" },
 ];

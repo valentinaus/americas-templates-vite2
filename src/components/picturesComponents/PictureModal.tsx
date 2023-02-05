@@ -22,8 +22,6 @@ const PictureModal = ({ isOpen, onClose }) => {
     setSelectedPicture(null);
   };
 
-
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

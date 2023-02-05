@@ -20,17 +20,8 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { ProjectsCTX } from "../../../contexts/projects.context";
 import { TemplatesCTX } from "../../../contexts/templates.context";
-import { IPicture } from "../../../interfaces/pictures.interfaces";
-import { ITemplateInfo } from "../../../interfaces/template.interfaces";
-import { getAllPictures } from "../../../services/pictures.services";
-import { deleteProject } from "../../../services/projects.services";
-import {
-  deleteTemplate,
-  getTemplateInfo,
-  postPicsToTemplate,
-} from "../../../services/templates.services";
+import { postPicsToTemplate } from "../../../services/templates.services";
 import LoadingSkeletons from "../../spinners/loadingSkeletons";
 
 const AddPicsToTemplateModal = ({
@@ -53,7 +44,24 @@ const AddPicsToTemplateModal = ({
 
   // const [loadingPics, setLoadingPics] = useState<boolean>(false);
   // const [picturesList, setPicturesList] = useState<IPicture[] | null>([]);
+
+  const assignedPictures = () => {
+    if (
+      templateInfo &&
+      templateInfo.photos &&
+      templateInfo.photos?.length > 0
+    ) {
+      return templateInfo.photos.map((item) => item.id);
+    }
+    return [];
+  };
+
   const [selectedItemsList, setSelectedItemsList] = useState<any>([]);
+
+  useEffect(() => {
+    const assigned = assignedPictures();
+    setSelectedItemsList(assigned);
+  }, [templateInfo?.photos]);
 
   const cancelButtonHandler = () => {
     onClose();
@@ -273,7 +281,7 @@ const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
         // maxW={"200px"}
         // h={"150px"}
         // w={"100%"}
-        border={"1px"}
+        border={handleSelected() === true ? "2px" : "1px"}
         borderColor={
           handleSelected() === true ? "blue.300" : "brand.gray.superLight"
         }
@@ -282,7 +290,7 @@ const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
         position={"relative"}
         _hover={{
           boxShadow: "md",
-          border: "1px",
+          border: "2px",
           borderColor: "blue.300",
         }}
         onClick={() => {
@@ -292,6 +300,7 @@ const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
         <Image
           w={"100%"}
           src={picture.base64Image}
+          opacity={handleSelected() === true ? "60%" : "100%"}
           objectFit="cover"
           alt={picture.name}
           borderRadius={"4px"}

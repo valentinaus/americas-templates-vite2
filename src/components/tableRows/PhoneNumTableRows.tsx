@@ -74,7 +74,7 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
         <Fragment>
           {columnItem.heading === "ApiKey" ? (
             <Td
-              key={indexx}
+              key={columnItem.heading}
               w={"15rem"}
               fontSize="sm"
               color="brand.gray.superDark"

@@ -85,6 +85,11 @@ const AddProjectModal = ({
         "Description cannot contain special caracters"
       ),
 
+    technician: Yup.string().matches(
+      /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
+      "technician cannot contain special caracters"
+    ),
+
     phoneClientId: Yup.string().required("Client phone required"),
     siteId: Yup.string().required("Site required"),
     templateId: Yup.string().required("Template required"),
@@ -94,6 +99,7 @@ const AddProjectModal = ({
     initialValues: {
       name: "",
       description: "",
+      technician: "",
       phoneClientId: "",
       siteId: "",
       templateId: "",
@@ -149,6 +155,27 @@ const AddProjectModal = ({
                 borderColor={"brand.gray.mediumLight"}
               />
               <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl
+              display={"flex"}
+              flexDir={"column"}
+              isInvalid={
+                (formik.errors.technician as any) &&
+                (formik.touched.technician as any)
+              }
+            >
+              <FormLabel fontWeight="medium">Technician</FormLabel>
+              <Input
+                {...formik.getFieldProps("technician")}
+                id="technician"
+                name="technician"
+                placeholder={"Insert project technician"}
+                size="sm"
+                borderRadius="4px"
+                borderColor={"brand.gray.mediumLight"}
+              />
+              <FormErrorMessage>{formik.errors.technician}</FormErrorMessage>
             </FormControl>
 
             <FormControl
