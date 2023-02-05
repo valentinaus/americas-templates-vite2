@@ -1,7 +1,7 @@
 import { SimpleGrid, Skeleton } from "@chakra-ui/react";
 import React, { Fragment } from "react";
 
-const LoadingSkeletons = () => {
+export const LoadingSkeletons = () => {
   return (
     <SimpleGrid w={"100%"} spacing={4} columns={[1, 2, 3, 5, 6]}>
       <Skeleton h={"200px"} borderRadius={"4px"}></Skeleton>
@@ -15,4 +15,15 @@ const LoadingSkeletons = () => {
     </SimpleGrid>
   );
 };
-export default LoadingSkeletons;
+
+export const LoadingRecentProjectSkeletons = () => {
+  return (
+    <SimpleGrid w={"100%"} spacing={4} columns={[1, 2, 3, 5, 6]}>
+      <Skeleton h={"100px"} borderRadius={"4px"} />
+      <Skeleton h={"100px"} borderRadius={"4px"} />
+      <Skeleton h={"100px"} borderRadius={"4px"} />
+      <Skeleton h={"100px"} borderRadius={"4px"} />
+      <Skeleton h={"100px"} borderRadius={"4px"} />
+    </SimpleGrid>
+  );
+};

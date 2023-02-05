@@ -16,6 +16,9 @@ import {
   SimpleGrid,
   Image,
   Tooltip,
+  Card,
+  CardHeader,
+  CardBody,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { Fragment } from "react";
@@ -276,38 +279,89 @@ const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
   };
 
   return (
-    <Tooltip hasArrow label={picture.name}>
-      <Flex
-        // maxW={"200px"}
-        // h={"150px"}
-        // w={"100%"}
-        border={handleSelected() === true ? "2px" : "1px"}
-        borderColor={
-          handleSelected() === true ? "blue.300" : "brand.gray.superLight"
-        }
-        borderRadius={"8px"}
-        boxShadow={handleSelected() === true ? "md" : "sm"}
-        position={"relative"}
-        _hover={{
-          boxShadow: "md",
-          border: "2px",
-          borderColor: "blue.300",
+    <Card
+      maxW="sm"
+      borderRadius={"4px"}
+      border={handleSelected() === true ? "2px" : "1px"}
+      borderColor={
+        handleSelected() === true ? "blue.300" : "brand.gray.superLight"
+      }
+      boxShadow={handleSelected() === true ? "md" : "sm"}
+      _hover={{
+        boxShadow: "md",
+        border: "2px",
+        borderColor: "blue.300",
+      }}
+    >
+      <CardHeader
+        p={0}
+        w={"100%"}
+        h={"100%"}
+        maxH={"10rem"}
+        onClick={() => {
+          handleChange(picture.id);
         }}
+        opacity={handleSelected() === true ? "70%" : "100%"}
+      >
+        <Image
+          src={picture.base64Image}
+          objectFit="cover"
+          h={"100%"}
+          w={"100%"}
+          alt={picture.name}
+          // borderRadius={"4px"}
+        />
+      </CardHeader>
+
+      <CardBody
+        p={"10px"}
         onClick={() => {
           handleChange(picture.id);
         }}
       >
-        <Image
-          w={"100%"}
-          src={picture.base64Image}
-          opacity={handleSelected() === true ? "60%" : "100%"}
-          objectFit="cover"
-          alt={picture.name}
-          borderRadius={"4px"}
-        />
-      </Flex>
-    </Tooltip>
+        <Text
+          fontWeight={"500"}
+          textTransform={"capitalize"}
+          color={"brand.gray.superDark"}
+          noOfLines={1}
+          cursor={"pointer"}
+        >
+          {picture.name}
+        </Text>
+      </CardBody>
+    </Card>
   );
+
+  // return (
+  //   <Tooltip hasArrow label={picture.name}>
+  //     <Flex
+  //       border={handleSelected() === true ? "2px" : "1px"}
+  //       borderColor={
+  //         handleSelected() === true ? "blue.300" : "brand.gray.superLight"
+  //       }
+  //       borderRadius={"8px"}
+  //       boxShadow={handleSelected() === true ? "md" : "sm"}
+  //       position={"relative"}
+  //       _hover={{
+  //         boxShadow: "md",
+  //         border: "2px",
+  //         borderColor: "blue.300",
+  //       }}
+  //       onClick={() => {
+  //         handleChange(picture.id);
+  //       }}
+  //     >
+  //       <Image
+  //         w={"100%"}
+  //         src={picture.base64Image}
+  //         opacity={handleSelected() === true ? "60%" : "100%"}
+  //         objectFit="cover"
+  //         alt={picture.name}
+  //         borderRadius={"4px"}
+  //       />
+  //     </Flex>
+  //   </Tooltip>
+  // );
 };
 
 export default AddPicsToTemplateModal;

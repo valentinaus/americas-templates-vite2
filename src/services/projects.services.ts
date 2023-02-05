@@ -46,3 +46,16 @@ export const deleteProject = async (token: string, projectId: string) => {
   );
   return response;
 };
+
+//dashboard projects info
+
+export const getRecentProjects = async (token: string) => {
+  let config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const response = await axios.get(
+    `${API_URL}/dashboard/recent-projects`,
+    config
+  );
+  return response;
+};

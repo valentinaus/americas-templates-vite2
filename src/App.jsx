@@ -27,8 +27,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<AppLayout />}>
-                {/* <Route path="home" element={<Home />} /> */}
-                <Route path="home" element={<Templates />} />
+                <Route path="home" element={<Home />} />
+                {/* <Route path="home" element={<Templates />} /> */}
                 <Route path="templates" element={<Templates />} />
                 <Route path="pictures" element={<Pictures />} />
                 <Route path="sites" element={<Sites />} />

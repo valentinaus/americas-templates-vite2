@@ -11,8 +11,10 @@ import {
   Button,
   SimpleGrid,
   Text,
-  Tooltip,
   Image,
+  Card,
+  CardHeader,
+  CardBody,
 } from "@chakra-ui/react";
 import React, { Fragment, useContext } from "react";
 import { TemplatesCTX } from "../../../contexts/templates.context";
@@ -29,15 +31,8 @@ const TemplateDetailsModal = ({
   picturesList,
   loadingPics,
 }) => {
-  const {
-    setRefresh,
-    refreshList,
-    selectedTemplate,
-    setSelectedTemplate,
-    templateInfo,
-    setTemplateInfo,
-    loadingInfo,
-  } = useContext(TemplatesCTX);
+  const { setSelectedTemplate, templateInfo, setTemplateInfo, loadingInfo } =
+    useContext(TemplatesCTX);
 
   const cancelButtonHandler = () => {
     onClose();
@@ -154,29 +149,55 @@ const TemplateDetailsModal = ({
 
 const PictureCardTemp = ({ picture }) => {
   return (
-    <Tooltip hasArrow label={picture.name}>
-      <Flex
-        border={"1px"}
-        borderColor={"brand.gray.superLight"}
-        borderRadius={"8px"}
-        boxShadow={"sm"}
-
-        // _hover={{
-        //   boxShadow: "md",
-        //   border: "1px",
-        //   borderColor: "blue.300",
-        // }}
-      >
+    <Card maxW="sm" borderRadius={"4px"}>
+      <CardHeader p={0} w={"100%"} h={"100%"} maxH={"10rem"}>
+        {" "}
         <Image
-          w={"100%"}
           src={picture.base64Image}
           objectFit="cover"
+          h={"100%"}
+          w={"100%"}
           alt={picture.name}
-          borderRadius={"4px"}
+          // borderRadius={"4px"}
         />
-      </Flex>
-    </Tooltip>
+      </CardHeader>
+      <CardBody p={"10px"}>
+        <Text
+          fontWeight={"500"}
+          textTransform={"capitalize"}
+          color={"brand.gray.superDark"}
+          noOfLines={1}
+          cursor={"pointer"}
+        >
+          {picture.name}
+        </Text>
+      </CardBody>
+    </Card>
   );
+  // return (
+  //   <Tooltip hasArrow label={picture.name}>
+  //     <Flex
+  //       border={"1px"}
+  //       borderColor={"brand.gray.superLight"}
+  //       borderRadius={"8px"}
+  //       boxShadow={"sm"}
+
+  //       // _hover={{
+  //       //   boxShadow: "md",
+  //       //   border: "1px",
+  //       //   borderColor: "blue.300",
+  //       // }}
+  //     >
+  //       <Image
+  //         w={"100%"}
+  //         src={picture.base64Image}
+  //         objectFit="cover"
+  //         alt={picture.name}
+  //         borderRadius={"4px"}
+  //       />
+  //     </Flex>
+  //   </Tooltip>
+  // );
 };
 
 export default TemplateDetailsModal;
