@@ -19,12 +19,22 @@ import {
   Card,
   CardHeader,
   CardBody,
+  Icon,
+  IconButton,
 } from "@chakra-ui/react";
+import types from "@emotion/styled";
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/solid";
 import React, { useContext, useEffect, useState } from "react";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { TemplatesCTX } from "../../../contexts/templates.context";
 import { postPicsToTemplate } from "../../../services/templates.services";
+import SearchBar from "../../searchBar/SearchBar";
 
 const AddPicsToTemplateModal = ({
   isOpen,
@@ -43,9 +53,8 @@ const AddPicsToTemplateModal = ({
     setTemplateInfo,
     loadingInfo,
   } = useContext(TemplatesCTX);
-
-  // const [loadingPics, setLoadingPics] = useState<boolean>(false);
-  // const [picturesList, setPicturesList] = useState<IPicture[] | null>([]);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [selectedItemsList, setSelectedItemsList] = useState<any>([]);
 
   const assignedPictures = () => {
     if (
@@ -57,8 +66,6 @@ const AddPicsToTemplateModal = ({
     }
     return [];
   };
-
-  const [selectedItemsList, setSelectedItemsList] = useState<any>([]);
 
   useEffect(() => {
     const assigned = assignedPictures();
@@ -80,6 +87,10 @@ const AddPicsToTemplateModal = ({
       updateList.push(item);
     }
     setSelectedItemsList(updateList);
+  };
+
+  const onSearchValueChange = (event: any) => {
+    setSearchValue(event.target.value);
   };
 
   const submitAddPicsToTemplate = async () => {
@@ -135,10 +146,6 @@ const AddPicsToTemplateModal = ({
               {templateInfo && (
                 <Flex flexDir={"column"}>
                   <TemplateText title={"Name:"} text={templateInfo.name} />
-                  <TemplateText
-                    title={"Description:"}
-                    text={templateInfo.description}
-                  />
                 </Flex>
               )}
 
@@ -146,7 +153,7 @@ const AddPicsToTemplateModal = ({
                 fontWeight={600}
                 fontSize={"sm"}
                 color={"brand.gray.superDark"}
-                mt={2}
+                my={2}
               >
                 Select pictures to complete the template:
               </Text>
@@ -156,40 +163,47 @@ const AddPicsToTemplateModal = ({
                   <LoadingPicsSkeletons />
                 </Flex>
               ) : (
-                <SimpleGrid
-                  columns={[1, 2, 3, 4]}
-                  border={"1px"}
-                  borderColor={"brand.gray.superLight"}
-                  p={4}
-                  mt={2}
-                  borderRadius={"8px"}
-                  w={"100%"}
-                  spacing={4}
-                  maxH={"22rem"}
-                  overflowY={"scroll"}
-                  scrollBehavior="auto"
-                  sx={{
-                    "&::-webkit-scrollbar": {
-                      width: "10px",
-                      borderRadius: "8px",
-                      backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                      backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                    },
-                  }}
-                  // templateColumns="repeat(auto-fill, minmax(100px, 1fr))"
-                >
-                  {picturesList &&
-                    picturesList.map((item, index) => (
-                      <PictureCardTemp
-                        key={index}
-                        picture={item}
-                        handleChange={handleChange}
-                        selectedItemsList={selectedItemsList}
-                      />
-                    ))}{" "}
-                </SimpleGrid>
+                <Fragment>
+                  <SearchBar
+                    placeHolderText="Search for a picture"
+                    onSearchValueChange={onSearchValueChange}
+                  />
+                  <SimpleGrid
+                    columns={[1, 2, 3, 4]}
+                    border={"1px"}
+                    borderColor={"brand.gray.superLight"}
+                    p={4}
+                    mt={2}
+                    borderRadius={"8px"}
+                    w={"100%"}
+                    spacing={4}
+                    maxH={"22rem"}
+                    overflowY={"scroll"}
+                    scrollBehavior="auto"
+                    sx={{
+                      "&::-webkit-scrollbar": {
+                        width: "10px",
+                        borderRadius: "8px",
+                        backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                      },
+                    }}
+                    // templateColumns="repeat(auto-fill, minmax(100px, 1fr))"
+                  >
+                    {picturesList &&
+                      picturesList.map((item, index) => (
+                        <PictureCardTemp
+                          key={index}
+                          picture={item}
+                          handleChange={handleChange}
+                          selectedItemsList={selectedItemsList}
+                        />
+                      ))}{" "}
+                  </SimpleGrid>
+                  <PaginationComponent />
+                </Fragment>
               )}
             </Fragment>
           )}
@@ -361,6 +375,146 @@ const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
   //     </Flex>
   //   </Tooltip>
   // );
+};
+
+const PaginationComponent = ({ currentPage, totalPages }) => {
+  return (
+    <Flex
+      w={"100%"}
+      mt={4}
+      justifyContent={"space-between"}
+      alignItems={"center"}
+    >
+      <Text fontSize={"sm"}>{`${1} of 123 pages`}</Text>
+      <Flex>
+        <Tooltip label={"Start"}>
+          <IconButton
+            size={"sm"}
+            mr={2}
+            icon={<Icon as={ChevronDoubleLeftIcon} w={"5"} h={"5"} />}
+            fontSize="sm"
+            bg="brand.primary.mediumLight"
+            // border={"1px"}
+            // borderColor={"brand.primary.medium"}
+            color={"blue.500"}
+            variant="solid"
+            fontWeight="medium"
+            onClick={() => {
+              // dispatch({ type: types.goStart });
+            }}
+            _hover={{
+              bg: "brand.primary.mediumLight",
+            }}
+            _active={{
+              background: "brand.primary.mediumLight",
+            }}
+            // disabled={paginationInfo && pageCounter === 0 ? true : false}
+            aria-label={""}
+          />
+        </Tooltip>
+
+        <Tooltip label={"Previous"}>
+          <IconButton
+            size={"sm"}
+            icon={<Icon as={ChevronLeftIcon} w={"5"} h={"5"} />}
+            fontSize="sm"
+            bg="brand.primary.mediumLight"
+            // border={"1px"}
+            // borderColor={"brand.primary.medium"}
+            color={"blue.500"}
+            variant="solid"
+            fontWeight="medium"
+            onClick={() => {
+              //      onClick={() => {
+              //   // dispatch({ type: types.decrement });
+              // }}
+            }}
+            _hover={{
+              bg: "brand.primary.mediumLight",
+            }}
+            _active={{
+              background: "brand.primary.mediumLight",
+            }}
+            // disabled={paginationInfo && pageCounter === 0 ? true : false}
+            aria-label={""}
+          />
+        </Tooltip>
+
+        <Center
+          borderRadius={"4px"}
+          bg={"white"}
+          mx={2}
+          px={2}
+          color={"blue.500"}
+          fontWeight={"medium"}
+        >
+          {/* {pageCounter + 1} */}
+          {"1"}
+        </Center>
+
+        <Tooltip label={"Next"}>
+          <IconButton
+            size={"sm"}
+            icon={<Icon as={ChevronRightIcon} w={"5"} h={"5"} />}
+            fontSize="sm"
+            bg="brand.primary.mediumLight"
+            // border={"1px"}
+            // borderColor={"brand.primary.medium"}
+            color={"blue.500"}
+            variant="solid"
+            fontWeight="medium"
+            onClick={() => {
+              // dispatch({ type: types.increment });
+            }}
+            _hover={{
+              bg: "brand.primary.mediumLight",
+            }}
+            _active={{
+              background: "brand.primary.mediumLight",
+            }}
+            // disabled={
+            //   paginationInfo &&
+            //   pageCounter === paginationInfo.totalPages
+            //     ? true
+            //     : false
+            // }
+            aria-label={""}
+          />
+        </Tooltip>
+
+        <Tooltip label={"End"}>
+          <IconButton
+            size={"sm"}
+            ml={2}
+            icon={<Icon as={ChevronDoubleRightIcon} w={"5"} h={"5"} />}
+            fontSize="sm"
+            // border={"1px"}
+            // borderColor={"brand.primary.medium"}
+            bg="brand.primary.mediumLight"
+            color={"blue.500"}
+            variant="solid"
+            fontWeight="medium"
+            onClick={() => {
+              // dispatch({ type: types.goEnd });
+            }}
+            _hover={{
+              bg: "brand.primary.mediumLight",
+            }}
+            _active={{
+              background: "brand.primary.mediumLight",
+            }}
+            // disabled={
+            //   paginationInfo &&
+            //   pageCounter === paginationInfo.totalPages
+            //     ? true
+            //     : false
+            // }
+            aria-label={""}
+          />
+        </Tooltip>
+      </Flex>
+    </Flex>
+  );
 };
 
 export default AddPicsToTemplateModal;

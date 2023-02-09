@@ -1,11 +1,18 @@
 import axios from "axios";
 const API_URL = "http://amc-api.americasrf.com/api";
 
-export const getAllPictures = async (token: string) => {
+export const getAllPictures = async (
+  token: string,
+  currentPage?: number,
+  searchedName?: string
+) => {
   let config = {
     headers: { Authorization: `Bearer ${token}` },
   };
-  const response = await axios.get(`${API_URL}/photo/get-all`, config);
+  const response = await axios.get(
+    `${API_URL}/photo/get-all/?pageNumber=${currentPage}&name=${searchedName}`,
+    config
+  );
   return response;
 };
 

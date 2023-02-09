@@ -28,6 +28,13 @@ const tableColumns = [
   // { heading: "longitude", value: "longitude" },
 ];
 
+// export interface paginationI {
+//   totalPages: number | string | any;
+//   pageNumber: number;
+//   pageSize: number;
+//   name: string;
+// }
+
 const Templates = () => {
   const { user } = useSelector((state: any) => state.auth);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -39,6 +46,9 @@ const Templates = () => {
   const [loadingInfo, setLoadingInfo] = useState<boolean>(false);
   const [loadingPics, setLoadingPics] = useState<boolean>(false);
   const [picturesList, setPicturesList] = useState<IPicture[] | null>([]);
+
+  const [currentPage, setCurrentPage] = useState<number>(0);
+
   const {
     isOpen: isOpenAddTemplate,
     onOpen: onOpenAddTemplate,
