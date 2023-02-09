@@ -23,6 +23,8 @@ const Home = () => {
   const [recentProjectsList, setRecentProjectsList] = useState<
     IRecentProject[] | null
   >([]);
+  const [itemSelected, setItemSelected] = useState<IRecentProject | null>(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,18 +55,20 @@ const Home = () => {
               {`Check your recent proyects in here.`}
             </Text>
           </Flex>
-          <IconCButton
+          {/* <IconCButton
             text={"Manage all projects"}
             icon={<Icon as={ClipboardIcon} w={4} h={4} />}
             onClick={() => {
               navigate("/projects");
             }}
-          />
+          /> */}
         </Flex>
         <Divider my={4} />
         <ProjectsDashboard
           isloading={isLoading}
           recentProjectsList={recentProjectsList}
+          itemSelected={itemSelected}
+          setItemSelected={setItemSelected}
         />
       </Flex>
     </Fragment>

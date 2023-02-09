@@ -21,9 +21,9 @@ import React, { Fragment, useContext, useState } from "react";
 import { PIcturesCTX } from "../../contexts/pictures.context";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
 
-import LoadingSkeletons from "../spinners/loadingSkeletons";
 import PictureModal from "./PictureModal";
 import EmptyTable from "../emptyStates/EmptyTable";
+import { LoadingSkeletons } from "../spinners/loadingSkeletons";
 
 const PicturesShower = () => {
   const { picturesList, isLoading, selectedPicture } = useContext(PIcturesCTX);
@@ -81,12 +81,10 @@ const PictureCard = ({
   return (
     <Card maxW="sm" borderRadius={"4px"}>
       <CardHeader
-        bg={"red.200"}
         p={0}
         w={"100%"}
         h={"100%"}
         maxH={"10rem"}
-        // borderRadius={"4px"}
         onClick={(e) => {
           setSelectedPicture(picture);
           e.preventDefault();

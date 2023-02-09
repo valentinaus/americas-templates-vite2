@@ -47,7 +47,6 @@ const UpdateUserModal = ({ isOpen, onClose }) => {
         clientId: "test",
       };
 
-      console.log(obj);
       try {
         setIsLoading(true);
         const response = await editUser(user.token, selectedUser.id, obj);

@@ -25,7 +25,6 @@ import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { TemplatesCTX } from "../../../contexts/templates.context";
 import { postPicsToTemplate } from "../../../services/templates.services";
-import LoadingSkeletons from "../../spinners/loadingSkeletons";
 
 const AddPicsToTemplateModal = ({
   isOpen,
