@@ -19,10 +19,6 @@ import ClientPhoneNumber from "./pages/clientPhoneNumber.pages";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 
 function App() {
-  window.onbeforeunload = function () {
-    localStorage.removeItem("user");
-  };
-
   return (
     <ChakraProvider theme={theme}>
       <Provider store={store}>
