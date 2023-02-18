@@ -60,28 +60,19 @@ const AddPicsModal = ({ isOpen, onClose }) => {
           // console.log("it upload", binaryStr);
         };
 
-        filesRejections.forEach((file) => {
-          file.forEach((err) => {
-            if (err.code === "file-too-large") {
-              setErrors(`Error: ${err.message}`);
-            }
-          });
-        });
+        // filesRejections.forEach((file) => {
+        //   file.forEach((err) => {
+        //     if (err.code === "file-too-large") {
+        //       setErrors(`Error: ${err.message}`);
+        //     }
+        //   });
+        // });
 
         reader.readAsDataURL(file);
       });
     },
     [myfiles]
   );
-
-  // const maxFileSize = (file) => {
-  //   if (file.size > MAX_SIZE) {
-  //     return {
-  //       code: "file-too-large",
-  //       message: `file is larger than ${MAX_SIZE}`,
-  //     };
-  //   }
-  // };
 
   const {
     getRootProps,

@@ -71,7 +71,7 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
         />
       </Td> */}
       {tableColumns.map((columnItem, indexx) => (
-        <Fragment>
+        <Fragment key={columnItem.heading}>
           {columnItem.heading === "ApiKey" ? (
             <Td
               key={columnItem.heading}

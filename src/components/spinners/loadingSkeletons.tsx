@@ -18,12 +18,12 @@ export const LoadingSkeletons = () => {
 
 export const LoadingRecentProjectSkeletons = () => {
   return (
-    <SimpleGrid w={"100%"} spacing={4} columns={[1, 2, 3, 5, 6]}>
-      <Skeleton h={"100px"} borderRadius={"4px"} />
-      <Skeleton h={"100px"} borderRadius={"4px"} />
-      <Skeleton h={"100px"} borderRadius={"4px"} />
-      <Skeleton h={"100px"} borderRadius={"4px"} />
-      <Skeleton h={"100px"} borderRadius={"4px"} />
+    <SimpleGrid w={"100%"} spacing={4} columns={[1, 2, 3, 3, 5, 5]}>
+      <Skeleton h={"140px"} borderRadius={"4px"} />
+      <Skeleton h={"140px"} borderRadius={"4px"} />
+      <Skeleton h={"140px"} borderRadius={"4px"} />
+      <Skeleton h={"140px"} borderRadius={"4px"} />
+      {/* <Skeleton h={"140px"} borderRadius={"4px"} /> */}
     </SimpleGrid>
   );
 };

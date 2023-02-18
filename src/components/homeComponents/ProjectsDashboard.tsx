@@ -4,15 +4,21 @@ import {
   CardHeader,
   Divider,
   Flex,
+  Icon,
   SimpleGrid,
   Text,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
+import {
+  DotsVerticalIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/solid";
 import { Dispatch } from "@reduxjs/toolkit";
 import React, { SetStateAction } from "react";
 import { Fragment } from "react";
 import { IRecentProject } from "../../interfaces/projects.interfaces";
+import EmptyTable from "../emptyStates/EmptyTable";
 import MoreProjectDetailsModal from "../modals/homeModals/MoreProjectDetailsModal";
 import { LoadingRecentProjectSkeletons } from "../spinners/loadingSkeletons";
 
@@ -38,10 +44,11 @@ const ProjectsDashboard = ({
       ) : (
         <Fragment>
           {recentProjectsList && recentProjectsList.length > 0 ? (
-            <SimpleGrid w={"100%"} spacing={4} columns={[1, 2, 3, 5, 6]}>
+            <SimpleGrid w={"100%"} spacing={4} columns={[1, 2, 3, 3, 5, 5]}>
               {recentProjectsList &&
                 recentProjectsList.map((item) => (
                   <ProjectCard
+                    key={item.id}
                     project={item}
                     onOpen={onOpen}
                     setItemSelected={setItemSelected}
@@ -49,7 +56,7 @@ const ProjectsDashboard = ({
                 ))}
             </SimpleGrid>
           ) : (
-            <></>
+            <EmptyTable emptyTitle={"There are no project created."} />
           )}
         </Fragment>
       )}
@@ -84,8 +91,12 @@ const ProjectCard = ({ project, onOpen, setItemSelected }: projectCardI) => {
         <CardHeader
           bg={"blue.300"}
           p={4}
+          pb={2}
           borderRadius={"6px 6px 0 0"}
           cursor={"pointer"}
+          h={"80px"}
+          display={"flex"}
+          alignItems={"flex-end"}
         >
           <Text fontWeight={"600"} color={"white"} textTransform={"capitalize"}>
             {project.name}
@@ -93,9 +104,12 @@ const ProjectCard = ({ project, onOpen, setItemSelected }: projectCardI) => {
         </CardHeader>
         <CardBody
           fontSize={"sm"}
+          px={4}
           p={2}
           color={"brand.gray.dark"}
           cursor={"pointer"}
+          display={"flex"}
+          justifyContent={"space-between"}
         >
           <Flex flexDir={"column"}>
             <Text fontSize={"12px"} color={"brand.gray.mediumLight"}>
@@ -104,6 +118,15 @@ const ProjectCard = ({ project, onOpen, setItemSelected }: projectCardI) => {
             <Text fontWeight={"500"} color={"brand.gray.superDark"}>
               {project.siteName}
             </Text>
+          </Flex>
+
+          <Flex py={2}>
+            <Icon
+              as={InformationCircleIcon}
+              w={4}
+              h={4}
+              color={"brand.gray.dark"}
+            />
           </Flex>
         </CardBody>
       </Card>

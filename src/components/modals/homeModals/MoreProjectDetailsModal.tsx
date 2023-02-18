@@ -42,9 +42,16 @@ const MoreProjectDetailsModal = ({
       <ModalContent>
         <ModalHeader color={"brand.gray.dark"}>Project Details</ModalHeader>
         <ModalCloseButton />
-        <Divider />
+
         <ModalBody>
-          <VStack display={"flex"} alignItems={"flex-start"}>
+          <VStack
+            display={"flex"}
+            alignItems={"flex-start"}
+            borderRadius={"8px"}
+            border={"1px"}
+            borderColor="gray.200"
+            p={4}
+          >
             {projectSelected && (
               <>
                 <Flex alignItems={"center"} gap={"16px"}>
@@ -90,7 +97,7 @@ const MoreProjectDetailsModal = ({
             )}
           </VStack>
         </ModalBody>
-        <Divider />
+
         <ModalFooter>
           <Button colorScheme="blue" size={"sm"} onClick={handleOnClose}>
             Close
