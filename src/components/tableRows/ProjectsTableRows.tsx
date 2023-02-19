@@ -102,6 +102,10 @@ const TableRow = ({
                 <Fragment>
                   {findItemsNames(item[`${columnItem.value}`], templatesList)}
                 </Fragment>
+              ) :columnItem.heading === "project status" ? (
+                <Fragment>
+                  {item[`${columnItem.value}`] === true ? "Finished":"Active"}
+                </Fragment>
               ) : (
                 <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
               )}

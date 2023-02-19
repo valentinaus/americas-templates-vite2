@@ -26,6 +26,7 @@ const tableColumns = [
   { heading: "client phone", value: "phoneClientId" },
   { heading: "site", value: "siteId" },
   { heading: "template", value: "templateId" },
+  {heading: "project status", value: "isFinished"}
 ];
 
 const Projects = () => {
