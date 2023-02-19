@@ -47,6 +47,17 @@ export const deleteProject = async (token: string, projectId: string) => {
   return response;
 };
 
+export const changeProjectStatus = async (token: string, projectId: string) => {
+  let config = {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+  };
+  const response = await axios.put(
+    `${API_URL}/project/${projectId}/change-status`, null,
+    config
+  );
+  return response;
+};
+
 //dashboard projects info
 
 export const getRecentProjects = async (token: string) => {

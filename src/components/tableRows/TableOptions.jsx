@@ -1,5 +1,5 @@
 import React from "react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon, SpinnerIcon } from "@chakra-ui/icons";
 import { Flex, Tooltip, Text, IconButton } from "@chakra-ui/react";
 
 const TableOptions = ({
@@ -7,9 +7,39 @@ const TableOptions = ({
   deleteLabel,
   onClickEdit,
   onClickDelete,
+  onClickChangeStatus = onClickDelete,
+  showChangeStatusOption = false,
 }) => {
   return (
-    <Flex w={"5rem"} h={5} justifyContent={"center"} alignItems={"center"}>
+    <Flex
+      w={"5rem"}
+      h={5}
+      justifyContent={"center"}
+      alignItems={"center"}
+      gap={"8px"}
+    >
+      {showChangeStatusOption ? (
+        <Tooltip
+          label={"Change status"}
+          fontSize={"13px"}
+          // bg={"brand.primary.dark"}
+          color={"white"}
+        >
+          <IconButton
+            aria-label=""
+            size={"sm"}
+            _hover={{
+              color: "brand.primary.hover",
+            }}
+            _active={{
+              color: "brand.primary.active",
+            }}
+            icon={<SpinnerIcon />}
+            color={"brand.gray.dark"}
+            onClick={onClickChangeStatus}
+          />
+        </Tooltip>
+      ) : null}
       <Tooltip
         label={editLabel}
         fontSize={"13px"}
@@ -36,7 +66,7 @@ const TableOptions = ({
         color={"white"}
       >
         <IconButton
-          ml={2}
+          //ml={2}
           size={"sm"}
           _hover={{
             color: "brand.red.medium",

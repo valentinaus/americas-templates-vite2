@@ -13,6 +13,7 @@ export interface IProjectCTX {
 
   onOpenEditModal: any;
   onOpenDeleteModal: any;
+  onOpenChangeStatusModal: any;
 }
 
 export const initialProjectCTX: IProjectCTX = {
@@ -20,13 +21,14 @@ export const initialProjectCTX: IProjectCTX = {
   selectedProject: null,
   refreshList: false,
   isLoading: false,
-  setProjectsList: (payload: []) => {},
-  setSelectedProject: (obj: any) => {},
-  setRefresh: () => {},
-  setIsLoading: () => {},
+  setProjectsList: (payload: []) => { },
+  setSelectedProject: (obj: any) => { },
+  setRefresh: () => { },
+  setIsLoading: () => { },
 
-  onOpenEditModal: () => {},
-  onOpenDeleteModal: () => {},
+  onOpenEditModal: () => { },
+  onOpenDeleteModal: () => { },
+  onOpenChangeStatusModal: () => { },
 };
 
 export const ProjectsCTX = createContext(initialProjectCTX);

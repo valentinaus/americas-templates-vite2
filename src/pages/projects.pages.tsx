@@ -3,6 +3,7 @@ import { DocumentAddIcon, UserAddIcon } from "@heroicons/react/solid";
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AddProjectModal from "../components/modals/projectsModals/AddProjectModal";
+import ChangeProjectStatusModal from "../components/modals/projectsModals/ChangeProjectStatusModal";
 import DeleteProjectModal from "../components/modals/projectsModals/DeleteProjectModal";
 import UpdateProjectModal from "../components/modals/projectsModals/UpdateProjectModal";
 import ProjectsTableRows from "../components/tableRows/ProjectsTableRows";
@@ -58,6 +59,12 @@ const Projects = () => {
     onClose: onCloseDeleteProject,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenChangeStatusProject,
+    onOpen: onOpenChangeStatusProject,
+    onClose: onCloseChangeStatusProject,
+  } = useDisclosure();
+
   const componentCTX: IProjectCTX = {
     projectsList: projectsList,
     selectedProject: itemSelected,
@@ -69,6 +76,7 @@ const Projects = () => {
     setIsLoading: setIsLoading,
     onOpenEditModal: onOpenEditProject,
     onOpenDeleteModal: onOpenDeleteProject,
+    onOpenChangeStatusModal: onOpenChangeStatusProject,
   };
 
   useEffect(() => {
@@ -175,6 +183,12 @@ const Projects = () => {
           isOpen={isOpenDeleteProject}
           onClose={onCloseDeleteProject}
         />
+
+        <ChangeProjectStatusModal
+          isOpen={isOpenChangeStatusProject}
+          onClose={onCloseChangeStatusProject}
+        />
+
       </ProjectsCTX.Provider>
     </Fragment>
   );

@@ -1,4 +1,5 @@
-import { Checkbox, Tbody, Td, Tr, Text } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
+import { Checkbox, Tbody, Td, Tr, Text, Tooltip, IconButton } from "@chakra-ui/react";
 import React from "react";
 import { Fragment } from "react";
 import { useContext } from "react";
@@ -42,7 +43,7 @@ const TableRow = ({
   phoneNumberList,
   templatesList,
 }) => {
-  const { onOpenDeleteModal, onOpenEditModal } = useContext(ProjectsCTX);
+  const { onOpenDeleteModal, onOpenEditModal, onOpenChangeStatusModal } = useContext(ProjectsCTX);
 
   const findItemsNames = (itemId, list) => {
     const itemFound = list.find((item) => {
@@ -114,12 +115,16 @@ const TableRow = ({
         </Td>
       ))}
 
+
       <Td display={"flex"} justifyContent={"flex-end"}>
+      
         <TableOptions
           editLabel={"Edit Project"}
           deleteLabel={"Delete Project"}
           onClickEdit={onOpenEditModal}
           onClickDelete={onOpenDeleteModal}
+          onClickChangeStatus={onOpenChangeStatusModal}
+          showChangeStatusOption={true}
         />
       </Td>
     </Tr>
