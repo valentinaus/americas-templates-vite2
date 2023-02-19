@@ -1,5 +1,6 @@
 import React, { createContext, Dispatch, SetStateAction } from "react";
 import { ITemplate, ITemplateInfo } from "../interfaces/template.interfaces";
+import { paginationI } from "../pages/pictures.pages";
 
 export interface ITemplateCTX {
   templatesList: ITemplate[] | null;
@@ -14,6 +15,9 @@ export interface ITemplateCTX {
   setRefresh: Dispatch<SetStateAction<boolean>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setLoadingInfo: Dispatch<SetStateAction<boolean>>;
+
+  picturesPaginationInfo: paginationI | null;
+  setPicturesPaginationInfo: Dispatch<SetStateAction<paginationI>>;
 
   onOpenEditModal: any;
   onOpenDeleteModal: any;
@@ -34,6 +38,10 @@ export const initialTemplateCTX: ITemplateCTX = {
   setRefresh: () => {},
   setIsLoading: () => {},
   setLoadingInfo: () => {},
+
+  picturesPaginationInfo: null,
+  setPicturesPaginationInfo: () => {},
+
   onOpenEditModal: () => {},
   onOpenDeleteModal: () => {},
   onOpenAddPicsModal: () => {},

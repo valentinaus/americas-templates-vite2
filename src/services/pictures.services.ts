@@ -4,15 +4,18 @@ const API_URL = "http://amc-api.americasrf.com/api";
 export const getAllPictures = async (
   token: string,
   currentPage?: number,
-  searchedName?: string
+  pageSize?: number,
+  searchedName?: string | null
 ) => {
   let config = {
     headers: { Authorization: `Bearer ${token}` },
   };
+
   const response = await axios.get(
-    `${API_URL}/photo/get-all/?pageNumber=${currentPage}&name=${searchedName}`,
+    `${API_URL}/photo/get-all/?pageNumber=${currentPage}&pageSize=${pageSize}&name=${searchedName}`,
     config
   );
+
   return response;
 };
 

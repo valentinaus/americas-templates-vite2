@@ -1,5 +1,6 @@
 import React, { createContext, Dispatch, SetStateAction } from "react";
 import { IPicture } from "../interfaces/pictures.interfaces";
+import { paginationI } from "../pages/pictures.pages";
 
 export interface IPictureCTX {
   picturesList: IPicture[] | null;
@@ -10,6 +11,9 @@ export interface IPictureCTX {
   setSelectedPicture: (obj: IPicture | null) => void;
   setRefresh: Dispatch<SetStateAction<boolean>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+
+  paginationInfo: paginationI | null;
+  setPaginationInfo: Dispatch<SetStateAction<paginationI | null>>;
 
   onOpenEditModal: any;
   onOpenDeleteModal: any;
@@ -24,6 +28,9 @@ export const initialPicturesCTX: IPictureCTX = {
   setSelectedPicture: (obj: any) => {},
   setRefresh: () => {},
   setIsLoading: () => {},
+
+  paginationInfo: null,
+  setPaginationInfo: () => {},
 
   onOpenEditModal: () => {},
   onOpenDeleteModal: () => {},

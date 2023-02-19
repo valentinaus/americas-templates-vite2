@@ -40,7 +40,8 @@ const PicturesShower = () => {
             <SimpleGrid
               w={"100%"}
               spacing={4}
-              columns={[1, 2, 3, 5, 6]}
+              columns={[1, 2, 3, 4, 5, 6]}
+
               // templateColumns="repeat(auto-fill, minmax(150px, 1fr))"
             >
               {picturesList.map((item, index) => (

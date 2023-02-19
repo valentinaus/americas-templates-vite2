@@ -33,7 +33,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { TemplatesCTX } from "../../../contexts/templates.context";
+import { paginationI } from "../../../pages/pictures.pages";
 import { postPicsToTemplate } from "../../../services/templates.services";
+import PaginationComponent from "../../PaginationComponent";
 import SearchBar from "../../searchBar/SearchBar";
 
 const AddPicsToTemplateModal = ({
@@ -41,6 +43,8 @@ const AddPicsToTemplateModal = ({
   onClose,
   picturesList,
   loadingPics,
+  setSearchValue,
+  searchValue,
 }) => {
   const toast = useToast();
   const { user } = useSelector((state: any) => state.auth);
@@ -52,8 +56,10 @@ const AddPicsToTemplateModal = ({
     templateInfo,
     setTemplateInfo,
     loadingInfo,
+    picturesPaginationInfo,
+    setPicturesPaginationInfo,
   } = useContext(TemplatesCTX);
-  const [searchValue, setSearchValue] = useState<string>("");
+
   const [selectedItemsList, setSelectedItemsList] = useState<any>([]);
 
   const assignedPictures = () => {
@@ -77,6 +83,7 @@ const AddPicsToTemplateModal = ({
     setSelectedTemplate(null);
     setSelectedItemsList([]);
     setTemplateInfo(null);
+    handleNoSearch();
   };
 
   const handleChange = (item: any) => {
@@ -101,7 +108,7 @@ const AddPicsToTemplateModal = ({
           selectedItemsList,
           selectedTemplate.id
         );
-        console.log(response);
+
         onClose();
         setRefresh(!refreshList);
         setSelectedTemplate(null);
@@ -114,6 +121,7 @@ const AddPicsToTemplateModal = ({
           duration: 3000,
           isClosable: true,
         });
+        handleNoSearch();
       } catch (error) {
         console.log(error);
         toast({
@@ -125,6 +133,27 @@ const AddPicsToTemplateModal = ({
         });
       }
     }
+  };
+
+  const handleEnterSearch = (e: any) => {
+    if (e.key === "Enter") {
+      handleSearch(searchValue);
+    }
+  };
+
+  const handleSearch = (value: string) => {
+    setPicturesPaginationInfo((prevState: any) => {
+      return { ...prevState, name: value, currentPage: 1 };
+    });
+  };
+
+  const handleNoSearch = () => {
+    setSearchValue(() => {
+      setPicturesPaginationInfo((prevState: any) => {
+        return { ...prevState, currentPage: 1, name: "" };
+      });
+      return "";
+    });
   };
 
   return (
@@ -144,32 +173,25 @@ const AddPicsToTemplateModal = ({
           ) : (
             <Fragment>
               {templateInfo && (
-                <Flex flexDir={"column"}>
+                <Flex flexDir={"column"} mb={2}>
                   <TemplateText title={"Name:"} text={templateInfo.name} />
                 </Flex>
               )}
-
-              <Text
-                fontWeight={600}
-                fontSize={"sm"}
-                color={"brand.gray.superDark"}
-                my={2}
-              >
-                Select pictures to complete the template:
-              </Text>
-
+              <SearchBar
+                placeHolderText="Search for a picture"
+                onSearchValueChange={onSearchValueChange}
+                searchValue={searchValue}
+                handleEnterSearch={handleEnterSearch}
+                handleNoSearch={handleNoSearch}
+              />
               {loadingPics ? (
                 <Flex w={"100%"}>
                   <LoadingPicsSkeletons />
                 </Flex>
               ) : (
                 <Fragment>
-                  <SearchBar
-                    placeHolderText="Search for a picture"
-                    onSearchValueChange={onSearchValueChange}
-                  />
                   <SimpleGrid
-                    columns={[1, 2, 3, 4]}
+                    columns={[1, 2, 3, 4, 5]}
                     border={"1px"}
                     borderColor={"brand.gray.superLight"}
                     p={4}
@@ -177,7 +199,8 @@ const AddPicsToTemplateModal = ({
                     borderRadius={"8px"}
                     w={"100%"}
                     spacing={4}
-                    maxH={"22rem"}
+                    maxH={"18rem"}
+                    minH={"18rem"}
                     overflowY={"scroll"}
                     scrollBehavior="auto"
                     sx={{
@@ -202,7 +225,10 @@ const AddPicsToTemplateModal = ({
                         />
                       ))}{" "}
                   </SimpleGrid>
-                  <PaginationComponent />
+                  <PaginationComponent
+                    paginationInfo={picturesPaginationInfo}
+                    setPaginationInfo={setPicturesPaginationInfo}
+                  />
                 </Fragment>
               )}
             </Fragment>
@@ -273,9 +299,10 @@ export const LoadingPicsSkeletons = () => (
     mt={2}
     borderRadius={"8px"}
     gap={"8px"}
-    columns={[1, 2, 3, 4]}
+    columns={[1, 2, 3, 4, 5]}
     h={"20rem"}
   >
+    <Skeleton h={"200px"} />
     <Skeleton h={"200px"} />
     <Skeleton h={"200px"} />
     <Skeleton h={"200px"} />
@@ -376,145 +403,4 @@ const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
   //   </Tooltip>
   // );
 };
-
-const PaginationComponent = ({ currentPage, totalPages }) => {
-  return (
-    <Flex
-      w={"100%"}
-      mt={4}
-      justifyContent={"space-between"}
-      alignItems={"center"}
-    >
-      <Text fontSize={"sm"}>{`${1} of 123 pages`}</Text>
-      <Flex>
-        <Tooltip label={"Start"}>
-          <IconButton
-            size={"sm"}
-            mr={2}
-            icon={<Icon as={ChevronDoubleLeftIcon} w={"5"} h={"5"} />}
-            fontSize="sm"
-            bg="brand.primary.mediumLight"
-            // border={"1px"}
-            // borderColor={"brand.primary.medium"}
-            color={"blue.500"}
-            variant="solid"
-            fontWeight="medium"
-            onClick={() => {
-              // dispatch({ type: types.goStart });
-            }}
-            _hover={{
-              bg: "brand.primary.mediumLight",
-            }}
-            _active={{
-              background: "brand.primary.mediumLight",
-            }}
-            // disabled={paginationInfo && pageCounter === 0 ? true : false}
-            aria-label={""}
-          />
-        </Tooltip>
-
-        <Tooltip label={"Previous"}>
-          <IconButton
-            size={"sm"}
-            icon={<Icon as={ChevronLeftIcon} w={"5"} h={"5"} />}
-            fontSize="sm"
-            bg="brand.primary.mediumLight"
-            // border={"1px"}
-            // borderColor={"brand.primary.medium"}
-            color={"blue.500"}
-            variant="solid"
-            fontWeight="medium"
-            onClick={() => {
-              //      onClick={() => {
-              //   // dispatch({ type: types.decrement });
-              // }}
-            }}
-            _hover={{
-              bg: "brand.primary.mediumLight",
-            }}
-            _active={{
-              background: "brand.primary.mediumLight",
-            }}
-            // disabled={paginationInfo && pageCounter === 0 ? true : false}
-            aria-label={""}
-          />
-        </Tooltip>
-
-        <Center
-          borderRadius={"4px"}
-          bg={"white"}
-          mx={2}
-          px={2}
-          color={"blue.500"}
-          fontWeight={"medium"}
-        >
-          {/* {pageCounter + 1} */}
-          {"1"}
-        </Center>
-
-        <Tooltip label={"Next"}>
-          <IconButton
-            size={"sm"}
-            icon={<Icon as={ChevronRightIcon} w={"5"} h={"5"} />}
-            fontSize="sm"
-            bg="brand.primary.mediumLight"
-            // border={"1px"}
-            // borderColor={"brand.primary.medium"}
-            color={"blue.500"}
-            variant="solid"
-            fontWeight="medium"
-            onClick={() => {
-              // dispatch({ type: types.increment });
-            }}
-            _hover={{
-              bg: "brand.primary.mediumLight",
-            }}
-            _active={{
-              background: "brand.primary.mediumLight",
-            }}
-            // disabled={
-            //   paginationInfo &&
-            //   pageCounter === paginationInfo.totalPages
-            //     ? true
-            //     : false
-            // }
-            aria-label={""}
-          />
-        </Tooltip>
-
-        <Tooltip label={"End"}>
-          <IconButton
-            size={"sm"}
-            ml={2}
-            icon={<Icon as={ChevronDoubleRightIcon} w={"5"} h={"5"} />}
-            fontSize="sm"
-            // border={"1px"}
-            // borderColor={"brand.primary.medium"}
-            bg="brand.primary.mediumLight"
-            color={"blue.500"}
-            variant="solid"
-            fontWeight="medium"
-            onClick={() => {
-              // dispatch({ type: types.goEnd });
-            }}
-            _hover={{
-              bg: "brand.primary.mediumLight",
-            }}
-            _active={{
-              background: "brand.primary.mediumLight",
-            }}
-            // disabled={
-            //   paginationInfo &&
-            //   pageCounter === paginationInfo.totalPages
-            //     ? true
-            //     : false
-            // }
-            aria-label={""}
-          />
-        </Tooltip>
-      </Flex>
-    </Flex>
-  );
-};
-
 export default AddPicsToTemplateModal;

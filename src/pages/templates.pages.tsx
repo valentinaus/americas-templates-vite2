@@ -21,6 +21,7 @@ import MainCard from "../UI/containers/MainCard";
 import TableBase from "../UI/TableBase";
 import HeadingTitle from "../UI/titles/HeadingTitle";
 import SecongTitle from "../UI/titles/SecongTitle";
+import { paginationI } from "./pictures.pages";
 
 const tableColumns = [
   { heading: "name", value: "name" },
@@ -28,12 +29,12 @@ const tableColumns = [
   // { heading: "longitude", value: "longitude" },
 ];
 
-// export interface paginationI {
-//   totalPages: number | string | any;
-//   pageNumber: number;
-//   pageSize: number;
-//   name: string;
-// }
+export const picturesPaginationIV: paginationI = {
+  totalPages: "",
+  currentPage: 1,
+  pageSize: 5,
+  name: "",
+};
 
 const Templates = () => {
   const { user } = useSelector((state: any) => state.auth);
@@ -46,8 +47,10 @@ const Templates = () => {
   const [loadingInfo, setLoadingInfo] = useState<boolean>(false);
   const [loadingPics, setLoadingPics] = useState<boolean>(false);
   const [picturesList, setPicturesList] = useState<IPicture[] | null>([]);
+  const [picturesPaginationInfo, setPicturesPaginationInfo] =
+    useState<paginationI>(picturesPaginationIV);
 
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   const {
     isOpen: isOpenAddTemplate,
@@ -94,6 +97,8 @@ const Templates = () => {
     onOpenDeleteModal: onOpenDeleteTemplate,
     onOpenAddPicsModal: onOpenAddPicsToTemp,
     onOpenTemplatDetails: onOpenTempDetails,
+    picturesPaginationInfo: picturesPaginationInfo,
+    setPicturesPaginationInfo: setPicturesPaginationInfo,
   };
 
   useEffect(() => {
@@ -133,8 +138,24 @@ const Templates = () => {
       if (itemSelected) {
         try {
           setLoadingPics(true);
-          const response = await getAllPictures(user.token);
-          setPicturesList(response.data);
+          const response = await getAllPictures(
+            user.token,
+            picturesPaginationInfo?.currentPage,
+            picturesPaginationInfo?.pageSize,
+            picturesPaginationInfo?.name
+          );
+          setPicturesList(response.data.results);
+
+          console.log(response.data);
+          const paginationObj = {
+            totalPages: response.data.totalPages,
+            currentPage: response.data.currentPage,
+          };
+
+          setPicturesPaginationInfo((prevState: any) => {
+            return { ...prevState, ...paginationObj };
+          });
+
           setLoadingPics(false);
         } catch (error) {
           setLoadingPics(false);
@@ -143,7 +164,12 @@ const Templates = () => {
       }
     };
     fetchPictures();
-  }, [itemSelected]);
+  }, [
+    itemSelected,
+    picturesPaginationInfo?.currentPage,
+    picturesPaginationInfo?.name,
+    picturesPaginationInfo?.pageSize,
+  ]);
 
   return (
     <Fragment>
@@ -197,6 +223,8 @@ const Templates = () => {
           onClose={onCloseAddPicsToTemp}
           picturesList={picturesList}
           loadingPics={loadingPics}
+          setSearchValue={setSearchValue}
+          searchValue={searchValue}
         />
 
         <TemplateDetailsModal
