@@ -22,8 +22,8 @@ import HeadingTitle from "../UI/titles/HeadingTitle";
 const tableColumns = [
   { heading: "name", value: "name" },
   { heading: "description", value: "description" },
+  { heading: "status", value: "isFinished" },
   { heading: "technician", value: "technician" },
-  { heading: "client phone", value: "phoneClientId" },
   { heading: "site", value: "siteId" },
   { heading: "template", value: "templateId" },
 ];
@@ -75,6 +75,7 @@ const Projects = () => {
       try {
         setIsLoading(true);
         const response = await getAllProjects(user.token);
+        console.log("response", response);
         setProjectsList(response.data);
         setIsLoading(false);
       } catch (error) {

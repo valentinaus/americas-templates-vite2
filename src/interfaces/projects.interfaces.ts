@@ -6,6 +6,7 @@ export interface IProject {
   phoneClientId: string;
   siteId: string;
   templateId: string;
+  isFinished: boolean;
 }
 
 export interface IRecentProject {

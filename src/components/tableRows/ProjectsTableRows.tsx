@@ -1,4 +1,17 @@
-import { Checkbox, Tbody, Td, Tr, Text } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
+import {
+  Checkbox,
+  Tbody,
+  Td,
+  Tr,
+  Text,
+  Tag,
+  TagLabel,
+  TagCloseButton,
+  TagRightIcon,
+  Tooltip,
+} from "@chakra-ui/react";
+import { PencilAltIcon, PencilIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Fragment } from "react";
 import { useContext } from "react";
@@ -102,6 +115,33 @@ const TableRow = ({
                 <Fragment>
                   {findItemsNames(item[`${columnItem.value}`], templatesList)}
                 </Fragment>
+              ) : columnItem.heading === "status" ? (
+                <Tag
+                  // size="sm"
+                  borderRadius="full"
+                  variant="solid"
+                  cursor={"pointer"}
+                  bg={
+                    item[`${columnItem.value}`] === true
+                      ? "#38A169"
+                      : "brand.red.medium"
+                  }
+                >
+                  <TagLabel>
+                    {item[`${columnItem.value}`] === true
+                      ? "In progress"
+                      : "Completed"}
+                  </TagLabel>
+                  <Tooltip label={"Change status"}>
+                    <TagRightIcon
+                      as={PencilIcon}
+                      opacity="30%"
+                      _hover={{
+                        opacity: "100%",
+                      }}
+                    />
+                  </Tooltip>
+                </Tag>
               ) : (
                 <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
               )}
