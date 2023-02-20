@@ -19,7 +19,7 @@ import { ProjectsCTX } from "../../contexts/projects.context";
 import TableOptions from "./TableOptions";
 
 const ProjectsTableRows = (props: any) => {
-  const { tableColumns, sitesList, phoneNumberList, templatesList } = props;
+  const { tableColumns, sitesList } = props;
 
   const {
     projectsList,
@@ -37,25 +37,19 @@ const ProjectsTableRows = (props: any) => {
             tableColumns={tableColumns}
             setItemSelected={setItemSelected}
             itemSelected={itemSelected}
-            sitesList={sitesList}
-            phoneNumberList={phoneNumberList}
-            templatesList={templatesList}
           />
         ))}
     </Tbody>
   );
 };
 
-const TableRow = ({
-  tableColumns,
-  item,
-  setItemSelected,
-  itemSelected,
-  sitesList,
-  phoneNumberList,
-  templatesList,
-}) => {
-  const { onOpenDeleteModal, onOpenEditModal } = useContext(ProjectsCTX);
+const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
+  const {
+    onOpenDeleteModal,
+    onOpenEditModal,
+    onOpenChangeStatusModal,
+    onOpenDetailsProject,
+  } = useContext(ProjectsCTX);
 
   const findItemsNames = (itemId, list) => {
     const itemFound = list.find((item) => {
@@ -103,19 +97,7 @@ const TableRow = ({
             </Text>
           ) : (
             <Fragment>
-              {columnItem.heading === "client phone" ? (
-                <Fragment>
-                  {findItemsNames(item[`${columnItem.value}`], phoneNumberList)}
-                </Fragment>
-              ) : columnItem.heading === "site" ? (
-                <Fragment>
-                  {findItemsNames(item[`${columnItem.value}`], sitesList)}
-                </Fragment>
-              ) : columnItem.heading === "template" ? (
-                <Fragment>
-                  {findItemsNames(item[`${columnItem.value}`], templatesList)}
-                </Fragment>
-              ) : columnItem.heading === "status" ? (
+              {columnItem.heading === "status" ? (
                 <Tag
                   // size="sm"
                   borderRadius="full"
@@ -123,8 +105,8 @@ const TableRow = ({
                   cursor={"pointer"}
                   bg={
                     item[`${columnItem.value}`] === true
-                      ? "#38A169"
-                      : "brand.red.medium"
+                      ? "brand.gray.mediumLight"
+                      : "#38A169"
                   }
                 >
                   <TagLabel>
@@ -135,10 +117,11 @@ const TableRow = ({
                   <Tooltip label={"Change status"}>
                     <TagRightIcon
                       as={PencilIcon}
-                      opacity="30%"
+                      opacity="40%"
                       _hover={{
                         opacity: "100%",
                       }}
+                      onClick={onOpenChangeStatusModal}
                     />
                   </Tooltip>
                 </Tag>
@@ -154,8 +137,10 @@ const TableRow = ({
         <TableOptions
           editLabel={"Edit Project"}
           deleteLabel={"Delete Project"}
+          detailsLabel={"View project details"}
           onClickEdit={onOpenEditModal}
           onClickDelete={onOpenDeleteModal}
+          onClickDetails={onOpenDetailsProject}
         />
       </Td>
     </Tr>

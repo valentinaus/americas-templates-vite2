@@ -78,7 +78,7 @@ const ChangeProjectStatusModal = ({ isOpen, onClose }) => {
         <ModalCloseButton />
         <ModalBody>
           {selectedProject && (
-            <Center my={4} flexDir={"row"}>
+            <Center my={4} flexDir={"row"} textAlign={"center"}>
               <Text>
                 Are you sure you want to change the status of
                 <strong> {selectedProject.name} </strong>?

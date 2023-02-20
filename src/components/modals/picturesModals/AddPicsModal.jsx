@@ -57,7 +57,6 @@ const AddPicsModal = ({ isOpen, onClose }) => {
           const binaryStr = reader.result;
           formik.setFieldValue("base64Image", binaryStr);
           setImageSelected(binaryStr);
-          // console.log("it upload", binaryStr);
         };
 
         // filesRejections.forEach((file) => {

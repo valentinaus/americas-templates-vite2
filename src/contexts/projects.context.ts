@@ -14,6 +14,7 @@ export interface IProjectCTX {
   onOpenEditModal: any;
   onOpenDeleteModal: any;
   onOpenChangeStatusModal: any;
+  onOpenDetailsProject: any;
 }
 
 export const initialProjectCTX: IProjectCTX = {
@@ -29,6 +30,7 @@ export const initialProjectCTX: IProjectCTX = {
   onOpenEditModal: () => {},
   onOpenDeleteModal: () => {},
   onOpenChangeStatusModal: () => {},
+  onOpenDetailsProject: () => {},
 };
 
 export const ProjectsCTX = createContext(initialProjectCTX);

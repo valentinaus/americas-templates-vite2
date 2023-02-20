@@ -84,7 +84,7 @@ const AddSiteModal = ({ isOpen, onClose }) => {
     name: Yup.string()
       .required("Name required")
       .matches(
-        /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
+        /^([A-zÀ-ú]|[0-9]|[-'_ `´,.])+$/,
         "Name cannot contain special caracters"
       ),
     description: Yup.string()
@@ -93,8 +93,8 @@ const AddSiteModal = ({ isOpen, onClose }) => {
         /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
         "Description cannot contain special caracters"
       ),
-    latitude: Yup.number().required("Latitude required"),
-    longitude: Yup.number().required("Longitude required"),
+    latitude: Yup.string().required("Latitude required"),
+    longitude: Yup.string().required("Longitude required"),
   });
 
   const formik = useFormik({
@@ -168,16 +168,15 @@ const AddSiteModal = ({ isOpen, onClose }) => {
               <FormLabel fontWeight="medium">Latitude</FormLabel>
 
               <InputGroup size={"sm"}>
-                <InputLeftAddon
+                {/* <InputLeftAddon
                   children="Number"
                   color={"brand.gray.mediumLight"}
-                />
+                /> */}
                 <Input
                   placeholder="Insert site latitude"
                   {...formik.getFieldProps("latitude")}
                   id="latitude"
                   name="latitude"
-                  type="number"
                   size="sm"
                   borderRadius="4px"
                   borderColor={"brand.gray.light"}
@@ -206,38 +205,22 @@ const AddSiteModal = ({ isOpen, onClose }) => {
               /> */}
 
               <InputGroup size={"sm"}>
-                <InputLeftAddon
-                  children="Number"
+                {/* <InputLeftAddon
+                  children="#A"
                   color={"brand.gray.mediumLight"}
-                />
+                /> */}
 
                 <Input
                   placeholder="Insert site longitude"
                   {...formik.getFieldProps("longitude")}
                   id="longitude"
                   name="longitude"
-                  type="number"
+                  // type="number"
                   size="sm"
                   borderRadius="4px"
                   borderColor={"brand.gray.light"}
                 />
               </InputGroup>
-
-              {/* <NumberInput size={"sm"} precision={2}>
-                <NumberInputField
-                  {...formik.getFieldProps("longitude")}
-                  id="longitude"
-                  name="longitude"
-                  placeholder={"Insert site longitude"}
-                  //   size="sm"
-                  borderRadius="4px"
-                  borderColor={"brand.gray.mediumLight"}
-                />
-                <NumberInputStepper>
-                  <NumberIncrementStepper color={"gray.500"} />
-                  <NumberDecrementStepper color={"gray.500"} />
-                </NumberInputStepper>
-              </NumberInput> */}
 
               <FormErrorMessage>{formik.errors.longitude}</FormErrorMessage>
             </FormControl>

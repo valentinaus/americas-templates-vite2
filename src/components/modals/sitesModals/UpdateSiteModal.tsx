@@ -102,8 +102,8 @@ const UpdateSiteModal = ({ isOpen, onClose }) => {
         "Description cannot contain special caracters"
       ),
 
-    latitude: Yup.number().required("Latitude required"),
-    longitude: Yup.number().required("Longitude required"),
+    latitude: Yup.string().required("Latitude required"),
+    longitude: Yup.string().required("Longitude required"),
   });
 
   const formik = useFormik({
@@ -177,16 +177,15 @@ const UpdateSiteModal = ({ isOpen, onClose }) => {
               <FormLabel fontWeight="medium">Latitude</FormLabel>
 
               <InputGroup size={"sm"}>
-                <InputLeftAddon
+                {/* <InputLeftAddon
                   children="Number"
                   color={"brand.gray.mediumLight"}
-                />
+                /> */}
                 <Input
                   placeholder="Insert site latitude"
                   {...formik.getFieldProps("latitude")}
                   id="latitude"
                   name="latitude"
-                  type="number"
                   size="sm"
                   borderRadius="4px"
                   borderColor={"brand.gray.light"}
@@ -205,17 +204,16 @@ const UpdateSiteModal = ({ isOpen, onClose }) => {
               <FormLabel fontWeight="medium">Longitude</FormLabel>
 
               <InputGroup size={"sm"}>
-                <InputLeftAddon
+                {/* <InputLeftAddon
                   children="Number"
                   color={"brand.gray.mediumLight"}
-                />
+                /> */}
 
                 <Input
                   placeholder="Insert site longitude"
                   {...formik.getFieldProps("longitude")}
                   id="longitude"
                   name="longitude"
-                  type="number"
                   size="sm"
                   borderRadius="4px"
                   borderColor={"brand.gray.light"}

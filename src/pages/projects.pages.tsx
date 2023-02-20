@@ -2,7 +2,9 @@ import { Flex, useDisclosure, Text, Icon, Divider } from "@chakra-ui/react";
 import { DocumentAddIcon, UserAddIcon } from "@heroicons/react/solid";
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import MoreProjectDetailsModal from "../components/modals/homeModals/MoreProjectDetailsModal";
 import AddProjectModal from "../components/modals/projectsModals/AddProjectModal";
+import ChangeProjectStatusModal from "../components/modals/projectsModals/ChangeProjectStatusModal";
 import DeleteProjectModal from "../components/modals/projectsModals/DeleteProjectModal";
 import UpdateProjectModal from "../components/modals/projectsModals/UpdateProjectModal";
 import ProjectsTableRows from "../components/tableRows/ProjectsTableRows";
@@ -23,9 +25,9 @@ const tableColumns = [
   { heading: "name", value: "name" },
   { heading: "status", value: "isFinished" },
   { heading: "technician", value: "technician" },
-  { heading: "client phone", value: "phoneClientId" },
-  { heading: "site", value: "siteId" },
-  { heading: "template", value: "templateId" },
+  { heading: "client phone", value: "phoneClientName" },
+  { heading: "site", value: "siteName" },
+  { heading: "template", value: "templateName" },
 ];
 
 const Projects = () => {
@@ -57,6 +59,12 @@ const Projects = () => {
     onClose: onCloseDeleteProject,
   } = useDisclosure();
   const {
+    isOpen: isOpenDetailsProject,
+    onOpen: onOpenDetailsProject,
+    onClose: onCloseDetailsProject,
+  } = useDisclosure();
+
+  const {
     isOpen: isOpenChangeStatusProject,
     onOpen: onOpenChangeStatusProject,
     onClose: onCloseChangeStatusProject,
@@ -74,6 +82,7 @@ const Projects = () => {
     onOpenEditModal: onOpenEditProject,
     onOpenDeleteModal: onOpenDeleteProject,
     onOpenChangeStatusModal: onOpenChangeStatusProject,
+    onOpenDetailsProject: onOpenDetailsProject,
   };
 
   useEffect(() => {
@@ -81,7 +90,7 @@ const Projects = () => {
       try {
         setIsLoading(true);
         const response = await getAllProjects(user.token);
-        console.log("response", response);
+     
         setProjectsList(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -186,6 +195,15 @@ const Projects = () => {
           isOpen={isOpenChangeStatusProject}
           onClose={onCloseChangeStatusProject}
         />
+
+        {itemSelected && (
+          <MoreProjectDetailsModal
+            isOpen={isOpenDetailsProject}
+            onClose={onCloseDetailsProject}
+            projectSelected={itemSelected}
+            setItemSelected={setItemSelected}
+          />
+        )}
       </ProjectsCTX.Provider>
     </Fragment>
   );

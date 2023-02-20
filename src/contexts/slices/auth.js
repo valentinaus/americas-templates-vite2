@@ -15,7 +15,7 @@ export const login = createAsyncThunk(
         password
       }
       const data = await AuthService.login(userData);
-      // console.log(data);
+
       return { user: data };
     } catch (error) {
       const message =

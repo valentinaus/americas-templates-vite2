@@ -14,6 +14,8 @@ import {
   Icon,
   Divider,
   StackDivider,
+  Tag,
+  TagLabel,
 } from "@chakra-ui/react";
 import { ClipboardIcon } from "@heroicons/react/solid";
 import React from "react";
@@ -36,10 +38,12 @@ const MoreProjectDetailsModal = ({
     setItemSelected(null);
     onClose();
   };
+
+
   return (
     <Modal isOpen={isOpen} onClose={handleOnClose} isCentered>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent maxW={"35rem"}>
         <ModalHeader color={"brand.gray.dark"}>Project Details</ModalHeader>
         <ModalCloseButton />
 
@@ -54,7 +58,7 @@ const MoreProjectDetailsModal = ({
           >
             {projectSelected && (
               <>
-                <Flex alignItems={"center"} gap={"16px"}>
+                <Flex alignItems={"center"} gap={"16px"} mb={4}>
                   <Center bg={"brand.gray.light"} borderRadius={"40rem"} p={2}>
                     <Icon as={ClipboardIcon} w={6} h={6} color={"white"} />
                   </Center>
@@ -65,6 +69,24 @@ const MoreProjectDetailsModal = ({
                   >
                     {projectSelected.name}
                   </Text>
+
+                  <Tag
+                    size="sm"
+                    borderRadius="full"
+                    variant="solid"
+                    cursor={"pointer"}
+                    bg={
+                      projectSelected.isFinished === true
+                        ? "brand.gray.mediumLight"
+                        : "#38A169"
+                    }
+                  >
+                    <TagLabel>
+                      {projectSelected.isFinished === true
+                        ? "Completed "
+                        : "In progress"}
+                    </TagLabel>
+                  </Tag>
                 </Flex>
 
                 <VStack
