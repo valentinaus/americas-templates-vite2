@@ -40,7 +40,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [userCredentials, setUserCredentials] = useState({
-    email: "",
+    userName: "",
     password: "",
     rememberMe: false,
   });
