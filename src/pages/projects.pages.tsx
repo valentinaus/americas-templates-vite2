@@ -56,6 +56,11 @@ const Projects = () => {
     onOpen: onOpenDeleteProject,
     onClose: onCloseDeleteProject,
   } = useDisclosure();
+  const {
+    isOpen: isOpenChangeStatusProject,
+    onOpen: onOpenChangeStatusProject,
+    onClose: onCloseChangeStatusProject,
+  } = useDisclosure();
 
   const componentCTX: IProjectCTX = {
     projectsList: projectsList,
@@ -68,6 +73,7 @@ const Projects = () => {
     setIsLoading: setIsLoading,
     onOpenEditModal: onOpenEditProject,
     onOpenDeleteModal: onOpenDeleteProject,
+    onOpenChangeStatusModal: onOpenChangeStatusProject,
   };
 
   useEffect(() => {
@@ -174,6 +180,11 @@ const Projects = () => {
         <DeleteProjectModal
           isOpen={isOpenDeleteProject}
           onClose={onCloseDeleteProject}
+        />
+
+        <ChangeProjectStatusModal
+          isOpen={isOpenChangeStatusProject}
+          onClose={onCloseChangeStatusProject}
         />
       </ProjectsCTX.Provider>
     </Fragment>
