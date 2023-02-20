@@ -129,8 +129,8 @@ const TableRow = ({
                 >
                   <TagLabel>
                     {item[`${columnItem.value}`] === true
-                      ? "In progress"
-                      : "Completed"}
+                      ? "Completed "
+                      : "In progress"}
                   </TagLabel>
                   <Tooltip label={"Change status"}>
                     <TagRightIcon

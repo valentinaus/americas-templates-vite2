@@ -21,9 +21,9 @@ import HeadingTitle from "../UI/titles/HeadingTitle";
 
 const tableColumns = [
   { heading: "name", value: "name" },
-  { heading: "description", value: "description" },
   { heading: "status", value: "isFinished" },
   { heading: "technician", value: "technician" },
+  { heading: "client phone", value: "phoneClientId" },
   { heading: "site", value: "siteId" },
   { heading: "template", value: "templateId" },
 ];
