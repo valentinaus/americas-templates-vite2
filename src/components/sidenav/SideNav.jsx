@@ -63,7 +63,12 @@ const SideBar = () => {
             return (
               <NavItem eventKey={item.itemKey} key={item.itemKey}>
                 <NavIcon>
-                  <Icon as={item.itemIcon} color={"white"}></Icon>
+                  <Tooltip
+                    label={item.itemText}
+                    isDisabled={expanded === true ? true : false}
+                  >
+                    <Icon as={item.itemIcon} color={"white"} />
+                  </Tooltip>
                 </NavIcon>
                 <NavText>{item.itemText}</NavText>
               </NavItem>
