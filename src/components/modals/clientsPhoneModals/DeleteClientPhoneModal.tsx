@@ -46,8 +46,8 @@ const DeleteClientPhoneModal = ({ isOpen, onClose }) => {
         onClose();
         setRefresh(!refreshList);
         toast({
-          title: "Client phone deleted successful",
-          description: "The client phone was deleted successfully",
+          title: "Device deleted successful",
+          description: "The device was deleted successfully",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -55,8 +55,8 @@ const DeleteClientPhoneModal = ({ isOpen, onClose }) => {
       } catch (error) {
         console.log(error);
         toast({
-          title: "Client phone deleted unsuccessfully",
-          description: "The client phone couldn't be deleted. try again later",
+          title: "Device deleted unsuccessfully",
+          description: "The device couldn't be deleted. try again later",
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -69,7 +69,7 @@ const DeleteClientPhoneModal = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={cancelButtonHandler} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader color={"brand.gray.dark"}>Delete Client phone</ModalHeader>
+        <ModalHeader color={"brand.gray.dark"}>Delete Device</ModalHeader>
         <Divider />
         <ModalCloseButton />
         <ModalBody>
@@ -78,7 +78,7 @@ const DeleteClientPhoneModal = ({ isOpen, onClose }) => {
               <Text>
                 Are you sure you want to delete
                 <strong> {selectedPhoneNumber.name} </strong>
-                of your client phones list?
+                of your device list?
               </Text>
             </Center>
           )}

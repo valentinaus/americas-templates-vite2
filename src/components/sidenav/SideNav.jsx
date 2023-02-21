@@ -11,7 +11,7 @@ import {
   HomeIcon,
   MapIcon,
   NewspaperIcon,
-  PhoneIcon,
+  DeviceMobileIcon,
   UsersIcon,
 } from "@heroicons/react/solid";
 
@@ -26,8 +26,8 @@ const navItemsList = [
   { itemKey: "clients", itemText: "Users", itemIcon: UsersIcon },
   {
     itemKey: "clients-phone-number",
-    itemText: "Client phones",
-    itemIcon: PhoneIcon,
+    itemText: "Devices",
+    itemIcon: DeviceMobileIcon,
   },
 ];
 
