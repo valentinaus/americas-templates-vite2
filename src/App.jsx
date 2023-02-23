@@ -17,31 +17,40 @@ import { Provider } from "react-redux";
 import store from "./store";
 import ClientPhoneNumber from "./pages/clientPhoneNumber.pages";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import AuthVerify from "./contexts/slices/auth-verify";
+import { logout } from "./contexts/slices/auth";
 
 function App() {
+  const logOutUser = () => {
+    logout();
+  };
+
   return (
     <ChakraProvider theme={theme}>
       <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<AppLayout />}>
-                <Route path="home" element={<Home />} />
-                {/* <Route path="home" element={<Templates />} /> */}
-                <Route path="templates" element={<Templates />} />
-                <Route path="pictures" element={<Pictures />} />
-                <Route path="sites" element={<Sites />} />
-                <Route path="clients" element={<Clients />} />
-                <Route
-                  path="clients-phone-number"
-                  element={<ClientPhoneNumber />}
-                />
-                <Route path="projects" element={<Projects />} />
+        <div>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<AppLayout />}>
+                  <Route path="home" element={<Home />} />
+                  {/* <Route path="home" element={<Templates />} /> */}
+                  <Route path="templates" element={<Templates />} />
+                  <Route path="pictures" element={<Pictures />} />
+                  <Route path="sites" element={<Sites />} />
+                  <Route path="clients" element={<Clients />} />
+                  <Route
+                    path="clients-phone-number"
+                    element={<ClientPhoneNumber />}
+                  />
+                  <Route path="projects" element={<Projects />} />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
+            </Routes>
+          </BrowserRouter>
+          <AuthVerify logOut={logOutUser} />
+        </div>
       </Provider>
     </ChakraProvider>
   );
