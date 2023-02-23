@@ -110,7 +110,7 @@ const MoreProjectDetailsModal = ({
                     text={projectSelected.technician}
                   />
                   <TextElement
-                    title={"Phone client name"}
+                    title={"Device"}
                     text={projectSelected.phoneClientName}
                   />
                   <TextElement title={"Site"} text={projectSelected.siteName} />

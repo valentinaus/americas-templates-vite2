@@ -120,8 +120,8 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
 
       <Td display={"flex"} justifyContent={"flex-end"}>
         <TableOptions
-          editLabel={"Edit Client Phone"}
-          deleteLabel={"Delete Client Phone"}
+          editLabel={"Edit device"}
+          deleteLabel={"Delete device"}
           onClickEdit={onOpenEditModal}
           onClickDelete={onOpenDeleteModal}
         />

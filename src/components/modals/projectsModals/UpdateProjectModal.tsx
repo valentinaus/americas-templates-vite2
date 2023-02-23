@@ -104,7 +104,7 @@ const UpdateProjectModal = ({
       "technician cannot contain special caracters"
     ),
 
-    phoneClientId: Yup.string().required("Client phone required"),
+    phoneClientId: Yup.string().required("Device required"),
     siteId: Yup.string().required("Site required"),
     templateId: Yup.string().required("Template required"),
   });
@@ -203,12 +203,12 @@ const UpdateProjectModal = ({
                 (formik.touched.phoneClientId as any)
               }
             >
-              <FormLabel fontWeight="medium">Client phone</FormLabel>
+              <FormLabel fontWeight="medium">Device</FormLabel>
               <Select
                 {...formik.getFieldProps("phoneClientId")}
                 id="phoneClientId"
                 name="phoneClientId"
-                placeholder={"Select project client phone"}
+                placeholder={"Select project device"}
                 _placeholder={{ color: "brand.gray.mediumLight" }}
                 size="sm"
                 borderRadius="4px"
