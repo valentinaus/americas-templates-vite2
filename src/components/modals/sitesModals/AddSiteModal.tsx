@@ -149,7 +149,7 @@ const AddSiteModal = ({ isOpen, onClose }) => {
                 {...formik.getFieldProps("description")}
                 id="description"
                 name="description"
-                placeholder={"Insert project description"}
+                placeholder={"Insert site description"}
                 size="sm"
                 borderRadius="4px"
                 borderColor={"brand.gray.mediumLight"}

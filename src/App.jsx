@@ -37,7 +37,6 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(location.pathname);
     if (location.pathname === "/") {
       navigate("home");
     }
