@@ -43,7 +43,7 @@ const reducer = (state: any, action: any) => {
     }
     case types.goStart: {
       if (state > 0) {
-        return 0;
+        return 1;
       } else {
         return state;
       }
