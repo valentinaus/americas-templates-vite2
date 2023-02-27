@@ -1,6 +1,12 @@
 import "./App.css";
-import * as React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./styles/theme";
 import AppLayout from "./layouts/appLayout";
@@ -11,47 +17,53 @@ import Pictures from "./pages/pictures.pages";
 import Sites from "./pages/sites.pages";
 import Clients from "./pages/clients.pages";
 import Projects from "./pages/projects.pages";
-
+import React, { useCallback, useEffect } from "react";
 import Login from "./pages/Login";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import store from "./store";
 import ClientPhoneNumber from "./pages/clientPhoneNumber.pages";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
-import AuthVerify from "./contexts/slices/auth-verify";
+import AuthVerify from "./contexts/slices/AuthVerify";
 import { logout } from "./contexts/slices/auth";
+import jwt_decode from "jwt-decode";
 
 function App() {
-  const logOutUser = () => {
-    logout();
-  };
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const logOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log(location.pathname);
+    if (location.pathname === "/") {
+      navigate("home");
+    }
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>
-      <Provider store={store}>
-        <div>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<AppLayout />}>
-                  <Route path="home" element={<Home />} />
-                  {/* <Route path="home" element={<Templates />} /> */}
-                  <Route path="templates" element={<Templates />} />
-                  <Route path="pictures" element={<Pictures />} />
-                  <Route path="sites" element={<Sites />} />
-                  <Route path="clients" element={<Clients />} />
-                  <Route
-                    path="clients-phone-number"
-                    element={<ClientPhoneNumber />}
-                  />
-                  <Route path="projects" element={<Projects />} />
-                </Route>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-          <AuthVerify logOut={logOutUser} />
-        </div>
-      </Provider>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<AppLayout />}>
+            <Route path="home" element={<Home />} />
+            {/* <Route path="home" element={<Templates />} /> */}
+            <Route path="templates" element={<Templates />} />
+            <Route path="pictures" element={<Pictures />} />
+            <Route path="sites" element={<Sites />} />
+            <Route path="clients" element={<Clients />} />
+            <Route
+              path="clients-phone-number"
+              element={<ClientPhoneNumber />}
+            />
+            <Route path="projects" element={<Projects />} />
+          </Route>
+        </Route>
+      </Routes>
+      <AuthVerify logOut={logOut} />
     </ChakraProvider>
   );
 }

@@ -23,15 +23,9 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const logOut = useCallback(() => {
-  //   dispatch(logout());
-  //   navigate("/");
-  // }, [dispatch]);
-
   const logOut = () => {
     dispatch(logout());
     navigate("");
-    // navigate("/");
   };
 
   return (
