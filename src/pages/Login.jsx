@@ -21,6 +21,8 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
+
 import backgroundImg from "../assets/background/background2.jpg";
 import HeadingTitle from "../UI/titles/HeadingTitle";
 import logo from "../assets/logo.png";
@@ -34,6 +36,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { login } from "../contexts/slices/auth";
 import { clearMessage } from "../contexts/slices/message";
 import { EyeIcon } from "@heroicons/react/solid";
+import LoginBase from "../UI/LoginBase";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -105,102 +108,101 @@ const Login = () => {
   });
 
   return (
-    <Grid height={"100vh"} w={"100vw"} templateColumns={"3fr 2fr"}>
-      <GridItem
-      // backgroundImage={backgroundImg}
-      // backgroundPosition="55% 55%"
-      // backgroundRepeat="no-repeat"
-      // background-size="contain"
-      >
-        <Image src={backgroundImg} height={"100%"} alt="Dan Abramov" />
-      </GridItem>
-      <GridItem
-        display={"flex"}
-        justifyContent={"center"}
-        alignItems={"center"}
+    <LoginBase>
+      <Heading>Welcome back!</Heading>
+      <Text fontSize={"sm"} color={"brand.gray.medium"}>
+        Enter your email and password to log in.{" "}
+      </Text>
+      <Flex
+        as="form"
         flexDir={"column"}
+        mt={8}
+        w={"60%"}
+        onSubmit={formik.handleSubmit}
       >
-        <Flex w={"12rem"} mb={8}>
-          <Image src={logo} alt="Americas Logo" />
-        </Flex>
-        <Heading>Welcome back!</Heading>
-        <Text fontSize={"sm"} color={"brand.gray.medium"}>
-          Enter your email and password to log in.{" "}
-        </Text>
-        <Flex
-          as="form"
-          flexDir={"column"}
-          mt={8}
-          w={"60%"}
-          onSubmit={formik.handleSubmit}
-        >
-          <VStack spacing={4}>
-            <FormControl
-              display={"flex"}
-              flexDir={"column"}
-              isInvalid={formik.errors.userName && formik.touched.userName}
-            >
-              <FormLabel fontWeight="medium">Email:</FormLabel>
+        <VStack spacing={4}>
+          <FormControl
+            display={"flex"}
+            flexDir={"column"}
+            isInvalid={formik.errors.userName && formik.touched.userName}
+          >
+            <FormLabel fontWeight="medium">Email:</FormLabel>
+            <Input
+              {...formik.getFieldProps("userName")}
+              id="userName"
+              name="userName"
+              placeholder={"Insert email"}
+              size="sm"
+              borderRadius="4px"
+              borderColor={"brand.gray.mediumLight"}
+            />
+            <FormErrorMessage>{formik.errors.userName}</FormErrorMessage>
+          </FormControl>
+          <FormControl
+            display={"flex"}
+            flexDir={"column"}
+            isInvalid={formik.errors.password && formik.touched.password}
+          >
+            <FormLabel fontWeight="medium">Password:</FormLabel>
+            <InputGroup size="md">
               <Input
-                {...formik.getFieldProps("userName")}
-                id="userName"
-                name="userName"
-                placeholder={"Insert email"}
+                {...formik.getFieldProps("password")}
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder={"Insert password"}
                 size="sm"
                 borderRadius="4px"
                 borderColor={"brand.gray.mediumLight"}
               />
-              <FormErrorMessage>{formik.errors.userName}</FormErrorMessage>
-            </FormControl>
-            <FormControl
-              display={"flex"}
-              flexDir={"column"}
-              isInvalid={formik.errors.password && formik.touched.password}
-            >
-              <FormLabel fontWeight="medium">Password:</FormLabel>
-              <InputGroup size="md">
-                <Input
-                  {...formik.getFieldProps("password")}
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder={"Insert password"}
-                  size="sm"
-                  borderRadius="4px"
-                  borderColor={"brand.gray.mediumLight"}
-                />
 
-                <InputRightElement
-                  width="3rem"
-                  display={"flex"}
-                  alignItems={"center"}
-                >
-                  <Icon
-                    as={EyeIcon}
-                    mb={"5px"}
-                    onClick={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                    _hover={{
-                      color: "brand.primary.hover",
-                    }}
-                    color={
-                      showPassword === true
-                        ? "brand.primary.hover"
-                        : "brand.gray.dark"
-                    }
-                  ></Icon>
-                </InputRightElement>
-              </InputGroup>
+              <InputRightElement
+                width="3rem"
+                display={"flex"}
+                alignItems={"center"}
+              >
+                <Icon
+                  as={EyeIcon}
+                  mb={"5px"}
+                  onClick={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                  _hover={{
+                    color: "brand.primary.hover",
+                  }}
+                  color={
+                    showPassword === true
+                      ? "brand.primary.hover"
+                      : "brand.gray.dark"
+                  }
+                ></Icon>
+              </InputRightElement>
+            </InputGroup>
 
-              <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-            </FormControl>
-            <FormControl
-              display={"flex"}
-              flexDir={"column"}
-              isInvalid={formik.errors.rememberMe && formik.touched.rememberMe}
-            >
-              {/* <Flex justifyContent={"space-between"}>
+            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+          </FormControl>
+          <Flex justifyContent={"flex-end"} w={"100%"}>
+            {/* <Link fontSize={"sm"} color={"blue.400"}> */}
+            <RouterLink to={"/forgot-password"}>
+              <Text
+                fontSize={"sm"}
+                color={"blue.400"}
+                _hover={{
+                  color: "blue.600",
+                  textDecorationLine: "underline",
+                }}
+              >
+                Forgot your password?
+              </Text>{" "}
+            </RouterLink>
+            {/* </Link> */}
+          </Flex>
+          <FormControl
+            display={"flex"}
+            flexDir={"column"}
+            isInvalid={formik.errors.rememberMe && formik.touched.rememberMe}
+          >
+            {/* <Flex justifyContent={"space-between"}>
                 <Checkbox
                   id={"rememberMe"}
                   onChange={formik.handleChange}
@@ -223,40 +225,39 @@ const Login = () => {
                   Forgot your password?
                 </Link>
               </Flex> */}
-              <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-            </FormControl>
-            <Button
-              loadingText={"Loading"}
-              isLoading={loading}
-              w={"100%"}
-              bg={"#1D90F4"}
-              color={"white"}
-              _hover={{
-                bg: "#157FDB",
-              }}
-              _active={{
-                bg: "#1871BF",
-              }}
-              type={"submit"}
-            >
-              Log in
-            </Button>
+            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+          </FormControl>
+          <Button
+            loadingText={"Loading"}
+            isLoading={loading}
+            w={"100%"}
+            bg={"#1D90F4"}
+            color={"white"}
+            _hover={{
+              bg: "#157FDB",
+            }}
+            _active={{
+              bg: "#1871BF",
+            }}
+            type={"submit"}
+          >
+            Log in
+          </Button>
 
-            {message && (
-              <Text
-                fontSize={"sm"}
-                color={"brand.red.medium"}
-                textAlign={"center"}
-                fontWeight={"semibold"}
-              >
-                {"We couldn’t find any account with this email and password. "}
-                {"Please check your email and password and try again."}
-              </Text>
-            )}
-          </VStack>
-        </Flex>
-      </GridItem>
-    </Grid>
+          {message && (
+            <Text
+              fontSize={"sm"}
+              color={"brand.red.medium"}
+              textAlign={"center"}
+              fontWeight={"semibold"}
+            >
+              {"We couldn’t find any account with this email and password. "}
+              {"Please check your email and password and try again."}
+            </Text>
+          )}
+        </VStack>
+      </Flex>
+    </LoginBase>
   );
 };
 export default Login;

@@ -4,6 +4,7 @@ import {
   IconButton,
   Tbody,
   Td,
+  Text,
   Tooltip,
   Tr,
   useClipboard,
@@ -108,11 +109,20 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
           ) : (
             <Td
               key={indexx}
-              w={"15rem"}
               fontSize="sm"
               color="brand.gray.superDark"
+              width={"16rem"}
             >
-              {item[`${columnItem.value}`] + ""}
+              <Tooltip label={item[`${columnItem.value}`] + ""}>
+                <Text
+                  maxWidth={"16rem"}
+                  overflow={"hidden"}
+                  whiteSpace={"nowrap"}
+                  textOverflow="ellipsis"
+                >
+                  {item[`${columnItem.value}`] + ""}
+                </Text>
+              </Tooltip>
             </Td>
           )}
         </Fragment>

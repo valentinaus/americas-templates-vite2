@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://amc-api.americasrf.com/api";
+import { API_URL } from "../utils/api-info";
 
 export const getAllSites = async (token: string) => {
   let config = {

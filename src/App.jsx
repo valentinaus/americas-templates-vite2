@@ -26,6 +26,7 @@ import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import AuthVerify from "./contexts/slices/AuthVerify";
 import { logout } from "./contexts/slices/auth";
 import jwt_decode from "jwt-decode";
+import ForgotPassword from "./pages/password/ForgotPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,33 +37,38 @@ function App() {
     dispatch(logout());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (location.pathname === "/") {
-      navigate("home");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (location.pathname === "/") {
+  //     navigate("home");
+  //   }
+  // }, []);
 
   return (
     <ChakraProvider theme={theme}>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<AppLayout />}>
-            <Route path="home" element={<Home />} />
-            {/* <Route path="home" element={<Templates />} /> */}
-            <Route path="templates" element={<Templates />} />
-            <Route path="pictures" element={<Pictures />} />
-            <Route path="sites" element={<Sites />} />
-            <Route path="clients" element={<Clients />} />
-            <Route
-              path="clients-phone-number"
-              element={<ClientPhoneNumber />}
-            />
-            <Route path="projects" element={<Projects />} />
-          </Route>
-        </Route>
-      </Routes>
-      <AuthVerify logOut={logOut} />
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<AppLayout />}>
+                <Route path="home" element={<Home />} />
+                {/* <Route path="home" element={<Templates />} /> */}
+                <Route path="templates" element={<Templates />} />
+                <Route path="pictures" element={<Pictures />} />
+                <Route path="sites" element={<Sites />} />
+                <Route path="clients" element={<Clients />} />
+                <Route
+                  path="clients-phone-number"
+                  element={<ClientPhoneNumber />}
+                />
+                <Route path="projects" element={<Projects />} />
+              </Route>
+            </Route>
+          </Routes>
+          {/* <AuthVerify logOut={logOut} /> */}
+        </BrowserRouter>
+      </Provider>
     </ChakraProvider>
   );
 }

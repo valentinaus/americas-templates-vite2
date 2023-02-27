@@ -1,4 +1,13 @@
-import { Checkbox, Tag, TagLabel, Tbody, Td, Tr, Text } from "@chakra-ui/react";
+import {
+  Checkbox,
+  Tag,
+  TagLabel,
+  Tbody,
+  Td,
+  Tr,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import React, { Fragment } from "react";
 import { useContext } from "react";
 import { SitesCTX } from "../../contexts/sites.context";
@@ -73,7 +82,16 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
               <Fragment>
                 {columnItem.heading === "name" ||
                 columnItem.heading === "description" ? (
-                  <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
+                  <Tooltip label={item[`${columnItem.value}`] + ""}>
+                    <Text
+                      maxWidth={"11rem"}
+                      overflow={"hidden"}
+                      whiteSpace={"nowrap"}
+                      textOverflow="ellipsis"
+                    >
+                      {item[`${columnItem.value}`] + ""}
+                    </Text>
+                  </Tooltip>
                 ) : (
                   <Tag variant="subtle" colorScheme="blue" cursor={"default"}>
                     <TagLabel> {item[`${columnItem.value}`] + ""}</TagLabel>

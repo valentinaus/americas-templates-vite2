@@ -39,7 +39,6 @@ const MoreProjectDetailsModal = ({
     onClose();
   };
 
-
   return (
     <Modal isOpen={isOpen} onClose={handleOnClose} isCentered>
       <ModalOverlay />
@@ -66,6 +65,8 @@ const MoreProjectDetailsModal = ({
                     textTransform={"capitalize"}
                     fontWeight={700}
                     color={"brand.gray.superDark"}
+                    maxWidth={"20rem"}
+                    noOfLines={2}
                   >
                     {projectSelected.name}
                   </Text>
@@ -136,14 +137,27 @@ interface TextElementTypes {
 }
 
 const TextElement = ({ title, text }: TextElementTypes) => {
+  console.log(text);
   return (
     <Flex>
-      <Text fontWeight={500} w={"160px"} color={"brand.gray.superDark"}>
+      <Text
+        fontWeight={500}
+        w={"160px"}
+        color={"brand.gray.superDark"}
+        maxWidth={"20rem"}
+        noOfLines={1}
+      >
         {`${title}:`}
       </Text>
 
-      <Text color={text ? "brand.gray.superDark" : "brand.red.medium"}>
-        {text ?? "Not assigned"}
+      <Text
+        color={
+          text && text !== "" ? "brand.gray.superDark" : "brand.red.medium"
+        }
+        maxWidth={"20rem"}
+        noOfLines={1}
+      >
+        {text && text !== "" ? text : "Not assigned"}
       </Text>
     </Flex>
   );

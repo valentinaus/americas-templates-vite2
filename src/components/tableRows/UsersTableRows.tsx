@@ -1,4 +1,4 @@
-import { Checkbox, Flex, Tbody, Td, Tr } from "@chakra-ui/react";
+import { Checkbox, Flex, Tbody, Td, Text, Tooltip, Tr } from "@chakra-ui/react";
 import TableOptions from "./TableOptions";
 import React, { Fragment, useContext } from "react";
 import { UsersCTX } from "../../contexts/users.context";
@@ -40,21 +40,18 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
         setItemSelected(item);
       }}
     >
-      {/* <Td>
-        <Checkbox
-          color="brand.primary.dark"
-          mr={4}
-          border={1}
-          borderColor="brand.primary.dark"
-          // isChecked={checkedItemList.includes(item.id)}
-          // onChange={() => {
-          //     handleChecked(item.id);
-          // }}
-        />
-      </Td> */}
       {tableColumns.map((columnItem, indexx) => (
         <Td key={indexx} w={"15rem"} fontSize="sm" color="brand.gray.superDark">
-          {item[`${columnItem.value}`] + ""}
+          <Tooltip label={item[`${columnItem.value}`] + ""}>
+            <Text
+              maxWidth={"11rem"}
+              overflow={"hidden"}
+              whiteSpace={"nowrap"}
+              textOverflow="ellipsis"
+            >
+              {item[`${columnItem.value}`] + ""}
+            </Text>
+          </Tooltip>
         </Td>
       ))}
 

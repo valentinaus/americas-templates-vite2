@@ -10,6 +10,7 @@ import {
   TagCloseButton,
   TagRightIcon,
   Tooltip,
+  Flex,
 } from "@chakra-ui/react";
 import { PencilAltIcon, PencilIcon } from "@heroicons/react/solid";
 import React from "react";
@@ -67,7 +68,7 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
 
   return (
     <Tr
-      w={"6rem"}
+      // w={"6rem"}
       _hover={{
         background: "brand.gray.extraLight",
       }}
@@ -88,7 +89,13 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
         />
       </Td> */}
       {tableColumns.map((columnItem, indexx) => (
-        <Td key={indexx} w={"15rem"} fontSize="sm" color="brand.gray.superDark">
+        <Td
+          key={indexx}
+          // w={"6rem"}
+
+          fontSize="sm"
+          color="brand.gray.superDark"
+        >
           {item[`${columnItem.value}`] === null ||
           item[`${columnItem.value}`] === undefined ||
           item[`${columnItem.value}`] === "" ? (
@@ -126,7 +133,16 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
                   </Tooltip>
                 </Tag>
               ) : (
-                <Fragment> {item[`${columnItem.value}`] + ""}</Fragment>
+                <Tooltip label={item[`${columnItem.value}`] + ""}>
+                  <Text
+                    maxWidth={"11rem"}
+                    overflow={"hidden"}
+                    whiteSpace={"nowrap"}
+                    textOverflow="ellipsis"
+                  >
+                    {item[`${columnItem.value}`] + ""}
+                  </Text>
+                </Tooltip>
               )}
             </Fragment>
           )}
