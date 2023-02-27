@@ -1,5 +1,5 @@
 import { Flex, useDisclosure, Text, Icon, Divider } from "@chakra-ui/react";
-import { PhoneIcon } from "@heroicons/react/solid";
+import { DeviceMobileIcon } from "@heroicons/react/solid";
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AddClientPhoneModal from "../components/modals/clientsPhoneModals/AddClientPhoneModal";
@@ -82,15 +82,15 @@ const ClientPhoneNumber = () => {
         <Flex w={"100%"} flexDir={"column"}>
           <Flex justifyContent={"space-between"} alignItems={"center"}>
             <Flex flexDir={"column"}>
-              <HeadingTitle title="Client Phones" />
+              <HeadingTitle title="Devices" />
               <Text fontSize={"sm"} color={"brand.gray.dark"}>
-                Manage your client phones list here.
+                Manage your devices list here.
               </Text>
             </Flex>
 
             <IconCButton
-              text={"Add Client Phone"}
-              icon={<Icon as={PhoneIcon} w={4} h={4} />}
+              text={"Add Device"}
+              icon={<Icon as={DeviceMobileIcon} w={4} h={4} />}
               onClick={onOpenAddPhoneNumber}
             />
           </Flex>
@@ -100,10 +100,10 @@ const ClientPhoneNumber = () => {
               tableColumns={tableColumns}
               isCheckAll={isCheckAll}
               setIsCheckAll={setIsCheckAll}
-              loadingTitle={"Loading client phones..."}
+              loadingTitle={"Loading devices..."}
               isLoading={isLoading}
               list={phoneNumberList}
-              emptyTitle={"Client phone list empty!"}
+              emptyTitle={"Device list empty!"}
             >
               <PhoneNumTableRows tableColumns={tableColumns} />
             </TableBase>

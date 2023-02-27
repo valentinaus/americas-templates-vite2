@@ -98,9 +98,16 @@ const ProjectCard = ({ project, onOpen, setItemSelected }: projectCardI) => {
           display={"flex"}
           alignItems={"flex-end"}
         >
-          <Text fontWeight={"600"} color={"white"} textTransform={"capitalize"}>
-            {project.name}
-          </Text>
+          <Tooltip label={project.name}>
+            <Text
+              fontWeight={"600"}
+              color={"white"}
+              textTransform={"capitalize"}
+              noOfLines={2}
+            >
+              {project.name}
+            </Text>
+          </Tooltip>
         </CardHeader>
         <CardBody
           fontSize={"sm"}

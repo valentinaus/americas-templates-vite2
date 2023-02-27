@@ -25,7 +25,7 @@ const tableColumns = [
   { heading: "name", value: "name" },
   { heading: "status", value: "isFinished" },
   { heading: "technician", value: "technician" },
-  { heading: "client phone", value: "phoneClientName" },
+  { heading: "Device", value: "phoneClientName" },
   { heading: "site", value: "siteName" },
   { heading: "template", value: "templateName" },
 ];

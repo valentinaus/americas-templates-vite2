@@ -42,8 +42,8 @@ const AddClientPhoneModal = ({ isOpen, onClose }) => {
       onClose();
       setRefresh(!refreshList);
       toast({
-        title: "Client phone creation successful",
-        description: "The client phone was created successfully",
+        title: "Device creation successful",
+        description: "The device was created successfully",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -55,8 +55,8 @@ const AddClientPhoneModal = ({ isOpen, onClose }) => {
       actions.resetForm();
       console.log(error);
       toast({
-        title: "Client phone creation unsuccessfull",
-        description: "The client phone couldn't be created. try again later",
+        title: "Device creation unsuccessfull",
+        description: "The device couldn't be created. try again later",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -92,7 +92,7 @@ const AddClientPhoneModal = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={cancelButtonHandler} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader color={"brand.gray.dark"}>Create Client phone</ModalHeader>
+        <ModalHeader color={"brand.gray.dark"}>Create device</ModalHeader>
         <Divider />
         <ModalCloseButton />
         <ModalBody>
@@ -109,7 +109,7 @@ const AddClientPhoneModal = ({ isOpen, onClose }) => {
                 {...formik.getFieldProps("name")}
                 id="name"
                 name="name"
-                placeholder={"Insert client phone name"}
+                placeholder={"Insert device name"}
                 size="sm"
                 borderRadius="4px"
                 borderColor={"brand.gray.mediumLight"}
