@@ -30,7 +30,7 @@ const ForgotPassword = () => {
     try {
       setIsLoading(true);
       const response = await postForgotPassword(values);
-    
+
       actions.setSubmitting(false);
       actions.resetForm();
 
