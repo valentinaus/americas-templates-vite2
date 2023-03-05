@@ -60,7 +60,7 @@ const UpdateSiteModal = ({ isOpen, onClose }) => {
     try {
       setIsLoading(true);
       const response = await updateSite(user.token, selectedSite.id, siteObj);
-      console.log(response);
+
       actions.setSubmitting(false);
       actions.resetForm();
       onClose();
@@ -159,7 +159,7 @@ const UpdateSiteModal = ({ isOpen, onClose }) => {
                 {...formik.getFieldProps("description")}
                 id="description"
                 name="description"
-                placeholder={"Insert project description"}
+                placeholder={"Insert site description"}
                 size="sm"
                 borderRadius="4px"
                 borderColor={"brand.gray.mediumLight"}

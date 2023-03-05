@@ -27,6 +27,8 @@ import AuthVerify from "./contexts/slices/AuthVerify";
 import { logout } from "./contexts/slices/auth";
 import jwt_decode from "jwt-decode";
 import ForgotPassword from "./pages/password/ForgotPassword";
+import ChangePassword from "./pages/password/ChangePassword";
+import ResetPassword from "./pages/password/ResetPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,38 +39,40 @@ function App() {
     dispatch(logout());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (location.pathname === "/") {
-  //     navigate("home");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (location.pathname === "/") {
+      navigate("home");
+    }
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<AppLayout />}>
-                <Route path="home" element={<Home />} />
-                {/* <Route path="home" element={<Templates />} /> */}
-                <Route path="templates" element={<Templates />} />
-                <Route path="pictures" element={<Pictures />} />
-                <Route path="sites" element={<Sites />} />
-                <Route path="clients" element={<Clients />} />
-                <Route
-                  path="clients-phone-number"
-                  element={<ClientPhoneNumber />}
-                />
-                <Route path="projects" element={<Projects />} />
-              </Route>
-            </Route>
-          </Routes>
-          {/* <AuthVerify logOut={logOut} /> */}
-        </BrowserRouter>
-      </Provider>
+      {/* <Provider store={store}>
+        <BrowserRouter> */}
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<AppLayout />}>
+            <Route path="home" element={<Home />} />
+            {/* <Route path="home" element={<Templates />} /> */}
+            <Route path="templates" element={<Templates />} />
+            <Route path="pictures" element={<Pictures />} />
+            <Route path="sites" element={<Sites />} />
+            <Route path="clients" element={<Clients />} />
+            <Route
+              path="clients-phone-number"
+              element={<ClientPhoneNumber />}
+            />
+            <Route path="projects" element={<Projects />} />
+            <Route path="change-password" element={<ChangePassword />} />
+          </Route>
+        </Route>
+      </Routes>
+      <AuthVerify logOut={logOut} />
+      {/* </BrowserRouter>
+      </Provider> */}
     </ChakraProvider>
   );
 }

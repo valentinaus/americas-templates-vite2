@@ -16,7 +16,7 @@ import logo from "../../assets/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { SettingsIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { LogoutIcon } from "@heroicons/react/solid";
+import { LogoutIcon, UserIcon } from "@heroicons/react/solid";
 import { logout } from "../../contexts/slices/auth";
 const NavBar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -75,8 +75,21 @@ const NavBar = () => {
             </HStack>
           </MenuButton>
           <MenuList fontSize={"sm"} color={"brand.gray.medium"}>
+            <MenuItem
+              onClick={() => {
+                navigate("/change-password");
+              }}
+            >
+              <Icon
+                w={5}
+                h={5}
+                color={"brand.gray.dark"}
+                mr={2}
+                as={UserIcon}
+              />
+              Profile
+            </MenuItem>
             <MenuItem onClick={logOut}>
-              {/* <SettingsIcon w={5} h={5} color={"brand.gray.dark"} mr={2} /> */}
               <Icon
                 w={5}
                 h={5}
