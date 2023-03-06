@@ -35,11 +35,16 @@ const ResetPassword = () => {
   const schema = Yup.object().shape({
     password: Yup.string()
       .required("No password provided.")
-      .max(15, "Password must be 15 characters or less."),
+      .max(15, "Password must be 15 characters or less.")
+      .min(6, "Password has to be longer than 6 characters!")
+      .matches(/[0-9]/, "Password requires a number")
+      .matches(/[a-z]/, "Password requires a lowercase letter")
+      .matches(/[A-Z]/, "Password requires an uppercase letter")
+      .matches(/[^\w]/, "Password requires a symbol"),
 
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .max(15, "Password must be 15 characters or less."),
+      .required("No password provided.")
+      .oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
 
   const submitHandler = async (values, actions) => {
