@@ -81,18 +81,16 @@ const AddSiteModal = ({ isOpen, onClose }) => {
   };
 
   const formSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("Name required")
-      .matches(
-        /^([A-zÀ-ú]|[0-9]|[-'_ `´,.])+$/,
-        "Name cannot contain special caracters"
-      ),
-    description: Yup.string()
-      .required("Description required")
-      .matches(
-        /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
-        "Description cannot contain special caracters"
-      ),
+    name: Yup.string().required("Name required"),
+    // .matches(
+    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´,.])+$/,
+    //   "Name cannot contain special caracters"
+    // )
+    description: Yup.string().required("Description required"),
+    // .matches(
+    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
+    //   "Description cannot contain special caracters"
+    // )
     latitude: Yup.string().required("Latitude required"),
     longitude: Yup.string().required("Longitude required"),
   });

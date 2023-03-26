@@ -65,12 +65,11 @@ const AddUserModal = ({ isOpen, onClose }) => {
   };
 
   const formSchema = Yup.object().shape({
-    fullName: Yup.string()
-      .required("Fullname required")
-      .matches(
-        /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
-        "full name cannot contain special caracters"
-      ),
+    fullName: Yup.string().required("Fullname required"),
+    // .matches(
+    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
+    //   "full name cannot contain special caracters"
+    // )
     email: Yup.string()
       .email("Email must be a valid email")
       .required("Email required"),

@@ -24,7 +24,7 @@ export interface paginationI {
 export const paginationInitialValues: paginationI = {
   totalPages: "",
   currentPage: 1,
-  pageSize: 12,
+  pageSize: 36,
   name: "",
 };
 
@@ -134,28 +134,50 @@ const Pictures = () => {
     <Fragment>
       <PIcturesCTX.Provider value={componentCTX}>
         <Flex w={"100%"} flexDir={"column"} justifyContent={"space-between"}>
-          <Flex w={"100%"} flexDir={"column"}>
-            <Flex justifyContent={"space-between"} alignItems={"center"}>
-              <Flex flexDir={"column"}>
-                <HeadingTitle title="Pictures" />
-                <Text fontSize={"sm"} color={"brand.gray.dark"}>
-                  Manage your pictures here.
-                </Text>
+          <Flex
+            flexDir={"column"}
+            position={"relative"}
+            overflowY={"auto"}
+            sx={{
+              "&::-webkit-scrollbar": {
+                width: "10px",
+                borderRadius: "8px",
+                backgroundColor: `rgba(0, 0, 0, 0.05)`,
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: `rgba(0, 0, 0, 0.05)`,
+              },
+            }}
+          >
+            <Flex
+              flexDir={"column"}
+              position={"sticky"}
+              top={0}
+              zIndex={1}
+              bg={"white"}
+            >
+              <Flex justifyContent={"space-between"} alignItems={"center"}>
+                <Flex flexDir={"column"}>
+                  <HeadingTitle title="Pictures" />
+                  <Text fontSize={"sm"} color={"brand.gray.dark"}>
+                    Manage your pictures here.
+                  </Text>
+                </Flex>
+                <IconCButton
+                  text={"Add file"}
+                  icon={<Icon as={PlusCircleIcon} w={4} h={4} />}
+                  onClick={onOpenAddPics}
+                />
               </Flex>
-              <IconCButton
-                text={"Add file"}
-                icon={<Icon as={PlusCircleIcon} w={4} h={4} />}
-                onClick={onOpenAddPics}
+              <Divider my={4} />
+              <SearchBar
+                placeHolderText="Search for a picture"
+                onSearchValueChange={onSearchValueChange}
+                searchValue={searchValue}
+                handleEnterSearch={handleEnterSearch}
+                handleNoSearch={handleNoSearch}
               />
             </Flex>
-            <Divider my={4} />
-            <SearchBar
-              placeHolderText="Search for a picture"
-              onSearchValueChange={onSearchValueChange}
-              searchValue={searchValue}
-              handleEnterSearch={handleEnterSearch}
-              handleNoSearch={handleNoSearch}
-            />
 
             <PicturesShower />
           </Flex>
