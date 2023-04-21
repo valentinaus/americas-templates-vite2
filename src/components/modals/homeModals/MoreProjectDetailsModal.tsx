@@ -272,6 +272,7 @@ const TagDetailsText = ({ title, text, isBool }: TagDetailsTextTypes) => {
 
       {isBool !== undefined ? (
         <Tag
+          size={"sm"}
           borderRadius="full"
           variant="solid"
           cursor={"pointer"}
