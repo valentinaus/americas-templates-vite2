@@ -41,6 +41,7 @@ const PicturesShower = () => {
               w={"100%"}
               spacing={4}
               columns={[1, 2, 3, 4, 5, 6]}
+              // pr={4}
 
               // templateColumns="repeat(auto-fill, minmax(150px, 1fr))"
             >
@@ -80,7 +81,7 @@ const PictureCard = ({
   const { onOpenDeleteModal, setSelectedPicture } = useContext(PIcturesCTX);
 
   return (
-    <Card maxW="sm" borderRadius={"4px"}>
+    <Card borderRadius={"4px"}>
       <CardHeader
         p={0}
         w={"100%"}

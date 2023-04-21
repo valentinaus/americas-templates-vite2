@@ -21,6 +21,12 @@ import {
   CardBody,
   Icon,
   IconButton,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
 } from "@chakra-ui/react";
 import types from "@emotion/styled";
 import {
@@ -157,105 +163,126 @@ const AddPicsToTemplateModal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={cancelButtonHandler} isCentered>
-      <ModalOverlay />
-      <ModalContent maxW={"70rem"} mx={8}>
-        <ModalHeader color={"brand.gray.dark"}>
-          Add pictures to template
-        </ModalHeader>
-        <Divider />
-        <ModalCloseButton />
-        <ModalBody>
+    <Drawer onClose={onClose} isOpen={isOpen} size={"xl"}>
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerCloseButton />
+        <DrawerHeader>{"Add pictures to template"}</DrawerHeader>
+        <DrawerBody>
           {loadingInfo ? (
             <Fragment>
               <LoadingSkeleton />
             </Fragment>
           ) : (
-            <Fragment>
-              {templateInfo && (
-                <Flex flexDir={"column"} mb={2}>
-                  <TemplateText title={"Name:"} text={templateInfo.name} />
+            <Flex
+              h={"100%"}
+              flexDir={"column"}
+              justifyContent={"space-between"}
+            >
+              <Flex flexDir={"column"}>
+                {templateInfo && (
+                  <Flex flexDir={"column"} mb={2}>
+                    <TemplateText title={"Name:"} text={templateInfo.name} />
+                  </Flex>
+                )}
+                <SearchBar
+                  placeHolderText="Search for a picture"
+                  onSearchValueChange={onSearchValueChange}
+                  searchValue={searchValue}
+                  handleEnterSearch={handleEnterSearch}
+                  handleNoSearch={handleNoSearch}
+                />
+              </Flex>
+
+              <Flex
+                h={"100%"}
+                flexDir={"column"}
+                position={"relative"}
+                overflowY={"auto"}
+                sx={{
+                  "&::-webkit-scrollbar": {
+                    width: "10px",
+                    borderRadius: "8px",
+                    backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                  },
+                }}
+              >
+                <Flex
+                  flexDir={"column"}
+                  position={"sticky"}
+                  top={0}
+                  zIndex={1}
+                  mr={2}
+                >
+                  {loadingPics ? (
+                    <Flex w={"100%"} h={"100%"}>
+                      <LoadingPicsSkeletons />
+                    </Flex>
+                  ) : (
+                    <Fragment>
+                      <SimpleGrid
+                        columns={[1, 2, 3, 4, 5]}
+                        border={"1px"}
+                        borderColor={"brand.gray.superLight"}
+                        p={4}
+                        mt={2}
+                        borderRadius={"8px"}
+                        w={"100%"}
+                        // h={"100%"}
+                        spacing={4}
+
+                        // maxH={"100%"}
+
+                        // templateColumns="repeat(auto-fill, minmax(100px, 1fr))"
+                      >
+                        {picturesList &&
+                          picturesList.map((item, index) => (
+                            <PictureCardTemp
+                              key={index}
+                              picture={item}
+                              handleChange={handleChange}
+                              selectedItemsList={selectedItemsList}
+                            />
+                          ))}{" "}
+                      </SimpleGrid>
+                    </Fragment>
+                  )}
                 </Flex>
-              )}
-              <SearchBar
-                placeHolderText="Search for a picture"
-                onSearchValueChange={onSearchValueChange}
-                searchValue={searchValue}
-                handleEnterSearch={handleEnterSearch}
-                handleNoSearch={handleNoSearch}
-              />
-              {loadingPics ? (
-                <Flex w={"100%"}>
-                  <LoadingPicsSkeletons />
-                </Flex>
-              ) : (
-                <Fragment>
-                  <SimpleGrid
-                    columns={[1, 2, 3, 4, 5]}
-                    border={"1px"}
-                    borderColor={"brand.gray.superLight"}
-                    p={4}
-                    mt={2}
-                    borderRadius={"8px"}
-                    w={"100%"}
-                    spacing={4}
-                    maxH={"18rem"}
-                    minH={"18rem"}
-                    overflowY={"scroll"}
-                    scrollBehavior="auto"
-                    sx={{
-                      "&::-webkit-scrollbar": {
-                        width: "10px",
-                        borderRadius: "8px",
-                        backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                      },
-                      "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                      },
-                    }}
-                    // templateColumns="repeat(auto-fill, minmax(100px, 1fr))"
+              </Flex>
+
+              <Flex flexDir={"column"}>
+                <PaginationComponent
+                  paginationInfo={picturesPaginationInfo}
+                  setPaginationInfo={setPicturesPaginationInfo}
+                />
+                <Divider my={4} />
+                <Flex mb={4} justifyContent={"flex-end"} w={"100%"}>
+                  <Button
+                    size={"sm"}
+                    variant="ghost"
+                    mr={3}
+                    onClick={cancelButtonHandler}
                   >
-                    {picturesList &&
-                      picturesList.map((item, index) => (
-                        <PictureCardTemp
-                          key={index}
-                          picture={item}
-                          handleChange={handleChange}
-                          selectedItemsList={selectedItemsList}
-                        />
-                      ))}{" "}
-                  </SimpleGrid>
-                  <PaginationComponent
-                    paginationInfo={picturesPaginationInfo}
-                    setPaginationInfo={setPicturesPaginationInfo}
-                  />
-                </Fragment>
-              )}
-            </Fragment>
+                    Cancel
+                  </Button>
+                  <Button
+                    size={"sm"}
+                    colorScheme="blue"
+                    disabled={selectedItemsList.length === 0 ? true : false}
+                    onClick={submitAddPicsToTemplate}
+                  >
+                    Add
+                  </Button>
+                </Flex>
+              </Flex>
+            </Flex>
           )}
-        </ModalBody>
-        <ModalFooter>
-          <Flex pb={4} justifyContent={"flex-end"} w={"100%"}>
-            <Button
-              size={"sm"}
-              variant="ghost"
-              mr={3}
-              onClick={cancelButtonHandler}
-            >
-              Cancel
-            </Button>
-            <Button
-              size={"sm"}
-              colorScheme="blue"
-              disabled={selectedItemsList.length === 0 ? true : false}
-              onClick={submitAddPicsToTemplate}
-            >
-              Add
-            </Button>
-          </Flex>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DrawerBody>
+      </DrawerContent>
+    </Drawer>
   );
 };
 
@@ -275,14 +302,13 @@ export const TemplateText = ({ title, text }) => {
 
 export const LoadingSkeleton = () => {
   return (
-    <Flex gap={"8px"} flexDir={"column"}>
+    <Flex gap={"8px"} flexDir={"column"} h={"100%"}>
       <Flex gap={"8px"}>
-        <Skeleton w={"3rem"} h={"12px"} />
-        <Skeleton w={"7rem"} h={"12px"} />
+        <Skeleton w={"3rem"} h={"25px"} />
+        <Skeleton w={"7rem"} h={"25px"} />
       </Flex>
-      <Flex gap={"8px"}>
-        <Skeleton w={"3rem"} h={"12px"} />
-        <Skeleton w={"7rem"} h={"12px"} />
+      <Flex gap={"12px"}>
+        <Skeleton w={"100%"} h={"30px"} />
       </Flex>
 
       <LoadingPicsSkeletons />
@@ -302,11 +328,14 @@ export const LoadingPicsSkeletons = () => (
     columns={[1, 2, 3, 4, 5]}
     h={"20rem"}
   >
-    <Skeleton h={"200px"} />
-    <Skeleton h={"200px"} />
-    <Skeleton h={"200px"} />
-    <Skeleton h={"200px"} />
-    <Skeleton h={"200px"} />
+    <Skeleton h={"150px"} />
+    <Skeleton h={"150px"} />
+    <Skeleton h={"150px"} />
+    <Skeleton h={"150px"} />
+    <Skeleton h={"150px"} />
+    <Skeleton h={"150px"} />
+    <Skeleton h={"150px"} />
+    <Skeleton h={"150px"} />
   </SimpleGrid>
 );
 
@@ -332,16 +361,17 @@ const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
         border: "2px",
         borderColor: "blue.300",
       }}
+      h={"10rem"}
     >
       <CardHeader
         p={0}
         w={"100%"}
         h={"100%"}
-        maxH={"10rem"}
         onClick={() => {
           handleChange(picture.id);
         }}
         opacity={handleSelected() === true ? "70%" : "100%"}
+        maxH={"7rem"}
       >
         <Image
           src={picture.base64Image}

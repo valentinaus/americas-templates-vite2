@@ -15,6 +15,7 @@ import {
   Card,
   CardHeader,
   CardBody,
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { Fragment, useContext } from "react";
 import { TemplatesCTX } from "../../../contexts/templates.context";
@@ -43,7 +44,7 @@ const TemplateDetailsModal = ({
   return (
     <Modal isOpen={isOpen} onClose={cancelButtonHandler} isCentered>
       <ModalOverlay />
-      <ModalContent maxW={"70rem"} mx={8}>
+      <ModalContent maxW={"70rem"} mx={8} maxH={"35rem"} h={"100%"}>
         <ModalHeader color={"brand.gray.dark"}>Template details</ModalHeader>
         <Divider />
         <ModalCloseButton />
@@ -97,7 +98,7 @@ const TemplateDetailsModal = ({
                     </Flex>
                   ) : (
                     <SimpleGrid
-                      columns={[1, 2, 3, 3]}
+                      columns={[1, 2, 3, 4, 5]}
                       border={"1px"}
                       borderColor={"brand.gray.superLight"}
                       p={4}
@@ -151,7 +152,6 @@ const PictureCardTemp = ({ picture }) => {
   return (
     <Card maxW="sm" borderRadius={"4px"}>
       <CardHeader p={0} w={"100%"} h={"100%"} maxH={"10rem"}>
-        {" "}
         <Image
           src={picture.base64Image}
           objectFit="cover"
@@ -162,42 +162,20 @@ const PictureCardTemp = ({ picture }) => {
         />
       </CardHeader>
       <CardBody p={"10px"}>
-        <Text
-          fontWeight={"500"}
-          textTransform={"capitalize"}
-          color={"brand.gray.superDark"}
-          noOfLines={1}
-          cursor={"pointer"}
-        >
-          {picture.name}
-        </Text>
+        <Tooltip label={picture.name}>
+          <Text
+            fontWeight={"500"}
+            textTransform={"capitalize"}
+            color={"brand.gray.superDark"}
+            noOfLines={1}
+            cursor={"pointer"}
+          >
+            {picture.name}
+          </Text>
+        </Tooltip>
       </CardBody>
     </Card>
   );
-  // return (
-  //   <Tooltip hasArrow label={picture.name}>
-  //     <Flex
-  //       border={"1px"}
-  //       borderColor={"brand.gray.superLight"}
-  //       borderRadius={"8px"}
-  //       boxShadow={"sm"}
-
-  //       // _hover={{
-  //       //   boxShadow: "md",
-  //       //   border: "1px",
-  //       //   borderColor: "blue.300",
-  //       // }}
-  //     >
-  //       <Image
-  //         w={"100%"}
-  //         src={picture.base64Image}
-  //         objectFit="cover"
-  //         alt={picture.name}
-  //         borderRadius={"4px"}
-  //       />
-  //     </Flex>
-  //   </Tooltip>
-  // );
 };
 
 export default TemplateDetailsModal;

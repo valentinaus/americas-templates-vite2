@@ -20,7 +20,7 @@ import { ProjectsCTX } from "../../contexts/projects.context";
 import TableOptions from "./TableOptions";
 
 const ProjectsTableRows = (props: any) => {
-  const { tableColumns, sitesList } = props;
+  const { tableColumns } = props;
 
   const {
     projectsList,
@@ -37,14 +37,13 @@ const ProjectsTableRows = (props: any) => {
             item={project}
             tableColumns={tableColumns}
             setItemSelected={setItemSelected}
-            itemSelected={itemSelected}
           />
         ))}
     </Tbody>
   );
 };
 
-const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
+const TableRow = ({ tableColumns, item, setItemSelected }) => {
   const {
     onOpenDeleteModal,
     onOpenEditModal,

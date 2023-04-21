@@ -4,6 +4,7 @@ export interface ITemplate {
   id: string;
   name: string;
   description: string;
+  allowEmpty?: boolean;
 }
 
 export interface ITemplateInfo {

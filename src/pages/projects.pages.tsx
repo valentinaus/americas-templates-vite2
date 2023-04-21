@@ -14,7 +14,7 @@ import { IProject } from "../interfaces/projects.interfaces";
 import { ISite } from "../interfaces/sites.interfaces";
 import { ITemplate } from "../interfaces/template.interfaces";
 import { getAllPhoneNumbers } from "../services/phoneNumbers.services";
-import { getAllProjects } from "../services/projects.services";
+import { getAllProjects, getProjectById } from "../services/projects.services";
 import { getAllSites } from "../services/sites.services";
 import { getAllTemplates } from "../services/templates.services";
 import IconCButton from "../UI/buttons/IconCButton";
@@ -27,7 +27,6 @@ const tableColumns = [
   { heading: "technician", value: "technician" },
   { heading: "Device", value: "phoneClientName" },
   { heading: "site", value: "siteName" },
-  { heading: "template", value: "templateName" },
 ];
 
 const Projects = () => {
@@ -90,7 +89,7 @@ const Projects = () => {
       try {
         setIsLoading(true);
         const response = await getAllProjects(user.token);
-     
+
         setProjectsList(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -130,6 +129,20 @@ const Projects = () => {
     fetchSites();
     fetchPhoneNumbers();
   }, []);
+
+  useEffect(() => {
+    if (itemSelected?.id) {
+      const fetchProject = async () => {
+        try {
+          const response = await getProjectById(user.token, itemSelected.id);
+          setItemSelected(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchProject();
+    }
+  }, [itemSelected?.id]);
 
   return (
     <Fragment>

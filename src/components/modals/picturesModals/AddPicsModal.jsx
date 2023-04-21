@@ -97,19 +97,16 @@ const AddPicsModal = ({ isOpen, onClose }) => {
   });
 
   const formSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("Photo name required")
-      .matches(
-        /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
-        "Name cannot contain special caracters"
-      ),
-    description: Yup.string()
-      .required("Description required")
-      .matches(
-        /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
-        "Description cannot contain special caracters"
-      ),
-
+    name: Yup.string().required("Photo name required"),
+    // .matches(
+    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
+    //   "Name cannot contain special caracters"
+    // )
+    description: Yup.string().required("Description required"),
+    // .matches(
+    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
+    //   "Description cannot contain special caracters"
+    // )
     base64Image: Yup.string().required("Image required"),
   });
 

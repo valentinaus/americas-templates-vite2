@@ -1,6 +1,6 @@
 import { Divider, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
 import { PlusCircleIcon } from "@heroicons/react/solid";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import AddPicsToTemplateModal from "../components/modals/templatesModals/AddPicsToTemplateModal";
 import AddTemplateModal from "../components/modals/templatesModals/AddTemplateModal";
@@ -26,13 +26,13 @@ import { paginationI } from "./pictures.pages";
 const tableColumns = [
   { heading: "name", value: "name" },
   { heading: "description", value: "description" },
-  // { heading: "longitude", value: "longitude" },
+  { heading: "Allow empty", value: "allowEmpty" },
 ];
 
 export const picturesPaginationIV: paginationI = {
   totalPages: "",
   currentPage: 1,
-  pageSize: 5,
+  pageSize: 25,
   name: "",
 };
 

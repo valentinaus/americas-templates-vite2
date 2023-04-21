@@ -9,9 +9,18 @@ export const getAllProjects = async (token: string) => {
   return response;
 };
 
+export const getProjectById = async (token: string, id: string) => {
+  let config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const response = await axios.get(`${API_URL}/project/${id}`, config);
+  return response;
+};
+
 export const postProject = async (
   token: string,
-  values: { name: string; description: string }
+  // values: { name: string; description: string }
+  values: any
 ) => {
   let config = {
     headers: { Authorization: `Bearer ${token}` },
