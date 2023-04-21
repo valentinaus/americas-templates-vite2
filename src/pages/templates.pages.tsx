@@ -26,7 +26,7 @@ import { paginationI } from "./pictures.pages";
 const tableColumns = [
   { heading: "name", value: "name" },
   { heading: "description", value: "description" },
-  // { heading: "longitude", value: "longitude" },
+  { heading: "Allow empty", value: "allowEmpty" },
 ];
 
 export const picturesPaginationIV: paginationI = {

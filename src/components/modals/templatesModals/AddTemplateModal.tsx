@@ -12,6 +12,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Switch,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -73,6 +74,7 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
     //   "Name cannot contain special caracters"
     // )
     description: Yup.string().required("Description required"),
+    allowEmpty: Yup.boolean(),
     // .matches(
     //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
     //   "Description cannot contain special caracters"
@@ -83,6 +85,7 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
     initialValues: {
       name: "",
       description: "",
+      allowEmpty: false,
     },
     validationSchema: formSchema,
     onSubmit: submitTemplate,
@@ -135,6 +138,25 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
                 borderColor={"brand.gray.mediumLight"}
               />
               <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
+            </FormControl>
+            <FormControl
+              display={"flex"}
+              flexDir={"column"}
+              isInvalid={
+                (formik.errors.allowEmpty as any) &&
+                (formik.touched.allowEmpty as any)
+              }
+            >
+              <FormLabel fontWeight="medium">Allow to be empty</FormLabel>
+
+              <Switch
+                {...formik.getFieldProps("allowEmpty")}
+                width={"fit-content"}
+                id="allowEmpty"
+                name="allowEmpty"
+              ></Switch>
+
+              <FormErrorMessage>{formik.errors.allowEmpty}</FormErrorMessage>
             </FormControl>
 
             <Divider />

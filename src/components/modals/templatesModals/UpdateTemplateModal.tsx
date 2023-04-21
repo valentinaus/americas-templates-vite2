@@ -12,13 +12,14 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Switch,
   useToast,
   VStack,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ProjectsCTX } from "../../../contexts/projects.context";
 import { TemplatesCTX } from "../../../contexts/templates.context";
 import { editTemplate } from "../../../services/templates.services";
@@ -90,12 +91,14 @@ const UpdateTemplateModal = ({ isOpen, onClose }) => {
     //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
     //   "Description cannot contain special caracters"
     // )
+    allowEmpty: Yup.boolean(),
   });
 
   const formik = useFormik({
     initialValues: {
       name: selectedTemplate ? `${selectedTemplate.name}` : "",
       description: selectedTemplate ? `${selectedTemplate.description}` : "",
+      allowEmpty: selectedTemplate ? `${selectedTemplate.allowEmpty}` : false,
     },
     validationSchema: formSchema,
     onSubmit: submitUpdateTemplate,
@@ -149,6 +152,26 @@ const UpdateTemplateModal = ({ isOpen, onClose }) => {
                 borderColor={"brand.gray.mediumLight"}
               />
               <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
+            </FormControl>
+            <FormControl
+              display={"flex"}
+              flexDir={"column"}
+              isInvalid={
+                (formik.errors.allowEmpty as any) &&
+                (formik.touched.allowEmpty as any)
+              }
+            >
+              <FormLabel fontWeight="medium">Allow to be empty</FormLabel>
+
+              <Switch
+                {...formik.getFieldProps("allowEmpty")}
+                width={"fit-content"}
+                id="allowEmpty"
+                name="allowEmpty"
+                defaultChecked={selectedTemplate?.allowEmpty}
+              ></Switch>
+
+              <FormErrorMessage>{formik.errors.allowEmpty}</FormErrorMessage>
             </FormControl>
 
             <Divider />

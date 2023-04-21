@@ -1,0 +1,18 @@
+.multi-select-styles {
+}
+
+.rmsc {
+  --rmsc-hover: #f1f3f5;
+  --rmsc-selected: #e2e6ea;
+  --rmsc-border: #a0aec0;
+  --rmsc-gray: #aaa;
+  --rmsc-bg: #fff;
+  --rmsc-p: 10px; /* Spacing */
+  --rmsc-radius: 4px; /* Radius */
+  --rmsc-h: 30px; /* Height */
+  font-size: 14px;
+}
+
+.rmsc .dropdown-heading-dropdown-arrow {
+  color: #2d3748;
+}

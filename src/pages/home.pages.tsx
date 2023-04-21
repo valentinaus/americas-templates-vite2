@@ -11,7 +11,10 @@ import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import ProjectsDashboard from "../components/homeComponents/ProjectsDashboard";
 import { IRecentProject } from "../interfaces/projects.interfaces";
-import { getRecentProjects } from "../services/projects.services";
+import {
+  getProjectById,
+  getRecentProjects,
+} from "../services/projects.services";
 import IconCButton from "../UI/buttons/IconCButton";
 import HeadingTitle from "../UI/titles/HeadingTitle";
 import { useNavigate } from "react-router-dom";
@@ -41,6 +44,20 @@ const Home = () => {
     };
     fetchRecentProjects();
   }, []);
+
+  useEffect(() => {
+    if (itemSelected?.id) {
+      const fetchProject = async () => {
+        try {
+          const response = await getProjectById(user.token, itemSelected.id);
+          setItemSelected(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchProject();
+    }
+  }, [itemSelected?.id]);
 
   return (
     <Fragment>
