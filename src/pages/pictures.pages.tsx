@@ -1,5 +1,5 @@
 import { Divider, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import HeadingTitle from "../UI/titles/HeadingTitle";
 import IconCButton from "../UI/buttons/IconCButton";
 import { PlusCircleIcon } from "@heroicons/react/solid";
@@ -13,6 +13,7 @@ import PicturesShower from "../components/picturesComponents/PicturesShower";
 import DeletePicModal from "../components/modals/picturesModals/DeletePicModal";
 import PaginationComponent from "../components/PaginationComponent";
 import SearchBar from "../components/searchBar/SearchBar";
+import UpdatePicsModal from "../components/modals/picturesModals/UpdatePicsModal";
 
 export interface paginationI {
   totalPages: number | string | any;
@@ -55,8 +56,10 @@ const Pictures = () => {
     onClose: onCloseDeletePics,
   } = useDisclosure();
 
+  const memoizedSelectedTemplate = useMemo(() => picturesList, [picturesList]);
+
   const componentCTX: IPictureCTX = {
-    picturesList: picturesList,
+    picturesList: memoizedSelectedTemplate,
     selectedPicture: itemSelected,
     refreshList: refresh,
     isLoading: isLoading,
@@ -193,6 +196,7 @@ const Pictures = () => {
 
         <AddPicsModal isOpen={isOpenAddPics} onClose={onCloseAddPics} />
         <DeletePicModal isOpen={isOpenDeletePics} onClose={onCloseDeletePics} />
+        <UpdatePicsModal isOpen={isOpenEditPics} onClose={onCloseEditPics} />
       </PIcturesCTX.Provider>
     </Fragment>
   );

@@ -1,47 +1,67 @@
 import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
   Button,
+  useToast,
   Divider,
-  Flex,
+  VStack,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Switch,
-  useToast,
-  VStack,
+  Flex,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import React, { useContext } from "react";
+import { PIcturesCTX } from "../../../contexts/pictures.context";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import React, { useContext } from "react";
-import { ProjectsCTX } from "../../../contexts/projects.context";
-import { postProject } from "../../../services/projects.services";
-import { TemplatesCTX } from "../../../contexts/templates.context";
-import { postTemplate } from "../../../services/templates.services";
+import {
+  postPicture,
+  updatePicture,
+} from "../../../services/pictures.services";
+import { useSelector } from "react-redux";
 
-const AddTemplateModal = ({ isOpen, onClose }) => {
-  const toast = useToast();
+const UpdatePicsModal = ({ isOpen, onClose }) => {
   const { user } = useSelector((state: any) => state.auth);
-  const { setRefresh, refreshList, setIsLoading } = useContext(TemplatesCTX);
 
-  const submitTemplate = async (values, actions) => {
+  const {
+    setRefresh,
+    refreshList,
+    setIsLoading,
+    selectedPicture,
+    setSelectedPicture,
+  } = useContext(PIcturesCTX);
+  const toast = useToast();
+
+  const cancelButtonHandler = () => {
+    onClose();
+    formik.resetForm();
+    setSelectedPicture(null);
+  };
+
+  const submitPicInfo = async (values, actions) => {
+    if (!selectedPicture) return null;
     try {
       setIsLoading(true);
-      const response = await postTemplate(user.token, values);
+      const obj = { ...values, base64Image: "" };
+      const response = await updatePicture(
+        user.token,
+        selectedPicture?.id,
+        obj
+      );
       console.log(response);
       actions.setSubmitting(false);
-      actions.resetForm();
-      onClose();
+      cancelButtonHandler();
+
       setRefresh(!refreshList);
       toast({
-        title: "Template creation successful",
-        description: "The template was created successfully",
+        title: "Picture information updated successful",
+        description: "This picture was updated successfully",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -50,11 +70,11 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
     } catch (error) {
       actions.setSubmitting(false);
       setIsLoading(false);
-      actions.resetForm();
+      cancelButtonHandler();
       console.log(error);
       toast({
-        title: "Template creation unsuccessfull",
-        description: "The template couldn't be created. try again later",
+        title: "Picture information update unsuccessfull",
+        description: "This picture couldn't be updated. try again later",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -62,59 +82,48 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
     }
   };
 
-  const cancelButtonHandler = () => {
-    onClose();
-    formik.resetForm();
-  };
-
   const formSchema = Yup.object().shape({
     name: Yup.string()
-      .required("Name required")
+      .required("Photo name required")
       .matches(/^[^\\/]+$/i, `Invalid character`),
-    // .matches(
-    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
-    //   "Name cannot contain special caracters"
-    // )
     description: Yup.string().required("Description required"),
-    allowEmpty: Yup.boolean(),
-    // .matches(
-    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
-    //   "Description cannot contain special caracters"
-    // )
   });
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      description: "",
-      allowEmpty: false,
+      name: selectedPicture ? `${selectedPicture.name}` : "",
+      description: selectedPicture ? `${selectedPicture.description}` : "",
     },
     validationSchema: formSchema,
-    onSubmit: submitTemplate,
+    onSubmit: submitPicInfo,
+    enableReinitialize: true,
   });
 
   return (
     <Modal isOpen={isOpen} onClose={cancelButtonHandler} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader color={"brand.gray.dark"}>Create Template</ModalHeader>
+        <ModalHeader color={"brand.gray.dark"}>Update Picture</ModalHeader>
         <Divider />
         <ModalCloseButton />
         <ModalBody>
-          <VStack as="form" onSubmit={formik.handleSubmit as any} spacing={4}>
+          <VStack
+            as="form"
+            onSubmit={formik.handleSubmit as any}
+            w={"100%"}
+            gap={2}
+          >
             <FormControl
               display={"flex"}
               flexDir={"column"}
-              isInvalid={
-                (formik.errors.name as any) && (formik.touched.name as any)
-              }
+              isInvalid={(formik.errors.name as any) && formik.touched.name}
             >
               <FormLabel fontWeight="medium">Name</FormLabel>
               <Input
                 {...formik.getFieldProps("name")}
                 id="name"
                 name="name"
-                placeholder={"Insert template name"}
+                placeholder={"Insert photo name"}
                 size="sm"
                 borderRadius="4px"
                 borderColor={"brand.gray.mediumLight"}
@@ -125,8 +134,7 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
               display={"flex"}
               flexDir={"column"}
               isInvalid={
-                (formik.errors.description as any) &&
-                (formik.touched.description as any)
+                (formik.errors.description as any) && formik.touched.description
               }
             >
               <FormLabel fontWeight="medium">Description</FormLabel>
@@ -134,33 +142,13 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
                 {...formik.getFieldProps("description")}
                 id="description"
                 name="description"
-                placeholder={"Insert template description"}
+                placeholder={"Insert photo description"}
                 size="sm"
                 borderRadius="4px"
                 borderColor={"brand.gray.mediumLight"}
               />
               <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
             </FormControl>
-            <FormControl
-              display={"flex"}
-              flexDir={"column"}
-              isInvalid={
-                (formik.errors.allowEmpty as any) &&
-                (formik.touched.allowEmpty as any)
-              }
-            >
-              <FormLabel fontWeight="medium">Allow to be empty</FormLabel>
-
-              <Switch
-                {...formik.getFieldProps("allowEmpty")}
-                width={"fit-content"}
-                id="allowEmpty"
-                name="allowEmpty"
-              ></Switch>
-
-              <FormErrorMessage>{formik.errors.allowEmpty}</FormErrorMessage>
-            </FormControl>
-
             <Divider />
 
             <Flex pb={4} justifyContent={"flex-end"} w={"100%"}>
@@ -176,10 +164,10 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
                 size={"sm"}
                 colorScheme="blue"
                 type="submit"
-                loadingText="Loading..."
+                loadingText="Updating..."
                 isLoading={formik.isSubmitting}
               >
-                Create
+                Update
               </Button>
             </Flex>
           </VStack>
@@ -188,4 +176,4 @@ const AddTemplateModal = ({ isOpen, onClose }) => {
     </Modal>
   );
 };
-export default AddTemplateModal;
+export default UpdatePicsModal;

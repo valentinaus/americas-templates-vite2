@@ -30,6 +30,22 @@ export const postPicture = async (
   return response;
 };
 
+export const updatePicture = async (
+  token: string,
+  pictureId: string,
+  values: any
+) => {
+  let config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const response = await axios.put(
+    `${API_URL}/photo/${pictureId}`,
+    values,
+    config
+  );
+  return response;
+};
+
 export const deletePicture = async (token: string, picId: string) => {
   let config = {
     headers: { Authorization: `Bearer ${token}` },

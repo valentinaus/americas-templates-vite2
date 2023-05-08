@@ -19,7 +19,7 @@ import {
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import React, { Fragment, useContext, useState } from "react";
 import { PIcturesCTX } from "../../contexts/pictures.context";
-import { DotsVerticalIcon } from "@heroicons/react/solid";
+import { DotsVerticalIcon, PencilAltIcon } from "@heroicons/react/solid";
 
 import PictureModal from "./PictureModal";
 import EmptyTable from "../emptyStates/EmptyTable";
@@ -78,7 +78,8 @@ const PictureCard = ({
   setOnMouseEnter,
   onOpen,
 }: any) => {
-  const { onOpenDeleteModal, setSelectedPicture } = useContext(PIcturesCTX);
+  const { onOpenDeleteModal, setSelectedPicture, onOpenEditModal } =
+    useContext(PIcturesCTX);
 
   return (
     <Card borderRadius={"4px"}>
@@ -140,6 +141,15 @@ const PictureCard = ({
               _focus={{ bg: "transparent", border: "0px" }}
             />
             <MenuList>
+              <MenuItem
+                icon={<EditIcon />}
+                onClick={(e) => {
+                  setSelectedPicture(picture);
+                  onOpenEditModal();
+                }}
+              >
+                Edit
+              </MenuItem>
               <MenuItem
                 icon={<DeleteIcon />}
                 onClick={(e) => {

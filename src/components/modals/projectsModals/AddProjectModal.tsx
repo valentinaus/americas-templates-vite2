@@ -84,16 +84,15 @@ const AddProjectModal = ({
   };
 
   const formSchema = Yup.object().shape({
-    name: Yup.string().required("Name required"),
+    name: Yup.string()
+      .required("Name required")
+      .matches(/^[^\\/]+$/i, `Invalid character`),
     // .matches(
     //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
     //   "Name cannot contain special caracters"
     // )
     description: Yup.string().required("Description required"),
-    // .matches(
-    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
-    //   "Description cannot contain special caracters"
-    // )
+
     technician: Yup.string().matches(
       /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
       "technician cannot contain special caracters"
@@ -101,8 +100,7 @@ const AddProjectModal = ({
 
     phoneClientId: Yup.string().required("Device required"),
     siteId: Yup.string().required("Site required"),
-    // templateId: Yup.string().required("Template required"),
-    // templateId: Yup.array().required("Template required"),
+
     templateIds: Yup.array()
       .test(
         "NotEmptyArray",
@@ -124,7 +122,6 @@ const AddProjectModal = ({
     validationSchema: formSchema,
     onSubmit: submitProject,
   });
-
 
   useEffect(() => {
     formik.setFieldValue("templateIds", selected);
