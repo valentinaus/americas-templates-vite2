@@ -148,7 +148,7 @@ const TemplateDetailsModal = ({
   );
 };
 
-const PictureCardTemp = ({ picture }) => {
+export const PictureCardTemp = ({ picture }) => {
   return (
     <Card maxW="sm" borderRadius={"4px"}>
       <CardHeader p={0} w={"100%"} h={"100%"} maxH={"10rem"}>

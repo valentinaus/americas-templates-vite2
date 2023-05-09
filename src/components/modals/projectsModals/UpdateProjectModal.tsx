@@ -95,16 +95,15 @@ const UpdateProjectModal = ({
   };
 
   const formSchema = Yup.object().shape({
-    name: Yup.string().required("Name required"),
+    name: Yup.string()
+      .required("Name required")
+      .matches(/^[^\\/]+$/i, `Invalid character`),
     // .matches(
     //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
     //   "Name cannot contain special caracters"
     // )
     description: Yup.string().required("Description required"),
-    // .matches(
-    //   /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
-    //   "Description cannot contain special caracters"
-    // )
+
     technician: Yup.string().matches(
       /^([A-zÀ-ú]|[0-9]|[-'_ `´])+$/,
       "technician cannot contain special caracters"

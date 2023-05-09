@@ -17,10 +17,8 @@ import {
   getTemplateInfo,
 } from "../services/templates.services";
 import IconCButton from "../UI/buttons/IconCButton";
-import MainCard from "../UI/containers/MainCard";
 import TableBase from "../UI/TableBase";
 import HeadingTitle from "../UI/titles/HeadingTitle";
-import SecongTitle from "../UI/titles/SecongTitle";
 import { paginationI } from "./pictures.pages";
 
 const tableColumns = [
@@ -80,9 +78,11 @@ const Templates = () => {
     onClose: onCloseTempDetails,
   } = useDisclosure();
 
+  const memoizedSelectedTemplate = useMemo(() => itemSelected, [itemSelected]);
+
   const componentCTX: ITemplateCTX = {
     templatesList: templatesList,
-    selectedTemplate: itemSelected,
+    selectedTemplate: memoizedSelectedTemplate,
     templateInfo: templateInfo,
     refreshList: refresh,
     isLoading: isLoading,
@@ -118,10 +118,13 @@ const Templates = () => {
 
   useEffect(() => {
     const fetchTemplateInfo = async () => {
-      if (itemSelected) {
+      if (memoizedSelectedTemplate) {
         try {
           setLoadingInfo(true);
-          const response = await getTemplateInfo(user.token, itemSelected?.id);
+          const response = await getTemplateInfo(
+            user.token,
+            memoizedSelectedTemplate?.id
+          );
           setTemplateInfo(response.data);
           setLoadingInfo(false);
         } catch (error) {
@@ -212,6 +215,7 @@ const Templates = () => {
         <UpdateTemplateModal
           isOpen={isOpenEditTemplate}
           onClose={onCloseEditTemplate}
+          loadingPics={loadingPics}
         />
         <DeleteTemplateModal
           isOpen={isOpenDeleteTemplate}

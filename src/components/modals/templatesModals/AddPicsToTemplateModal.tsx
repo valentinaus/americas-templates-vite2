@@ -233,10 +233,6 @@ const AddPicsToTemplateModal = ({
                         w={"100%"}
                         // h={"100%"}
                         spacing={4}
-
-                        // maxH={"100%"}
-
-                        // templateColumns="repeat(auto-fill, minmax(100px, 1fr))"
                       >
                         {picturesList &&
                           picturesList.map((item, index) => (
@@ -316,28 +312,36 @@ export const LoadingSkeleton = () => {
   );
 };
 
-export const LoadingPicsSkeletons = () => (
-  <SimpleGrid
-    border={"1px"}
-    w={"100%"}
-    borderColor={"brand.gray.superLight"}
-    p={4}
-    mt={2}
-    borderRadius={"8px"}
-    gap={"8px"}
-    columns={[1, 2, 3, 4, 5]}
-    h={"20rem"}
-  >
-    <Skeleton h={"150px"} />
-    <Skeleton h={"150px"} />
-    <Skeleton h={"150px"} />
-    <Skeleton h={"150px"} />
-    <Skeleton h={"150px"} />
-    <Skeleton h={"150px"} />
-    <Skeleton h={"150px"} />
-    <Skeleton h={"150px"} />
-  </SimpleGrid>
-);
+export const LoadingPicsSkeletons = ({
+  height = "20rem",
+  size,
+}: {
+  height?: string;
+  size?: number;
+}) => {
+  return (
+    <SimpleGrid
+      border={"1px"}
+      w={"100%"}
+      borderColor={"brand.gray.superLight"}
+      p={4}
+      mt={2}
+      borderRadius={"8px"}
+      gap={"8px"}
+      columns={[1, 2, 3, 4, 5]}
+      h={height}
+    >
+      <Skeleton h={"150px"} />
+      <Skeleton h={"150px"} />
+      <Skeleton h={"150px"} />
+      <Skeleton h={"150px"} />
+      <Skeleton h={"150px"} />
+      <Skeleton h={"150px"} />
+      <Skeleton h={"150px"} />
+      <Skeleton h={"150px"} />
+    </SimpleGrid>
+  );
+};
 
 const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
   const handleSelected = () => {
@@ -401,36 +405,5 @@ const PictureCardTemp = ({ picture, handleChange, selectedItemsList }) => {
       </CardBody>
     </Card>
   );
-
-  // return (
-  //   <Tooltip hasArrow label={picture.name}>
-  //     <Flex
-  //       border={handleSelected() === true ? "2px" : "1px"}
-  //       borderColor={
-  //         handleSelected() === true ? "blue.300" : "brand.gray.superLight"
-  //       }
-  //       borderRadius={"8px"}
-  //       boxShadow={handleSelected() === true ? "md" : "sm"}
-  //       position={"relative"}
-  //       _hover={{
-  //         boxShadow: "md",
-  //         border: "2px",
-  //         borderColor: "blue.300",
-  //       }}
-  //       onClick={() => {
-  //         handleChange(picture.id);
-  //       }}
-  //     >
-  //       <Image
-  //         w={"100%"}
-  //         src={picture.base64Image}
-  //         opacity={handleSelected() === true ? "60%" : "100%"}
-  //         objectFit="cover"
-  //         alt={picture.name}
-  //         borderRadius={"4px"}
-  //       />
-  //     </Flex>
-  //   </Tooltip>
-  // );
 };
 export default AddPicsToTemplateModal;
