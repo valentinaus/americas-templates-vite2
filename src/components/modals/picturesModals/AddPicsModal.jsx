@@ -235,13 +235,7 @@ const AddPicsModal = ({ isOpen, onClose }) => {
         whiteSpace={"nowrap"}
         overflow={"hidden"}
       >
-        <Text
-          fontSize={"sm"}
-          color={"brand.red.medium"}
-          fontWeight={"500"}
-          // textOverflow={"ellipsis"}
-          // width={"10rem"}
-        >
+        <Text fontSize={"sm"} color={"brand.red.medium"} fontWeight={"500"}>
           {file.path}
         </Text>
 
