@@ -34,6 +34,7 @@ import { PIcturesCTX } from "../../../contexts/pictures.context";
 import { postPicture } from "../../../services/pictures.services";
 import { useSelector } from "react-redux";
 import { calcLength } from "framer-motion";
+import imageCompression from "browser-image-compression";
 
 const AddPicsModal = ({ isOpen, onClose }) => {
   const [imageSelected, setImageSelected] = useState(null);
@@ -45,30 +46,38 @@ const AddPicsModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const onDrop = useCallback(
     (acceptedFiles) => {
-      console.log("acceptedFiles", acceptedFiles);
       const filesArray = [...acceptedFiles];
       setMyfiles(filesArray);
 
-      filesArray.forEach((file) => {
-        const reader = new FileReader();
-        reader.onabort = () => console.log("file reading was aborted");
-        reader.onerror = () => console.log("file reading has failed");
-        reader.onload = (e) => {
-          const binaryStr = reader.result;
-          formik.setFieldValue("base64Image", binaryStr);
-          setImageSelected(binaryStr);
-        };
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 720,
+        useWebWorker: true,
+      };
 
-        // filesRejections.forEach((file) => {
-        //   file.forEach((err) => {
-        //     if (err.code === "file-too-large") {
-        //       setErrors(`Error: ${err.message}`);
-        //     }
-        //   });
-        // });
+      const file = filesArray[0];
+      imageCompression(file, options)
+        .then(function (compressedFile) {
+          console.log(
+            "compressedFile instanceof Blob",
+            compressedFile instanceof Blob
+          ); // true
 
-        reader.readAsDataURL(file);
-      });
+          const reader = new FileReader();
+          reader.onabort = () => console.log("file reading was aborted");
+          reader.onerror = () => console.log("file reading has failed");
+          reader.onload = (e) => {
+            const binaryStr = reader.result;
+
+            formik.setFieldValue("base64Image", binaryStr);
+            setImageSelected(binaryStr);
+          };
+
+          reader.readAsDataURL(compressedFile);
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
     },
     [myfiles]
   );
@@ -92,8 +101,6 @@ const AddPicsModal = ({ isOpen, onClose }) => {
       "image/jpg": [],
     },
     maxFiles: 1,
-    maxSize: MAX_SIZE,
-    // validator: maxFileSize,
   });
 
   const formSchema = Yup.object().shape({
@@ -105,7 +112,6 @@ const AddPicsModal = ({ isOpen, onClose }) => {
     //   "Name cannot contain special caracters"
     // )
     description: Yup.string().required("Description required"),
-
     base64Image: Yup.string().required("Image required"),
   });
 
@@ -229,13 +235,7 @@ const AddPicsModal = ({ isOpen, onClose }) => {
         whiteSpace={"nowrap"}
         overflow={"hidden"}
       >
-        <Text
-          fontSize={"sm"}
-          color={"brand.red.medium"}
-          fontWeight={"500"}
-          // textOverflow={"ellipsis"}
-          // width={"10rem"}
-        >
+        <Text fontSize={"sm"} color={"brand.red.medium"} fontWeight={"500"}>
           {file.path}
         </Text>
 
@@ -357,9 +357,9 @@ const AddPicsModal = ({ isOpen, onClose }) => {
                         <Text fontSize={"sm"} color={"brand.red.medium"}>
                           {"Maximum one (1) file"}
                         </Text>
-                        <Text fontSize={"sm"} color={"brand.red.medium"}>
+                        {/* <Text fontSize={"sm"} color={"brand.red.medium"}>
                           {`File too large. Max size of 2MB`}
-                        </Text>
+                        </Text> */}
                       </Flex>
                     )}
                   </Fragment>
