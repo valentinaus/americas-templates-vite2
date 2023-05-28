@@ -20,6 +20,7 @@ import { getAllTemplates } from "../services/templates.services";
 import IconCButton from "../UI/buttons/IconCButton";
 import TableBase from "../UI/TableBase";
 import HeadingTitle from "../UI/titles/HeadingTitle";
+import SearchBar from "../components/searchBar/SearchBar";
 
 const tableColumns = [
   { heading: "name", value: "name" },
@@ -35,6 +36,8 @@ const Projects = () => {
   const [refresh, setRefresh] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState<IProject | null>(null);
   const [projectsList, setProjectsList] = useState<IProject[] | null>([]);
+  const [filteredData, setFilteredData] = useState<IProject[] | null>([]);
+  const [searchValue, setSearchValue] = useState<string>("");
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [sitesList, setSitesList] = useState<ISite[] | null>([]);
   const [phoneNumberList, setPhoneNumberList] = useState<IPhoneNumber[] | null>(
@@ -70,7 +73,7 @@ const Projects = () => {
   } = useDisclosure();
 
   const componentCTX: IProjectCTX = {
-    projectsList: projectsList,
+    projectsList: filteredData,
     selectedProject: itemSelected,
     refreshList: refresh,
     isLoading: isLoading,
@@ -91,6 +94,7 @@ const Projects = () => {
         const response = await getAllProjects(user.token);
 
         setProjectsList(response.data);
+        setFilteredData(response.data);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -144,6 +148,31 @@ const Projects = () => {
     }
   }, [itemSelected?.id]);
 
+  useEffect(() => {
+    //console.log("Effect");
+    const myReg = new RegExp("^.*" + searchValue.toLowerCase() + ".*");
+    if (projectsList !== null) {
+      const newArray = projectsList.filter((f) =>
+        f.name.toLowerCase().match(myReg)
+      );
+      setFilteredData(newArray);
+    }
+  }, [projectsList, searchValue]);
+
+  const onSearchValueChange = (event: any) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleEnterSearch = (e: any) => {
+    if (e.key === "Enter") {
+      console.log("ok");
+    }
+  };
+
+  const handleNoSearch = () => {
+    setSearchValue("");
+  };
+
   return (
     <Fragment>
       <ProjectsCTX.Provider value={componentCTX}>
@@ -163,6 +192,13 @@ const Projects = () => {
             />
           </Flex>
           <Divider my={4} />
+          <SearchBar
+            placeHolderText="Search for a project"
+            onSearchValueChange={onSearchValueChange}
+            searchValue={searchValue}
+            handleEnterSearch={handleEnterSearch}
+            handleNoSearch={handleNoSearch}
+          />
           <Flex>
             <TableBase
               tableColumns={tableColumns}
@@ -170,15 +206,10 @@ const Projects = () => {
               setIsCheckAll={setIsCheckAll}
               loadingTitle={"Loading projects..."}
               isLoading={isLoading}
-              list={projectsList}
+              list={filteredData}
               emptyTitle={"Projects list empty!"}
             >
-              <ProjectsTableRows
-                tableColumns={tableColumns}
-                sitesList={sitesList}
-                phoneNumberList={phoneNumberList}
-                templatesList={templatesList}
-              />
+              <ProjectsTableRows tableColumns={tableColumns} />
             </TableBase>
           </Flex>
         </Flex>

@@ -13,6 +13,11 @@ import AddSiteModal from "../components/modals/sitesModals/AddSiteModal";
 import UpdateSiteModal from "../components/modals/sitesModals/UpdateSiteModal";
 import DeleteSiteModal from "../components/modals/sitesModals/DeleteSiteModal";
 
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
+import { DownloadIcon } from "@chakra-ui/icons";
+import SearchBar from "../components/searchBar/SearchBar";
+
 const tableColumns = [
   { heading: "name", value: "name" },
   { heading: "description", value: "description" },
@@ -26,7 +31,9 @@ const Sites = () => {
   const [refresh, setRefresh] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState<ISite | null>(null);
   const [sitesList, setSitesList] = useState<ISite[] | null>([]);
+  const [filteredData, setFilteredData] = useState<ISite[] | null>([]);
   const [isCheckAll, setIsCheckAll] = useState(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   const {
     isOpen: isOpenAddSite,
@@ -45,7 +52,7 @@ const Sites = () => {
   } = useDisclosure();
 
   const componentCTX: ISiteCTX = {
-    sitesList: sitesList,
+    sitesList: filteredData,
     selectedSite: itemSelected,
     refreshList: refresh,
     isLoading: isLoading,
@@ -63,6 +70,7 @@ const Sites = () => {
         setIsLoading(true);
         const response = await getAllSites(user.token);
         setSitesList(response.data);
+        setFilteredData(response.data);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -71,6 +79,54 @@ const Sites = () => {
     };
     fetchSites();
   }, [refresh]);
+
+  useEffect(() => {
+    const myReg = new RegExp("^.*" + searchValue.toLowerCase() + ".*");
+    if (sitesList !== null) {
+      const newArray = sitesList.filter((f) =>
+        f.name.toLowerCase().match(myReg)
+      );
+      setFilteredData(newArray);
+    }
+  }, [sitesList, searchValue]);
+
+  const onSearchValueChange = (event: any) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleEnterSearch = (e: any) => {
+    if (e.key === "Enter") {
+      console.log("ok");
+    }
+  };
+
+  const handleNoSearch = () => {
+    setSearchValue("");
+  };
+
+  const submitExport = async () => {
+    try {
+      //setIsLoading(true);
+      const response = await getAllSites(user.token);
+
+      const fileName = `Sites`;
+      const fileType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+      const fileExtension = ".xlsx";
+      const ws = XLSX.utils.json_to_sheet(response.data);
+      const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+      const excelBuffer = XLSX.write(wb, {
+        bookType: "xlsx",
+        type: "array",
+      });
+
+      const data = new Blob([excelBuffer], { type: fileType });
+      FileSaver.saveAs(data, fileName + fileExtension);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Fragment>
@@ -83,14 +139,28 @@ const Sites = () => {
                 Manage your sites list here.
               </Text>
             </Flex>
-
-            <IconCButton
-              text={"Add Site"}
-              icon={<Icon as={PlusCircleIcon} w={4} h={4} />}
-              onClick={onOpenAddSite}
-            />
+            <Flex>
+              <IconCButton
+                text={"Export sites"}
+                icon={<Icon as={DownloadIcon} w={4} h={4} />}
+                onClick={submitExport}
+              />
+              <IconCButton
+                text={"Add Site"}
+                icon={<Icon as={PlusCircleIcon} w={4} h={4} />}
+                onClick={onOpenAddSite}
+                ml={2}
+              />
+            </Flex>
           </Flex>
           <Divider my={4} />
+          <SearchBar
+            placeHolderText="Search for a site"
+            onSearchValueChange={onSearchValueChange}
+            searchValue={searchValue}
+            handleEnterSearch={handleEnterSearch}
+            handleNoSearch={handleNoSearch}
+          />
           <Flex>
             <TableBase
               tableColumns={tableColumns}
@@ -98,7 +168,7 @@ const Sites = () => {
               setIsCheckAll={setIsCheckAll}
               loadingTitle={"Loading sites..."}
               isLoading={isLoading}
-              list={sitesList}
+              list={filteredData}
               emptyTitle={"Sites list empty!"}
             >
               <SitesTableRows tableColumns={tableColumns} />

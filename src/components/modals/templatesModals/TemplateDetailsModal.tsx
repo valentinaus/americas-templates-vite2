@@ -62,6 +62,10 @@ const TemplateDetailsModal = ({
                     title={"Description:"}
                     text={templateInfo.description}
                   />
+                   <TemplateText
+                    title={"Photos assigned:"}
+                    text={templateInfo.photosAssigned}
+                  />
                 </Flex>
               )}
 

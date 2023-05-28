@@ -1,4 +1,11 @@
-import { Divider, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  Divider,
+  Flex,
+  Icon,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import HeadingTitle from "../UI/titles/HeadingTitle";
 import IconCButton from "../UI/buttons/IconCButton";
@@ -8,12 +15,16 @@ import { useSelector } from "react-redux";
 import { IPicture } from "../interfaces/pictures.interfaces";
 import AddPicsModal from "../components/modals/picturesModals/AddPicsModal";
 import Dropzone from "react-dropzone";
-import { getAllPictures } from "../services/pictures.services";
+import { getAllPictures, exportPictures } from "../services/pictures.services";
 import PicturesShower from "../components/picturesComponents/PicturesShower";
 import DeletePicModal from "../components/modals/picturesModals/DeletePicModal";
 import PaginationComponent from "../components/PaginationComponent";
 import SearchBar from "../components/searchBar/SearchBar";
 import UpdatePicsModal from "../components/modals/picturesModals/UpdatePicsModal";
+import { DownloadIcon } from "@chakra-ui/icons";
+
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 export interface paginationI {
   totalPages: number | string | any;
@@ -133,6 +144,47 @@ const Pictures = () => {
     });
   };
 
+  const submitExport = async () => {
+    try {
+      //setIsLoading(true);
+      const response = await exportPictures(user.token);
+      console.log(response);
+
+      const fileName = `Photos`;
+      const fileType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+      const fileExtension = ".xlsx";
+      const ws = XLSX.utils.json_to_sheet(response.data);
+      const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+      const excelBuffer = XLSX.write(wb, {
+        bookType: "xlsx",
+        type: "array",
+      });
+
+      const data = new Blob([excelBuffer], { type: fileType });
+      FileSaver.saveAs(data, fileName + fileExtension);
+
+      /* toast({
+          title: "Picture deleted successful",
+          description: "The picture was deleted successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        }); */
+      //setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      /*  toast({
+          title: "Picture deleted unsuccessfully",
+          description: "The picture couldn't be deleted. try again later",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        }); */
+    }
+  };
+
   return (
     <Fragment>
       <PIcturesCTX.Provider value={componentCTX}>
@@ -166,11 +218,19 @@ const Pictures = () => {
                     Manage your pictures here.
                   </Text>
                 </Flex>
-                <IconCButton
-                  text={"Add file"}
-                  icon={<Icon as={PlusCircleIcon} w={4} h={4} />}
-                  onClick={onOpenAddPics}
-                />
+                <Flex>
+                  <IconCButton
+                    text={"Export pictures"}
+                    icon={<Icon as={DownloadIcon} w={4} h={4} />}
+                    onClick={submitExport}
+                  />
+                  <IconCButton
+                    text={"Add picture"}
+                    icon={<Icon as={PlusCircleIcon} w={4} h={4} />}
+                    onClick={onOpenAddPics}
+                    ml={2}
+                  />
+                </Flex>
               </Flex>
               <Divider my={4} />
               <SearchBar

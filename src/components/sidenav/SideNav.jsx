@@ -19,16 +19,16 @@ import "../../styles/sideBar.css";
 
 const navItemsList = [
   { itemKey: "home", itemText: "Home", itemIcon: HomeIcon },
-  { itemKey: "templates", itemText: "Templates", itemIcon: NewspaperIcon },
-  { itemKey: "pictures", itemText: "Pictures", itemIcon: CameraIcon },
   { itemKey: "projects", itemText: "Projects", itemIcon: ClipboardIcon },
+  { itemKey: "templates", itemText: "Templates", itemIcon: NewspaperIcon },
   { itemKey: "sites", itemText: "Sites", itemIcon: MapIcon },
-  { itemKey: "clients", itemText: "Users", itemIcon: UsersIcon },
+  { itemKey: "pictures", itemText: "Pictures", itemIcon: CameraIcon },
   {
     itemKey: "clients-phone-number",
     itemText: "Devices",
     itemIcon: DeviceMobileIcon,
   },
+  { itemKey: "clients", itemText: "Users", itemIcon: UsersIcon },
 ];
 
 const SideBar = () => {
