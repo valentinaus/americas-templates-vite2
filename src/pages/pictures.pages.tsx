@@ -188,7 +188,12 @@ const Pictures = () => {
   return (
     <Fragment>
       <PIcturesCTX.Provider value={componentCTX}>
-        <Flex w={"100%"} flexDir={"column"} justifyContent={"space-between"}>
+        <Flex
+          w={"100%"}
+          flexDir={"column"}
+          justifyContent={"space-between"}
+          overflow={"auto"}
+        >
           <Flex
             flexDir={"column"}
             position={"relative"}
@@ -208,7 +213,7 @@ const Pictures = () => {
               flexDir={"column"}
               position={"sticky"}
               top={0}
-              zIndex={1}
+              zIndex={0}
               bg={"white"}
             >
               <Flex justifyContent={"space-between"} alignItems={"center"}>

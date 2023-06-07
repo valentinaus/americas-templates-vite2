@@ -60,11 +60,8 @@ function App() {
             <Route path="templates" element={<Templates />} />
             <Route path="pictures" element={<Pictures />} />
             <Route path="sites" element={<Sites />} />
-            <Route path="clients" element={<Clients />} />
-            <Route
-              path="clients-phone-number"
-              element={<ClientPhoneNumber />}
-            />
+            <Route path="users" element={<Clients />} />
+            <Route path="devices" element={<ClientPhoneNumber />} />
             <Route path="projects" element={<Projects />} />
             <Route path="change-password" element={<ChangePassword />} />
           </Route>

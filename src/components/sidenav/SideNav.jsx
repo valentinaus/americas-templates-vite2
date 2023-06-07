@@ -24,11 +24,11 @@ const navItemsList = [
   { itemKey: "sites", itemText: "Sites", itemIcon: MapIcon },
   { itemKey: "pictures", itemText: "Pictures", itemIcon: CameraIcon },
   {
-    itemKey: "clients-phone-number",
+    itemKey: "devices",
     itemText: "Devices",
     itemIcon: DeviceMobileIcon,
   },
-  { itemKey: "clients", itemText: "Users", itemIcon: UsersIcon },
+  { itemKey: "users", itemText: "Users", itemIcon: UsersIcon },
 ];
 
 const SideBar = () => {

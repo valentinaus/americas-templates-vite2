@@ -176,7 +176,7 @@ const Projects = () => {
   return (
     <Fragment>
       <ProjectsCTX.Provider value={componentCTX}>
-        <Flex w={"100%"} flexDir={"column"}>
+        <Flex w={"100%"} flexDir={"column"} overflow={"auto"}>
           <Flex justifyContent={"space-between"} alignItems={"center"}>
             <Flex flexDir={"column"}>
               <HeadingTitle title="Projects" />
