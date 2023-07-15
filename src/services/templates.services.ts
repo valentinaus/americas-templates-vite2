@@ -56,6 +56,17 @@ export const deleteTemplate = async (token: string, templateId: string) => {
   return response;
 };
 
+export const duplicateTemplate = async (token: string, templateId: string) => {
+  let config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const response = await axios.post(
+    `${API_URL}/template/${templateId}/duplicate`, undefined,
+    config
+  );
+  return response;
+};
+
 export const postPicsToTemplate = async (
   token: string,
   values: any,

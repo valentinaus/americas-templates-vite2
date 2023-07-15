@@ -1,21 +1,23 @@
 import React from "react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { CopyIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { Flex, Tooltip, Text, IconButton } from "@chakra-ui/react";
 import { CameraIcon, InformationCircleIcon } from "@heroicons/react/solid";
 
 const TemplatesTableOptions = ({
   editLabel,
   addPicturesLabel,
+  duplicateLabel,
   detailsLabel,
   deleteLabel,
   onClickEdit,
   onClickDelete,
   onClickAddPics,
   onClickViewDetails,
+  onClickDuplicate,
 }) => {
   return (
     <Flex
-      w={"8rem"}
+      //w={"8rem"}
       h={5}
       justifyContent={"center"}
       alignItems={"center"}
@@ -39,6 +41,27 @@ const TemplatesTableOptions = ({
           icon={<InformationCircleIcon width={"17px"} height={"17px"} />}
           color={"brand.gray.dark"}
           onClick={onClickViewDetails}
+        />
+      </Tooltip>
+
+      <Tooltip
+        label={duplicateLabel}
+        fontSize={"13px"}
+        // bg={"brand.primary.dark"}
+        color={"white"}
+      >
+        <IconButton
+          aria-label=""
+          size={"sm"}
+          _hover={{
+            color: "brand.primary.hover",
+          }}
+          _active={{
+            color: "brand.primary.active",
+          }}
+          icon={<CopyIcon width={"17px"} height={"17px"} />}
+          color={"brand.gray.dark"}
+          onClick={onClickDuplicate}
         />
       </Tooltip>
 

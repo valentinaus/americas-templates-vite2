@@ -21,6 +21,7 @@ import TableBase from "../UI/TableBase";
 import HeadingTitle from "../UI/titles/HeadingTitle";
 import { paginationI } from "./pictures.pages";
 import SearchBar from "../components/searchBar/SearchBar";
+import DuplicateTemplateModal from "../components/modals/templatesModals/DuplicateTemplateModal";
 
 const tableColumns = [
   { heading: "name", value: "name" },
@@ -70,6 +71,12 @@ const Templates = () => {
   } = useDisclosure();
 
   const {
+    isOpen: isOpenDuplicateTemplate,
+    onOpen: onOpenDuplicateTemplate,
+    onClose: onCloseDuplicateTemplate,
+  } = useDisclosure();
+
+  const {
     isOpen: isOpenAddPicsToTemp,
     onOpen: onOpenAddPicsToTemp,
     onClose: onCloseAddPicsToTemp,
@@ -100,6 +107,7 @@ const Templates = () => {
     onOpenDeleteModal: onOpenDeleteTemplate,
     onOpenAddPicsModal: onOpenAddPicsToTemp,
     onOpenTemplatDetails: onOpenTempDetails,
+    onOpenDuplicateModal: onOpenDuplicateTemplate,
     picturesPaginationInfo: picturesPaginationInfo,
     setPicturesPaginationInfo: setPicturesPaginationInfo,
   };
@@ -255,6 +263,10 @@ const Templates = () => {
         <DeleteTemplateModal
           isOpen={isOpenDeleteTemplate}
           onClose={onCloseDeleteTemplate}
+        />
+        <DuplicateTemplateModal
+          isOpen={isOpenDuplicateTemplate}
+          onClose={onCloseDuplicateTemplate}
         />
 
         <AddPicsToTemplateModal

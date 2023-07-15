@@ -1,1 +1,1 @@
-export const API_URL = "https://amcsite-api.americasrf.com/api";
+export const API_URL = "http://amc-api.americasrf.com/api";

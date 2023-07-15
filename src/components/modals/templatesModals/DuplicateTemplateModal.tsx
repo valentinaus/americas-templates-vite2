@@ -15,11 +15,12 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
+
 import { TemplatesCTX } from "../../../contexts/templates.context";
 
-import { deleteTemplate } from "../../../services/templates.services";
+import { duplicateTemplate } from "../../../services/templates.services";
 
-const DeleteTemplateModal = ({ isOpen, onClose }) => {
+const DuplicateTemplateModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const { user } = useSelector((state: any) => state.auth);
   const {
@@ -36,16 +37,19 @@ const DeleteTemplateModal = ({ isOpen, onClose }) => {
     setSelectedTemplate(null);
   };
 
-  const submitDeleteProject = async () => {
+  const submitDuplicateTemplate = async () => {
     if (selectedTemplate) {
       try {
-        const response = await deleteTemplate(user.token, selectedTemplate.id);
+        const response = await duplicateTemplate(
+          user.token,
+          selectedTemplate.id
+        );
         console.log(response);
         onClose();
         setRefresh(!refreshList);
         toast({
-          title: "Template deleted successful",
-          description: "The template was deleted successfully",
+          title: "Template copied successful",
+          description: "The template was copied successfully",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -53,8 +57,8 @@ const DeleteTemplateModal = ({ isOpen, onClose }) => {
       } catch (error) {
         console.log(error);
         toast({
-          title: "Template deleted unsuccessfully",
-          description: "The template couldn't be deleted. try again later",
+          title: "Template copied unsuccessfully",
+          description: "The template couldn't be copied. try again later",
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -67,16 +71,15 @@ const DeleteTemplateModal = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={cancelButtonHandler} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader color={"brand.gray.dark"}>Delete Template</ModalHeader>
+        <ModalHeader color={"brand.gray.dark"}>Duplicate Template</ModalHeader>
         <Divider />
         <ModalCloseButton />
         <ModalBody>
           {selectedTemplate && (
             <Center my={4} flexDir={"row"}>
               <Text>
-                Are you sure you want to delete
-                <strong> {selectedTemplate.name} </strong>
-                of your templates list?
+                Are you sure you want to duplicate the template
+                <strong> {selectedTemplate.name} </strong>?
               </Text>
             </Center>
           )}
@@ -94,9 +97,9 @@ const DeleteTemplateModal = ({ isOpen, onClose }) => {
             <Button
               size={"sm"}
               colorScheme="blue"
-              onClick={submitDeleteProject}
+              onClick={submitDuplicateTemplate}
             >
-              Delete
+              Duplicate
             </Button>
           </Flex>
         </ModalFooter>
@@ -104,4 +107,4 @@ const DeleteTemplateModal = ({ isOpen, onClose }) => {
     </Modal>
   );
 };
-export default DeleteTemplateModal;
+export default DuplicateTemplateModal;
