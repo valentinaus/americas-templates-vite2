@@ -51,7 +51,7 @@ const TableRow = ({ tableColumns, item, setItemSelected }) => {
     onOpenDetailsProject,
   } = useContext(ProjectsCTX);
 
-  const findItemsNames = (itemId, list) => {
+  /*   const findItemsNames = (itemId, list) => {
     const itemFound = list.find((item) => {
       if (item.id === itemId) {
         return item;
@@ -63,7 +63,7 @@ const TableRow = ({ tableColumns, item, setItemSelected }) => {
     } else {
       return "Not found";
     }
-  };
+  }; */
 
   return (
     <Tr

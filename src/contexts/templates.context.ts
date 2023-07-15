@@ -23,6 +23,7 @@ export interface ITemplateCTX {
   onOpenDeleteModal: any;
   onOpenAddPicsModal: any;
   onOpenTemplatDetails: any;
+  onOpenDuplicateModal: any;
 }
 
 export const initialTemplateCTX: ITemplateCTX = {
@@ -32,20 +33,21 @@ export const initialTemplateCTX: ITemplateCTX = {
   isLoading: false,
   templateInfo: null,
   loadingInfo: false,
-  setTemplatesList: (payload: []) => {},
-  setSelectedTemplate: (obj: any) => {},
-  setTemplateInfo: (obj: any) => {},
-  setRefresh: () => {},
-  setIsLoading: () => {},
-  setLoadingInfo: () => {},
+  setTemplatesList: (payload: []) => { },
+  setSelectedTemplate: (obj: any) => { },
+  setTemplateInfo: (obj: any) => { },
+  setRefresh: () => { },
+  setIsLoading: () => { },
+  setLoadingInfo: () => { },
 
   picturesPaginationInfo: null,
-  setPicturesPaginationInfo: () => {},
+  setPicturesPaginationInfo: () => { },
 
-  onOpenEditModal: () => {},
-  onOpenDeleteModal: () => {},
-  onOpenAddPicsModal: () => {},
-  onOpenTemplatDetails: () => {},
+  onOpenEditModal: () => { },
+  onOpenDeleteModal: () => { },
+  onOpenAddPicsModal: () => { },
+  onOpenTemplatDetails: () => { },
+  onOpenDuplicateModal: () => { }
 };
 
 export const TemplatesCTX = createContext(initialTemplateCTX);

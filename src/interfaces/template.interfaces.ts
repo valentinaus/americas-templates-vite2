@@ -11,5 +11,6 @@ export interface ITemplateInfo {
   id: string;
   name: string;
   description: string;
+  photosAssigned: number;
   photos: IPicture[] | null;
 }

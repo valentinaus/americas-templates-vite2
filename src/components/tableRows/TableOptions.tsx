@@ -21,7 +21,11 @@ const TableOptions = ({
   onClickDetails,
 }: tableOptions) => {
   return (
-    <Flex w={"5rem"} h={5} justifyContent={"center"} alignItems={"center"}>
+    <Flex
+      /* w={"5rem"} */ h={5}
+      justifyContent={"center"}
+      alignItems={"center"}
+    >
       {detailsLabel && (
         <Tooltip
           label={detailsLabel}

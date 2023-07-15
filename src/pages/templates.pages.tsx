@@ -20,6 +20,8 @@ import IconCButton from "../UI/buttons/IconCButton";
 import TableBase from "../UI/TableBase";
 import HeadingTitle from "../UI/titles/HeadingTitle";
 import { paginationI } from "./pictures.pages";
+import SearchBar from "../components/searchBar/SearchBar";
+import DuplicateTemplateModal from "../components/modals/templatesModals/DuplicateTemplateModal";
 
 const tableColumns = [
   { heading: "name", value: "name" },
@@ -40,6 +42,7 @@ const Templates = () => {
   const [refresh, setRefresh] = useState<boolean>(false);
   const [itemSelected, setItemSelected] = useState<ITemplate | null>(null);
   const [templatesList, setTemplatesList] = useState<ITemplate[] | null>([]);
+  const [filteredData, setFilteredData] = useState<ITemplate[] | null>([]);
   const [isCheckAll, setIsCheckAll] = useState(false);
   const [templateInfo, setTemplateInfo] = useState<ITemplateInfo | null>(null);
   const [loadingInfo, setLoadingInfo] = useState<boolean>(false);
@@ -49,6 +52,7 @@ const Templates = () => {
     useState<paginationI>(picturesPaginationIV);
 
   const [searchValue, setSearchValue] = useState<string>("");
+  const [searchString, setSearchString] = useState<string>("");
 
   const {
     isOpen: isOpenAddTemplate,
@@ -67,6 +71,12 @@ const Templates = () => {
   } = useDisclosure();
 
   const {
+    isOpen: isOpenDuplicateTemplate,
+    onOpen: onOpenDuplicateTemplate,
+    onClose: onCloseDuplicateTemplate,
+  } = useDisclosure();
+
+  const {
     isOpen: isOpenAddPicsToTemp,
     onOpen: onOpenAddPicsToTemp,
     onClose: onCloseAddPicsToTemp,
@@ -81,7 +91,7 @@ const Templates = () => {
   const memoizedSelectedTemplate = useMemo(() => itemSelected, [itemSelected]);
 
   const componentCTX: ITemplateCTX = {
-    templatesList: templatesList,
+    templatesList: filteredData,
     selectedTemplate: memoizedSelectedTemplate,
     templateInfo: templateInfo,
     refreshList: refresh,
@@ -97,6 +107,7 @@ const Templates = () => {
     onOpenDeleteModal: onOpenDeleteTemplate,
     onOpenAddPicsModal: onOpenAddPicsToTemp,
     onOpenTemplatDetails: onOpenTempDetails,
+    onOpenDuplicateModal: onOpenDuplicateTemplate,
     picturesPaginationInfo: picturesPaginationInfo,
     setPicturesPaginationInfo: setPicturesPaginationInfo,
   };
@@ -107,6 +118,7 @@ const Templates = () => {
         setIsLoading(true);
         const response = await getAllTemplates(user.token);
         setTemplatesList(response.data);
+        setFilteredData(response.data);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -125,6 +137,7 @@ const Templates = () => {
             user.token,
             memoizedSelectedTemplate?.id
           );
+          console.log(response);
           setTemplateInfo(response.data);
           setLoadingInfo(false);
         } catch (error) {
@@ -174,10 +187,34 @@ const Templates = () => {
     picturesPaginationInfo?.pageSize,
   ]);
 
+  useEffect(() => {
+    const myReg = new RegExp("^.*" + searchValue.toLowerCase() + ".*");
+    if (templatesList !== null) {
+      const newArray = templatesList.filter((f) =>
+        f.name.toLowerCase().match(myReg)
+      );
+      setFilteredData(newArray);
+    }
+  }, [templatesList, searchValue]);
+
+  const onSearchValueChange = (event: any) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleEnterSearch = (e: any) => {
+    if (e.key === "Enter") {
+      console.log("ok");
+    }
+  };
+
+  const handleNoSearch = () => {
+    setSearchValue("");
+  };
+
   return (
     <Fragment>
       <TemplatesCTX.Provider value={componentCTX}>
-        <Flex w={"100%"} flexDir={"column"}>
+        <Flex w={"100%"} flexDir={"column"} overflow={"auto"}>
           <Flex justifyContent={"space-between"} alignItems={"center"}>
             <Flex flexDir={"column"}>
               <HeadingTitle title="Templates" />
@@ -193,14 +230,20 @@ const Templates = () => {
             />
           </Flex>
           <Divider my={4} />
-
+          <SearchBar
+            placeHolderText="Search for a template"
+            onSearchValueChange={onSearchValueChange}
+            searchValue={searchValue}
+            handleEnterSearch={handleEnterSearch}
+            handleNoSearch={handleNoSearch}
+          />
           <TableBase
             tableColumns={tableColumns}
             isCheckAll={isCheckAll}
             setIsCheckAll={setIsCheckAll}
             loadingTitle={"Loading templates..."}
             isLoading={isLoading}
-            list={templatesList}
+            list={filteredData}
             emptyTitle={"Templates list empty!"}
           >
             <TemplatesTableRows tableColumns={tableColumns} />
@@ -220,6 +263,10 @@ const Templates = () => {
         <DeleteTemplateModal
           isOpen={isOpenDeleteTemplate}
           onClose={onCloseDeleteTemplate}
+        />
+        <DuplicateTemplateModal
+          isOpen={isOpenDuplicateTemplate}
+          onClose={onCloseDuplicateTemplate}
         />
 
         <AddPicsToTemplateModal

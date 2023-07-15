@@ -32,7 +32,7 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
 
   return (
     <Tr
-      w={"6rem"}
+      /*  w={"6rem"} */
       _hover={{
         background: "brand.gray.extraLight",
       }}
@@ -41,7 +41,11 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
       }}
     >
       {tableColumns.map((columnItem, indexx) => (
-        <Td key={indexx} w={"15rem"} fontSize="sm" color="brand.gray.superDark">
+        <Td
+          key={indexx}
+          /*  w={"15rem"} */ fontSize="sm"
+          color="brand.gray.superDark"
+        >
           <Tooltip label={item[`${columnItem.value}`] + ""}>
             <Text
               maxWidth={"11rem"}

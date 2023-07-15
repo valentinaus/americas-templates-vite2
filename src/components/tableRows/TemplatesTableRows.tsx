@@ -49,11 +49,12 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
     onOpenEditModal,
     onOpenAddPicsModal,
     onOpenTemplatDetails,
+    onOpenDuplicateModal,
   } = useContext(TemplatesCTX);
 
   return (
     <Tr
-      w={"6rem"}
+      /*  w={"6rem"} */
       _hover={{
         background: "brand.gray.extraLight",
       }}
@@ -61,20 +62,12 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
         setItemSelected(item);
       }}
     >
-      {/* <Td>
-        <Checkbox
-          color="brand.primary.dark"
-          mr={4}
-          border={1}
-          borderColor="brand.primary.dark"
-          // isChecked={checkedItemList.includes(item.id)}
-          // onChange={() => {
-          //     handleChecked(item.id);
-          // }}
-        />
-      </Td> */}
       {tableColumns.map((columnItem, indexx) => (
-        <Td key={indexx} w={"15rem"} fontSize="sm" color="brand.gray.superDark">
+        <Td
+          key={indexx}
+          /* w={"15rem"} */ fontSize="sm"
+          color="brand.gray.superDark"
+        >
           {item[`${columnItem.value}`] === null ||
           item[`${columnItem.value}`] === undefined ||
           item[`${columnItem.value}`] === "" ? (
@@ -115,10 +108,12 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
           editLabel={"Edit template"}
           deleteLabel={"Delete Template"}
           detailsLabel={"View template details"}
+          duplicateLabel={"Duplicate template"}
           onClickAddPics={onOpenAddPicsModal}
           onClickEdit={onOpenEditModal}
           onClickDelete={onOpenDeleteModal}
           onClickViewDetails={onOpenTemplatDetails}
+          onClickDuplicate={onOpenDuplicateModal}
         />
       </Td>
     </Tr>

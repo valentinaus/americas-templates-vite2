@@ -19,6 +19,21 @@ export const getAllPictures = async (
   return response;
 };
 
+export const exportPictures = async (
+  token: string
+) => {
+  let config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const response = await axios.get(
+    `${API_URL}/photo/export`,
+    config
+  );
+
+  return response;
+};
+
 export const postPicture = async (
   token: string,
   values: { name: string; description: string; base64Image: string }

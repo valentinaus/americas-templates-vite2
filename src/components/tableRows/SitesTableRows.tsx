@@ -43,7 +43,7 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
 
   return (
     <Tr
-      w={"6rem"}
+      /* w={"6rem"} */
       _hover={{
         background: "brand.gray.extraLight",
       }}
@@ -67,7 +67,7 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
         return (
           <Td
             key={index}
-            w={"15rem"}
+            /* w={"15rem"} */
             fontSize="sm"
             color="brand.gray.superDark"
           >

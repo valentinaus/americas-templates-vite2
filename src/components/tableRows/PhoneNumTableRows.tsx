@@ -51,7 +51,7 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
 
   return (
     <Tr
-      w={"6rem"}
+      /*   w={"6rem"} */
       _hover={{
         background: "brand.gray.extraLight",
       }}
@@ -76,7 +76,7 @@ const TableRow = ({ tableColumns, item, setItemSelected, itemSelected }) => {
           {columnItem.heading === "ApiKey" ? (
             <Td
               key={columnItem.heading}
-              w={"15rem"}
+              /*  w={"15rem"} */
               fontSize="sm"
               color="brand.gray.superDark"
               cursor={"pointer"}
